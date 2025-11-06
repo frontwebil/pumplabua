@@ -1,0 +1,31 @@
+.product-card {
+  background: #e6e6e6;
+  max-width: 310px;
+  width: 100%;
+  padding: 25px 15px 20px;
+  border-radius: 6px;
+}
+.product-card img {
+  width: 100%;
+  padding: 15px;
+  max-width: 240px;
+  margin: 0 auto;
+}
+
+.product-card-category {
+  width: max-content;
+  font-weight: 400;
+  font-size: 18px;
+  color: #4f5052;
+  text-decoration: underline;
+  padding-bottom: 10px;
+}
+.product-card-title {
+  font-weight: 600;
+  font-size: 18px;
+  padding-bottom: 16px;
+}
+.product-card-price {
+  font-size: 20px;
+  font-weight: 700;
+}

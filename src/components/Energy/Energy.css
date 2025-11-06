@@ -1,0 +1,42 @@
+.energy {
+  margin: 100px 0;
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0) 0%, #000000 72.22%);
+  color: #f8faf9;
+  background-image: url("/Home/Energy/bg.png");
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 35px 0;
+}
+.energy .container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.energy-text {
+  max-width: 680px;
+  width: 100%;
+}
+
+.energy-text h2 {
+  line-height: 42px;
+  padding-bottom: 45px;
+}
+
+.energy-text h3 {
+  font-weight: 600;
+  padding-bottom: 16px;
+}
+
+.energy-buttons {
+  padding-top: 48px;
+  display: flex;
+  max-width: 540px;
+  width: 100%;
+  gap: 20px;
+  align-items: center;
+}
+
+.energy-main-image {
+  height: 100%;
+}

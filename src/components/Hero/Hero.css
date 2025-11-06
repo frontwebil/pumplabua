@@ -1,0 +1,36 @@
+.hero {
+  background-image: url("/Home/Hero.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 135px 0;
+}
+.hero-text {
+  max-width: 600px;
+  margin: 0 auto;
+  color: #f8faf9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.hero-text p {
+  text-align: center;
+}
+
+.hero-choose-product {
+  background: #0339f1;
+  border-radius: 6px;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 14px 20px;
+  margin-top: 10px;
+  transition: all ease 0.3s;
+  cursor: pointer;
+}
+
+.hero-choose-product:hover {
+  background: #1033a4;
+  
+}

@@ -1,0 +1,56 @@
+.topSellers {
+  padding: 50px 0;
+}
+.top-Sellers-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 40px;
+}
+.topSellers-see-all {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #0d0e10;
+  transition: all ease 0.3s;
+  cursor: pointer;
+}
+.topSellers-see-all-icon {
+  font-size: 22px;
+}
+
+.topSellers-see-all:hover {
+  color: #0339f4;
+}
+
+.swiper-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 50px;
+  gap: 20px;
+}
+
+.swiper-nav-button {
+  color: #0d0e10;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.swiper-nav-pagination {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.swiper-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #0d0e104d;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.swiper-bullet.active {
+  background-color: #0d0e10;
+}

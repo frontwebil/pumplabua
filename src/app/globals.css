@@ -1,26 +1,109 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  font-family: var(--font-open-sans), sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: rgba(248, 250, 249, 1);
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1330px;
+  padding: 0 15px;
+}
+
+.fs-xxl {
+  font-size: 36px;
+}
+.fs-xl {
+  font-size: 24px;
+}
+.fs-lg {
+  font-size: 20px;
+}
+.fs-md {
+  font-size: 18px;
+}
+.fs-sm {
+  font-size: 16px;
+}
+.fs-xs {
+  font-size: 14px;
+}
+
+.in-catalog-button {
+  color: #002652;
+  background: #fbf90d;
+  width: 100%;
+  text-align: center;
+  border-radius: 6px;
+  padding: 17px 0;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all ease-in-out 0.3s;
+}
+.know-more {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 17px 0;
+  border: 1px solid #f8faf9;
+  cursor: pointer;
+  transition: all ease-in-out 0.3s;
+}
+.know-more-icon {
+  font-size: 24px;
+  transform: rotate(270deg);
+}
+
+.in-catalog-button:hover {
+  opacity: 0.9;
+}
+.know-more:hover {
+  background-color: rgb(50, 49, 49);
+  border: 1px solid rgb(72, 71, 71);
+}
+
+.bgBetweenBlack {
+  background-color: #0d0e10;
+  height: 100px;
+}
+@media only screen and (max-width: 800px) {
+  .fs-xxl {
+    font-size: 32px;
+  }
+  .fs-xl {
+    font-size: 22px;
+  }
+  .fs-lg {
+    font-size: 18px;
+  }
+  .fs-md {
+    font-size: 16px;
+  }
+  .fs-sm {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .in-catalog-button {
+    padding: 14px 0;
+  }
+  .know-more {
+    padding: 14px 0;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .bgBetweenBlack {
+    height: 80px;
+  }
 }
