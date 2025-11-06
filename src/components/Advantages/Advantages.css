@@ -13,7 +13,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 15px;
   border-radius: 6px;
 }
@@ -25,4 +25,76 @@
 
 .advantage-card p {
   color: #0d0e10;
+}
+
+@media only screen and (max-width: 1200px) {
+  .advantages {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .advantages {
+    padding-top: 60px;
+    padding-bottom: 45px;
+  }
+  .advantage-card h2 {
+    color: #0339f4;
+    max-width: 229px;
+    font-size: 18px;
+  }
+  .advantage-card p {
+    font-size: 15px;
+  }
+  .advantage-card {
+    padding: 12px;
+  }
+}
+
+@media only screen and (max-width: 870px) {
+  .advantages {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .advantage-card {
+    max-width: 100%;
+  }
+}
+
+@media only screen and (max-width: 475px) {
+  .advantages {
+    padding-top: 30px;
+    padding-bottom: 15px;
+  }
+  .advantage-card h2 {
+    font-size: 16px;
+  }
+  .advantage-card p {
+    font-size: 13px;
+  }
+  .advantage-card {
+    gap: 10px;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .advantage-card h2 {
+    font-size: 14px;
+  }
+  .advantage-card p {
+    font-size: 12px;
+  }
+  .advantage-card {
+    padding: 9px;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .advantage-card h2 {
+    font-size: 12px;
+  }
+  .advantage-card p {
+    font-size: 10px;
+  }
 }

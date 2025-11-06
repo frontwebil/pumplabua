@@ -10,12 +10,12 @@ import { WhyChoose } from "@/components/WhyChoose/WhyChoose";
 export default function Home() {
   return (
     <>
-      {/* <Hero /> */}
-      {/* <Advantages /> */}
-      {/* <ProductsCategory /> */}
-      {/* <Energy /> */}
-      {/* <TopSellers /> */}
-      {/* <EnergyForGoals /> */}
+      <Hero />
+      <Advantages />
+      <ProductsCategory />
+      <Energy />
+      <TopSellers />
+      <EnergyForGoals />
       <div className="bgBetweenBlack"></div>
       <WhyChoose />
       <div className="bgBetweenBlack"></div>

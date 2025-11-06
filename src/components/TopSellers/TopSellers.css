@@ -54,3 +54,20 @@
 .swiper-bullet.active {
   background-color: #0d0e10;
 }
+
+@media only screen and (max-width: 780px) {
+  .swiper-backface-hidden .swiper-slide .product-card {
+    max-width: 100%;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .top-Sellers-header {
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

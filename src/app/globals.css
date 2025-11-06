@@ -104,6 +104,6 @@ body {
 
 @media only screen and (max-width: 440px) {
   .bgBetweenBlack {
-    height: 80px;
+    height: 40px;
   }
 }

@@ -1,6 +1,6 @@
 .hero {
   background-image: url("/Home/Hero.png");
-  background-position: center;
+  background-position: right;
   background-size: cover;
   background-repeat: no-repeat;
   padding: 135px 0;
@@ -32,5 +32,25 @@
 
 .hero-choose-product:hover {
   background: #1033a4;
-  
+}
+
+.hero-text h1 {
+  text-align: center;
+}
+
+@media only screen and (max-width: 475px) {
+  .hero {
+    background-position: 90%;
+  }
+}
+@media only screen and (max-width: 365px) {
+  .hero {
+    padding: 115px 0;
+  }
+  .hero-text h1 {
+    font-size: 30px;
+  }
+  .hero-text p {
+    font-size: 19px;
+  }
 }

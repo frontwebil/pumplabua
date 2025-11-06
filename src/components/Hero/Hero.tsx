@@ -1,4 +1,6 @@
 import "@/components/Hero/Hero.css";
+import { SITE_LINKS } from "@/site-config/site.config";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -12,7 +14,9 @@ export function Hero() {
             Підтримай своє тіло і досягай результатів з продуктами топових
             брендів спортивного харчування для будь-якого рівня підготовки
           </p>
-          <div className="hero-choose-product fs-md">Обрати свій продукт</div>
+          <Link href={SITE_LINKS.CATALOG} className="hero-choose-product fs-md">
+            Обрати свій продукт
+          </Link>
         </div>
       </div>
     </section>

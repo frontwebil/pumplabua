@@ -39,6 +39,10 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .PartnerInGoal {
+    background-image: url("/Home/PartnerInGoal/bg-mobile.png");
+    padding: 100px 0;
+  }
   .PartnerInGoal-buttons {
     flex-direction: column;
     max-width: 100%;
@@ -46,9 +50,6 @@
   }
   .PartnerInGoal-text h2 {
     padding-bottom: 30px;
-  }
-  .PartnerInGoal {
-    padding: 100px 0;
   }
 }
 

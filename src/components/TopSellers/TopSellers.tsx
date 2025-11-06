@@ -8,6 +8,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useRef, useState } from "react";
 import { Swiper as SwiperCore } from "swiper";
+import Link from "next/link";
+import { SITE_LINKS } from "@/site-config/site.config";
 
 export function TopSellers() {
   const products = [1, 2, 3, 4, 5, 6, 7];
@@ -34,10 +36,10 @@ export function TopSellers() {
           <h2 className="fs-xxl uppercase font-bold">
             <span style={{ color: "#0339F4" }}>Top</span> Sellers
           </h2>
-          <div className="topSellers-see-all">
+          <Link href={SITE_LINKS.CATALOG} className="topSellers-see-all">
             <p className="fs-md font-semibold">Переглянути усе</p>
             <MdKeyboardArrowRight className="topSellers-see-all-icon" />
-          </div>
+          </Link>
         </div>
         <div className="goods-slider w-full">
           <Swiper
@@ -50,7 +52,8 @@ export function TopSellers() {
             }
             breakpoints={{
               320: { slidesPerView: slidesPerView - 3 },
-              640: { slidesPerView: slidesPerView - 2 },
+              480: { slidesPerView: slidesPerView - 2 },
+              780: { slidesPerView: slidesPerView - 1 },
               1024: { slidesPerView: slidesPerView },
             }}
           >

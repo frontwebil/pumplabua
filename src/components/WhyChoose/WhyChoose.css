@@ -44,6 +44,9 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .WhyChoose {
+    background-image: url("/Home/WhyChoose/bg-mobile.png");
+  }
   .WhyChoose-cards {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, auto); /* 2 рядки, висота — за контентом */

@@ -1,5 +1,7 @@
 import "@/components/Energy/Energy.css";
+import { SITE_LINKS } from "@/site-config/site.config";
 import Image from "next/image";
+import Link from "next/link";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 export function Energy() {
@@ -22,11 +24,13 @@ export function Energy() {
           </p>
 
           <div className="energy-buttons">
-            <div className="in-catalog-button fs-md">у каталог</div>
-            <div className="know-more">
+            <Link href={SITE_LINKS.CATALOG} className="in-catalog-button fs-md">
+              у каталог
+            </Link>
+            <Link href={SITE_LINKS.ABOUT_PAGE} className="know-more">
               <p className="fs-md">Дізнатись більше</p>
               <MdKeyboardArrowDown className="know-more-icon" />
-            </div>
+            </Link>
           </div>
         </div>
         <div className="energy-main-image">
