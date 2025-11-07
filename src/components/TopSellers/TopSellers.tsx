@@ -1,7 +1,7 @@
 "use client";
 
-import "@/components/TopSellers/TopSellers.css";
 import "swiper/css";
+import "@/components/TopSellers/TopSellers.css";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { ProductCard } from "../ProductCard/ProductCard";
 import { Swiper, SwiperSlide } from "swiper/react";
