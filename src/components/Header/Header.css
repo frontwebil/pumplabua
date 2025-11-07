@@ -1,16 +1,31 @@
 header {
-  box-shadow: 0px 1px 4px 0px rgba(12, 12, 13, 0.05);
-  padding: 20px 0;
+  box-shadow: 0px 4px 9.9px -4px #0d0e101f;
+
+  padding: 20px 0 0;
   background: #f8faf9;
-  color: #0D0E10;
+  color: #0d0e10;
+  position: relative;
+  z-index: 10;
 }
 
 .header-top {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   padding-bottom: 20px;
   border-bottom: 1px solid #e1e1e1;
 }
+
+.header-top-icons {
+  display: flex;
+  gap: 20px;
+}
+
+.header-top-icon {
+  width: 30px;
+  height: 30px;
+}
+
 .header-search-input-wrapper {
   border: 1px solid #c7c7c7;
   display: flex;
@@ -40,9 +55,42 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 20px;
+  gap: 20px;
 }
-.logo {
+.logo,
+.logo-container {
   max-width: 260px;
+}
+
+.header-burger {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  max-width: 20px;
+  width: 100%;
+}
+.header-burger-line {
+  width: 100%;
+  border: 2px solid #0339f4;
+  background: #0339f4;
+  border-radius: 20px;
+  transition: ease 0.3s all;
+  transform-origin: center;
+}
+
+.header-burger.active .header-burger-line:nth-child(2) {
+  opacity: 0; /* краще ніж display:none, щоб не ламався флекс */
+}
+
+.header-burger.active .header-burger-line:nth-child(1) {
+  transform: rotate(315deg) translateY(9px);
+}
+
+.header-burger.active .header-burger-line:nth-child(3) {
+  transform: rotate(-315deg) translateY(-9px);
 }
 
 .header-nav-links {
@@ -51,6 +99,7 @@ header {
   justify-content: space-between;
   display: flex;
   gap: 10px;
+  position: relative;
 }
 .header-link {
   display: flex;
@@ -99,4 +148,204 @@ header {
 .header-nav-user-func-icon {
   font-size: 22px;
   color: #0339f4;
+  stroke-width: 1px;
+}
+
+.header-catalog-menu {
+  position: absolute;
+  max-width: 400px;
+  width: 100%;
+  top: calc(100% + 32px);
+  padding: 20px 20px;
+  background-color: #f8faf9;
+  border-radius: 0 0 4px 4px;
+  display: none;
+}
+
+.header-catalog-menu-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 16px;
+  border-bottom: #d2d3d4 1px solid;
+  cursor: pointer;
+  transition: all ease-in-out 0.3s;
+}
+
+.header-catalog-menu.active {
+  display: block;
+}
+
+.header-catalog-menu-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.header-catalog-menu-top:hover {
+  color: #0339f4;
+}
+
+.header-catalog-menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 16px;
+}
+
+.burger-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 82px);
+  overflow-y: auto;
+  background-color: #f8faf9;
+  transform: translateX(-100%); /* сховано вище */
+  opacity: 0; /* прозоре */
+  pointer-events: none; /* не клікається, поки не активне */
+  transition: all 0.4s ease;
+  padding-bottom: 30px;
+}
+
+.burger-menu.active {
+  transform: translateX(0); /* виїжджає вниз */
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.burger-menu-func {
+  padding-top: 12px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #c7c7c7;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: 4px;
+}
+.burger-menu-func-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: #4f50521a;
+}
+.burger-menu-func-icon {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1px;
+  color: #0339f4;
+}
+
+.burger-menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 28px;
+}
+.burger-menu-link {
+  background: #4f50521a;
+  padding: 12px;
+}
+
+.burger-menu-link-with-tap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.burger-menu-link-icon {
+  font-size: 24px;
+  transition: all ease 0.3s;
+}
+.burger-menu-link-icon.rotate {
+  rotate: 180deg;
+}
+
+.burger-menu-catalog {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+/* коли додається клас .active */
+.burger-menu-catalog.active {
+  padding-top: 16px;
+  max-height: max-content;
+  visibility: visible;
+  opacity: 1;
+}
+
+@media only screen and (max-width: 1200px) {
+  .header-nav-user-func {
+    max-width: 260px;
+  }
+  .logo,
+  .logo-container {
+    max-width: 200px;
+  }
+}
+
+@media only screen and (max-width: 975px) {
+  .header-nav-user-func-col p {
+    display: none;
+  }
+  .header-nav-user-func {
+    max-width: 100px;
+  }
+  .header-nav-user-func-icon {
+    font-size: 24px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .logo,
+  .logo-container {
+    max-width: 150px;
+  }
+  .header-nav-links {
+    max-width: 400px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+
+  .hero {
+    margin-top: 82px;
+  }
+  .header-top-icon {
+    width: 24px;
+    height: 24px;
+  }
+  .header-top-icons {
+    gap: 10px;
+  }
+  .logo-container {
+    display: flex;
+    align-items: center;
+    max-width: 180px;
+    gap: 15px;
+  }
+  .logo {
+    max-width: 100%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .header-top {
+    display: none;
+  }
+  header {
+    padding: 10px 0 5px;
+  }
 }
