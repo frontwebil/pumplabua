@@ -56,7 +56,7 @@
 }
 
 @media only screen and (max-width: 780px) {
-  .swiper-backface-hidden .swiper-slide .product-card {
+  .product-card {
     max-width: 100% !important;
     margin: 0 auto !important;
   }
