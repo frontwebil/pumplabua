@@ -1,0 +1,30 @@
+.hero-template {
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 100px 0;
+}
+.hero-template-text {
+  max-width: 600px;
+  margin: 0 auto;
+  color: #f8faf9;
+  text-align: center;
+}
+
+@media only screen and (max-width: 640px) {
+  .hero-template-text h2 {
+    font-size: 30px;
+  }
+  .hero-template-text p {
+    font-size: 20px;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .hero-template-text h2 {
+    font-size: 27px;
+  }
+  .hero-template-text p {
+    font-size: 18px;
+  }
+}

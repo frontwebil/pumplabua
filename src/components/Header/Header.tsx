@@ -14,6 +14,7 @@ export function Header() {
   const [isOpenCatalog, setIsOpenCatalog] = useState(false);
   const [isOpenBurger, setIsOpenBurger] = useState(false);
   const screenWidth = useWindowWidth();
+
   return (
     <>
       <header className="header">
@@ -202,15 +203,27 @@ export function Header() {
                   <div className="fs-md capitalize ">вітаміни та бади</div>
                 </div>
               </div>
-              <div className="burger-menu-link">
+              <Link
+                href={SITE_LINKS.ABOUT_PAGE}
+                className="burger-menu-link"
+                onClick={() => setIsOpenBurger(false)}
+              >
                 <p className="fs-md font-bold uppercase">Про нас</p>
-              </div>
-              <div className="burger-menu-link">
+              </Link>
+              <Link
+                href={SITE_LINKS.ORDERS_INFO}
+                className="burger-menu-link"
+                onClick={() => setIsOpenBurger(false)}
+              >
                 <p className="fs-md font-bold uppercase">замовлення</p>
-              </div>
-              <div className="burger-menu-link">
+              </Link>
+              <Link
+                href={SITE_LINKS.CONTACTS}
+                className="burger-menu-link"
+                onClick={() => setIsOpenBurger(false)}
+              >
                 <p className="fs-md font-bold uppercase">контакти</p>
-              </div>
+              </Link>
             </nav>
           </div>
         </div>

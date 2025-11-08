@@ -1,0 +1,30 @@
+.TemplateWithImageLeft {
+  margin-top: 52px;
+}
+.TemplateWithImageLeft .container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.TemplateWithImageLeft-image {
+  max-width: 530px;
+  width: 100%;
+  border-radius: 6px;
+}
+
+.TemplateWithImageLeft-image img {
+  border-radius: 6px;
+}
+
+.TemplateWithImageLeft-text {
+  max-width: 750px;
+  width: 100%;
+}
+
+.TemplateWithImageLeft-text h2 {
+  padding-bottom: 45px;
+}
+
+.TemplateWithImageLeft-text h4 {
+  padding-bottom: 16px;
+}

@@ -320,8 +320,12 @@ header {
     width: 100%;
   }
 
+  .hero-template {
+    margin-top: 122px;
+  }
+
   .hero {
-    margin-top: 82px;
+    margin-top: 122px;
   }
   .header-top-icon {
     width: 24px;
@@ -342,6 +346,12 @@ header {
 }
 
 @media only screen and (max-width: 600px) {
+  .hero {
+    margin-top: 82px;
+  }
+  .hero-template {
+    margin-top: 82px;
+  }
   .header-top {
     display: none;
   }
