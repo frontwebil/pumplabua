@@ -12,6 +12,11 @@
   gap: 10px;
   color: #4f5052;
   font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+.breadcrumb-item:hover {
+  color: #0339f4;
 }
 
 .breadcrumb-item.active {

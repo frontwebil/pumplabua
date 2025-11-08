@@ -1,79 +1,29 @@
 "use client";
 
-import { CiHeart, CiSearch } from "react-icons/ci";
+import { CiHeart } from "react-icons/ci";
 import "@/components/Header/Header.css";
 import Image from "next/image";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 import { PiFlask, PiUserCircle } from "react-icons/pi";
 import Link from "next/link";
 import { useState } from "react";
-import { SITE_LINKS, SOCIAL_LINKS } from "@/site-config/site.config";
+import { SITE_LINKS } from "@/site-config/site.config";
 import { useWindowWidth } from "@/custom-hooks/useWidth";
+import { usePathname } from "next/navigation";
+import { HeaderTop } from "./components/Header-top";
+import BurgerMenu from "./components/BurgerMenu";
 
 export function Header() {
   const [isOpenCatalog, setIsOpenCatalog] = useState(false);
   const [isOpenBurger, setIsOpenBurger] = useState(false);
   const screenWidth = useWindowWidth();
+  const pathname = usePathname();
 
   return (
     <>
       <header className="header">
         <div className="container">
-          <div className="header-top">
-            <div className="header-top-icons">
-              <Link href={SOCIAL_LINKS.VIBER} target="_blank">
-                <Image
-                  src={"/header-icons/viber.svg"}
-                  alt="viber"
-                  width={30}
-                  height={30}
-                  className="header-top-icon"
-                />
-              </Link>
-              <Link href={SOCIAL_LINKS.WHATSAPP} target="_blank">
-                <Image
-                  src={"/header-icons/whatsapp.svg"}
-                  alt="whatsapp"
-                  width={30}
-                  height={30}
-                  className="header-top-icon"
-                />
-              </Link>
-              <Link href={SOCIAL_LINKS.TELEGRAM} target="_blank">
-                <Image
-                  src={"/header-icons/telegram.svg"}
-                  alt="telegram"
-                  width={30}
-                  height={30}
-                  className="header-top-icon"
-                />
-              </Link>
-              <Link href={SOCIAL_LINKS.INSTAGRAM} target="_blank">
-                <Image
-                  src={"/header-icons/instagram.svg"}
-                  alt="instagram"
-                  width={30}
-                  height={30}
-                  className="header-top-icon"
-                />
-              </Link>
-            </div>
-            <form
-              className="header-search-input-wrapper"
-              role="search"
-              aria-label="Пошук по сайту"
-            >
-              <input
-                id="header-search"
-                type="search"
-                placeholder="Пошук"
-                className="header-search-input fs-xs"
-              />
-              <label className="search-icon" htmlFor="header-search">
-                <CiSearch color="#4F5052" />
-              </label>
-            </form>
-          </div>
+          <HeaderTop />
 
           <div className="header-bottom">
             <div className="logo-container">
@@ -110,13 +60,13 @@ export function Header() {
                     }`}
                   />
                 </div>
-                <Link href={SITE_LINKS.ABOUT_PAGE} className="header-link">
+                <Link href={SITE_LINKS.ABOUT_PAGE} className={`header-link ${pathname === '/about' && "active"}`}>
                   <p className="fs-sm font-bold uppercase">Про нас</p>
                 </Link>
-                <Link href={SITE_LINKS.ORDERS_INFO} className="header-link">
+                <Link href={SITE_LINKS.ORDERS_INFO} className={`header-link ${pathname === '/orders-info' && "active"}`}>
                   <p className="fs-sm font-bold uppercase">замовлення</p>
                 </Link>
-                <Link href={SITE_LINKS.CONTACTS} className="header-link">
+                <Link href={SITE_LINKS.CONTACTS} className={`header-link ${pathname === '/contacts' && "active"}`}>
                   <p className="fs-sm font-bold uppercase">контакти</p>
                 </Link>
                 <div
@@ -159,74 +109,12 @@ export function Header() {
             </div>
           </div>
         </div>
-        <div className={`burger-menu ${isOpenBurger && "active"}`}>
-          <div className="container">
-            <div className="burger-menu-func">
-              <div className="burger-menu-func-row">
-                <CiSearch className="burger-menu-func-icon" />
-                <p className="fs-md uppercase font-bold">пошук</p>
-              </div>
-              <div className="burger-menu-func-row">
-                <PiUserCircle className="burger-menu-func-icon" />
-                <p className="fs-md uppercase font-bold">Персональний акаунт</p>
-              </div>
-              <div className="burger-menu-func-row">
-                <CiHeart className="burger-menu-func-icon" />
-                <p className="fs-md uppercase font-bold">Збережено</p>
-              </div>
-              <div className="burger-menu-func-row">
-                <PiFlask className="burger-menu-func-icon" />
-                <p className="fs-md uppercase font-bold">Кошик</p>
-              </div>
-            </div>
-            <nav className="burger-menu-nav">
-              <div
-                className="burger-menu-link"
-                onClick={() => setIsOpenCatalog(!isOpenCatalog)}
-              >
-                <div className="burger-menu-link-with-tap">
-                  <p className="fs-md font-bold uppercase">каталог</p>
-                  <MdKeyboardArrowDown
-                    className={`burger-menu-link-icon ${
-                      isOpenCatalog ? "rotate" : ""
-                    }`}
-                  />
-                </div>
-                <div
-                  className={`burger-menu-catalog ${isOpenCatalog && "active"}`}
-                >
-                  <h2 className="fs-md font-semibold">Усі Категорії</h2>
-                  <div className="fs-md capitalize ">протеїн</div>
-                  <div className="fs-md capitalize ">креатин</div>
-                  <div className="fs-md capitalize ">гейнер</div>
-                  <div className="fs-md capitalize ">Амінокислоти</div>
-                  <div className="fs-md capitalize ">вітаміни та бади</div>
-                </div>
-              </div>
-              <Link
-                href={SITE_LINKS.ABOUT_PAGE}
-                className="burger-menu-link"
-                onClick={() => setIsOpenBurger(false)}
-              >
-                <p className="fs-md font-bold uppercase">Про нас</p>
-              </Link>
-              <Link
-                href={SITE_LINKS.ORDERS_INFO}
-                className="burger-menu-link"
-                onClick={() => setIsOpenBurger(false)}
-              >
-                <p className="fs-md font-bold uppercase">замовлення</p>
-              </Link>
-              <Link
-                href={SITE_LINKS.CONTACTS}
-                className="burger-menu-link"
-                onClick={() => setIsOpenBurger(false)}
-              >
-                <p className="fs-md font-bold uppercase">контакти</p>
-              </Link>
-            </nav>
-          </div>
-        </div>
+        <BurgerMenu
+          isOpenBurger={isOpenBurger}
+          isOpenCatalog={isOpenCatalog}
+          setIsOpenCatalog={setIsOpenCatalog}
+          setIsOpenBurger={setIsOpenBurger}
+        />
       </header>
     </>
   );

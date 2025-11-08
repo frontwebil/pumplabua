@@ -1,0 +1,95 @@
+.PathToOrder {
+  padding: 80px 0 30px;
+}
+.PathToOrder-title-text {
+  max-width: 670px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 50px;
+}
+.path-to-order-columns {
+  display: flex;
+}
+.path-to-order-column {
+  max-width: 330px;
+  width: 100%;
+}
+.path-to-order-column-num {
+  font-size: 20px;
+  color: #0d0e10;
+}
+.path-to-order-column-pathLine {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+.path-to-order-cirlce {
+  display: flex;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 100%;
+  border: 1px solid #c7c7c7;
+}
+.path-to-order-line {
+  width: 100%;
+  height: 1px;
+  background-color: #c7c7c7;
+}
+
+.path-to-order-column-content {
+  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.path-to-order-column-content.last {
+  padding-right: 0;
+}
+
+.path-to-order-column-content-row {
+  color: #0d0e10;
+  display: flex;
+  gap: 10px;
+}
+.path-to-order-column-content-row p {
+  line-height: 22px;
+}
+
+@media only screen and (max-width: 1000px) {
+  .PathToOrder{
+    padding: 40px 0 20px;
+  }
+  .path-to-order-column-pathLine {
+    display: none;
+  }
+  .path-to-order-column-num {
+    margin-bottom: 20px;
+  }
+  .path-to-order-column-content {
+    padding: 0;
+  }
+  .path-to-order-columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px 20px;
+  }
+  .path-to-order-column {
+    max-width: 100%;
+  }
+}
+
+@media only screen and (max-width: 660px) {
+  .path-to-order-columns {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 30px;
+  }
+  .path-to-order-column-num {
+    margin-bottom: 10px;
+  }
+}

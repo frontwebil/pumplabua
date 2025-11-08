@@ -98,7 +98,6 @@ header {
   width: 100%;
   justify-content: space-between;
   display: flex;
-  gap: 10px;
   position: relative;
 }
 .header-link {
@@ -107,10 +106,16 @@ header {
   gap: 5px;
   cursor: pointer;
   transition: color ease 0.3s;
+  padding:2px 5px 1px;
 }
 
 .header-link:hover {
   color: #0339f4;
+}
+
+.header-link.active {
+  color: #0339f4;
+  border-bottom: 2px solid #0339f4;
 }
 
 .header-link-arrow {

@@ -5,6 +5,9 @@
   padding: 100px 0;
 }
 .hero-template-text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   max-width: 600px;
   margin: 0 auto;
   color: #f8faf9;
