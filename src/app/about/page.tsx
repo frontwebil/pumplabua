@@ -22,7 +22,7 @@ export default function AboutPage() {
       <Breadcrumbs
         links={[{ title: "Головна", href: "/" }, { title: "Про нас" }]}
       />
-      {/* <TemplateWithImageLeft
+      <TemplateWithImageLeft
         img="/About/Images/woman-with-cup.png"
         title={
           <>
@@ -33,7 +33,7 @@ export default function AboutPage() {
         alt="Енергія що підіймає твої результати"
         subTitle="Поринь у світ активних досягнень разом із Pump Lab!"
         text="Наше спортивне харчування не просто підтримує твої тренування — воно заряджає енергією, стимулює обмін речовин і допомагає тілу відновлюватися швидше, ніж будь-коли."
-      /> */}
+      />
       <Advantages />
       <TemplateWithImageRight
         img="/About/Images/man-with-cup.png"

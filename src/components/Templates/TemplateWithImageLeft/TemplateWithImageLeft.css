@@ -1,11 +1,13 @@
 .TemplateWithImageLeft {
   margin-top: 52px;
 }
+
 .TemplateWithImageLeft .container {
   display: flex;
   align-items: center;
   gap: 20px;
 }
+
 .TemplateWithImageLeft-image {
   max-width: 530px;
   width: 100%;
@@ -27,4 +29,64 @@
 
 .TemplateWithImageLeft-text h4 {
   padding-bottom: 16px;
+}
+
+.to-catalog-blue-template-container {
+  max-width: 260px;
+}
+
+/* 📱 АДАПТИВ */
+
+@media only screen and (max-width: 1000px) {
+  .TemplateWithImageLeft-text h2 {
+    font-size: 32px;
+    padding-bottom: 25px;
+  }
+
+  .TemplateWithImageLeft-text h4 {
+    font-size: 20px;
+    padding-bottom: 10px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .TemplateWithImageLeft-image {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 580px) {
+  .TemplateWithImageLeft-image {
+    display: block;
+    max-height: 300px;
+  }
+
+  .TemplateWithImageLeft-image img {
+    object-fit: cover;
+    max-height: 300px;
+  }
+
+  .TemplateWithImageLeft .container {
+    flex-direction: column; /* 🟢 не reverse, бо картинка зліва — тепер зверху */
+  }
+
+  .to-catalog-blue-template-container {
+    max-width: 100%;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .TemplateWithImageLeft-text h2 {
+    font-size: 26px;
+    padding-bottom: 18px;
+  }
+
+  .TemplateWithImageLeft-text h4 {
+    font-size: 18px;
+    padding-bottom: 10px;
+  }
+
+  .TemplateWithImageLeft-text p {
+    font-size: 16px;
+  }
 }

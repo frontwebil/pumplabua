@@ -109,13 +109,14 @@ body {
   .fs-sm {
     font-size: 14px;
   }
-}
-
-@media only screen and (max-width: 800px) {
   .in-catalog-button {
     padding: 14px 0;
   }
   .know-more {
+    padding: 14px 0;
+  }
+  .to-Catalog-blue {
+    font-size: 14px;
     padding: 14px 0;
   }
 }
