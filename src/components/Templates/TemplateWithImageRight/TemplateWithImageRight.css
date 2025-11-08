@@ -18,6 +18,10 @@
   width: 100%;
 }
 
+.to-catalog-blue-template-container {
+  max-width: 260px;
+}
+
 .TemplateWithImageRight-text h2 {
   padding-bottom: 45px;
 }
@@ -55,6 +59,9 @@
   }
   .TemplateWithImageRight .container {
     flex-direction: column-reverse;
+  }
+  .to-catalog-blue-template-container {
+    max-width: 100%;
   }
 }
 

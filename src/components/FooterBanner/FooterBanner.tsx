@@ -22,7 +22,7 @@ export function FooterBanner({ title, subTitle, text, bgImage }: Props) {
           <p className="fs-lg">{text}</p>
           <Link
             href={SITE_LINKS.CATALOG}
-            className="to-Catalog-blue fs-md uppercase font-bold"
+            className="to-Catalog-blue fs-md uppercase font-bold footer-to-catalog-container"
           >
             Обрати свій продукт
           </Link>

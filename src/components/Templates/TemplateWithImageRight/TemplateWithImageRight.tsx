@@ -27,7 +27,7 @@ export function TemplateWithImageRight({
           <p className="fs-lg">{text}</p>
           <Link
             href={SITE_LINKS.CATALOG}
-            className="to-Catalog-blue fs-md uppercase font-bold"
+            className="to-Catalog-blue fs-md uppercase font-bold to-catalog-blue-template-container"
           >
             у каталог
           </Link>

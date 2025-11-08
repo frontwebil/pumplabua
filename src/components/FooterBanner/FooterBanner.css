@@ -20,6 +20,10 @@
   padding-bottom: 24px;
 }
 
+.footer-to-catalog-container {
+  max-width: 270px;
+}
+
 @media only screen and (max-width: 1200px) {
   .footer-banner {
     margin: 120px 0 90px;
@@ -38,6 +42,10 @@
   }
   .footer-banner {
     margin: 55px 0;
+  }
+
+  .footer-to-catalog-container {
+    max-width: 100%;
   }
 }
 
