@@ -121,6 +121,12 @@ body {
   }
 }
 
+@media only screen and (max-width: 660px) {
+  .fs-xxl {
+    font-size: 28px;
+  }
+}
+
 @media only screen and (max-width: 440px) {
   .bgBetweenBlack {
     height: 40px;
