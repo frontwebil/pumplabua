@@ -6,7 +6,7 @@ import { TemplateWithImageLeft } from "@/components/Templates/TemplateWithImageL
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "",
+  title: "Замовлення",
   description: "",
 };
 export default function OrdersInfo() {

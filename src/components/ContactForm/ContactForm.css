@@ -1,0 +1,76 @@
+.contact-form {
+  border: 1px solid #c7c7c7;
+  background: #4f50521a;
+  border-radius: 6px;
+  max-width: 530px;
+  width: 100%;
+  padding: 32px;
+}
+.contact-form h2 {
+  padding-bottom: 18px;
+}
+.form-inputs {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.form-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.form-input {
+  width: 100%;
+  background: #f8faf9;
+  border-radius: 6px;
+  padding: 16px 24px;
+  outline: none;
+}
+
+.contact-form-submit-button {
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  width: 100%;
+  background: #0339f4;
+  padding: 14px 0;
+  color: #f8faf9;
+  margin-top: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all ease 0.3s;
+}
+
+.contact-form-submit-button:hover {
+  background: #1033a4;
+}
+
+@media only screen and (max-width: 1000px) {
+  .contact-form {
+    height: max-content;
+    padding: 20px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .contact-form {
+    max-width: 100%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .contact-form h2,
+  .contact-form h3 {
+    text-align: center;
+  }
+  .form-inputs{
+    gap: 12px;
+  }
+  .form-input-wrapper{
+    gap: 10px;
+  }
+  .form-input{
+    padding: 12px 16px;
+  }
+}

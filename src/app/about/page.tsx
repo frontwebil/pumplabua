@@ -7,7 +7,7 @@ import { TemplateWithImageRight } from "@/components/Templates/TemplateWithImage
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "",
+  title: "Про нас",
   description: "",
 };
 
