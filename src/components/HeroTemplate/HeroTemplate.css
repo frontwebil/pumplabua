@@ -1,3 +1,10 @@
+.hero-template-small {
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 60px 0;
+}
+
 .hero-template {
   background-position: top;
   background-size: cover;

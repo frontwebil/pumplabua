@@ -3,6 +3,7 @@
 import "@/components/ContactForm/ContactForm.css";
 import { SendMessageToTelegram } from "@/custom-hooks/sendMessageToTelegram";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export function ContactForm() {
   const [name, setName] = useState("");
@@ -34,6 +35,7 @@ export function ContactForm() {
     `;
     try {
       await SendMessageToTelegram({ htmlSend });
+      toast("Дякуємо! Ваш запит на консультацію вже в обробці 😊");
       setName("");
       setPhoneNum("");
       setText("");

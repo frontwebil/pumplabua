@@ -1,3 +1,5 @@
+"use client";
+
 import { Advantages } from "@/components/Advantages/Advantages";
 import { Energy } from "@/components/Energy/Energy";
 import { EnergyForGoals } from "@/components/EnergyForGoals/EnergyForGoals";

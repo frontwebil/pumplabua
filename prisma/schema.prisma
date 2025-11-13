@@ -1,12 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -15,13 +8,50 @@ datasource db {
 }
 
 model User {
-  id           String   @map("_id") @id @default(auto()) @db.ObjectId
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   surname      String
   middleName   String?
-  email        String   @unique
+  email        String    @unique
   dateBirthday DateTime?
   phoneNumber  String?
   password     String
-  createdAt    DateTime               @default(now())
+  createdAt    DateTime  @default(now())
+
+  resetToken       String?
+  resetTokenExpiry DateTime?
+
+  favoriteProducts String[] 
+}
+
+model Product {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  description  String?
+  features     String?
+  purpose      String?
+  components   String?
+  additional   String?
+  category     String?
+  images       String[]
+  isBestseller Boolean  @default(false)
+  isActive     Boolean  @default(true)
+
+  variants Variant[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Variant {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  flavor   String? // може бути null якщо таблетки без смаку
+  amount   Float // кількість (напр. 500 або 60)
+  unitType String // одиниця виміру: "g", "pcs", "caps", "ml"
+  price    Float
+  inStock  Boolean @default(true)
+  discount Float?  @default(0)
+
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String  @db.ObjectId
 }

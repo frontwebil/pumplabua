@@ -4,6 +4,9 @@ export const SITE_LINKS = {
   ORDERS_INFO: "/orders-info",
   CONTACTS: "/contacts",
   CATALOG: "/catalog",
+  ACCOUNT: "/account",
+  ACCOUNT_ORDERS: "/account/orders",
+  RESET_PASSWORD: "/reset-password",
 };
 
 export const SOCIAL_LINKS = {

@@ -10,6 +10,10 @@ body {
   color: #0d0e10;
 }
 
+.body-no-scroll {
+  overflow: hidden; /* блокує вертикальний і горизонтальний скрол */
+}
+
 .container {
   margin: 0 auto;
   max-width: 1330px;
@@ -92,6 +96,17 @@ body {
 
 .to-Catalog-blue:hover {
   background: #1033a4;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 @media only screen and (max-width: 800px) {

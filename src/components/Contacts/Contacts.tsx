@@ -83,7 +83,7 @@ export function Contacts() {
             </div>
           </div>
         </div>
-        <ContactForm/>
+        <ContactForm />
       </div>
     </section>
   );
