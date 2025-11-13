@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
-import { ReduxProviderWrapper } from "@/providers/ReduxProviderWrapper";
-import { AuthForms } from "@/components/AuthForms/AuthForms";
-import { ToastContainer } from "react-toastify";
-import { SessionProviderWrapper } from "@/providers/SessionAuthProviders";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -26,23 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <SessionProviderWrapper>
-        <ReduxProviderWrapper>
-          <body className={`${openSans.variable} antialiased`}>
-            <ToastContainer
-              position="top-right"
-              theme="light"
-              hideProgressBar={true}
-              autoClose={3000}
-            />
-            <AuthForms />
-            <Header />
-            {children}
-            <Footer />
-          </body>
-        </ReduxProviderWrapper>
-      </SessionProviderWrapper>
+    <html lang="uk">
+      <body className={`${openSans.variable} antialiased`}>{children}</body>
     </html>
   );
 }

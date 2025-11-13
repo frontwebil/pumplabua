@@ -20,11 +20,15 @@ export function AuthForms() {
       document.body.classList.remove("body-no-scroll");
     }
 
+    if (isLogged) {
+      document.body.classList.remove("body-no-scroll");
+    }
+
     // на випадок, якщо компонент розмонтується
     return () => {
       document.body.classList.remove("body-no-scroll");
     };
-  }, [isOpenAuthModal]);
+  }, [isOpenAuthModal, isLogged]);
 
   if (!isOpenAuthModal || isLogged) return;
   return (

@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 export const authOptions: AuthOptions = {
   providers: [
     Credentials({
-      name: "Credentials",
+      name: "User login",
       credentials: {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "text" },
@@ -33,7 +33,7 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
-        return { id: user.id, name: user.name };
+        return { id: user.id, name: user.name, role: "user" };
       },
     }),
   ],
@@ -47,6 +47,7 @@ export const authOptions: AuthOptions = {
       if (user) {
         token.id = user.id;
         token.name = user.name!;
+        token.role = user.role;
       }
       return token;
     },
@@ -57,6 +58,7 @@ export const authOptions: AuthOptions = {
         session.user = {
           id: token.id,
           name: token.name,
+          role: token.role as string,
         };
       }
       return session;
