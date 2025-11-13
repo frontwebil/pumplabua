@@ -6,7 +6,7 @@ import Image from "next/image";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 import { PiFlask } from "react-icons/pi";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SITE_LINKS } from "@/site-config/site.config";
 import { useWindowWidth } from "@/custom-hooks/useWidth";
 import { usePathname } from "next/navigation";
@@ -14,12 +14,18 @@ import { HeaderTop } from "./components/Header-top";
 import BurgerMenu from "./components/BurgerMenu";
 import { CabinetLink } from "./components/CabinetLink";
 import { useSession } from "next-auth/react";
-import { useDispatch } from "react-redux";
-import { setSession } from "@/redux/pamplabua/slices/uiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setSession,
+  toggleBurger,
+  toggleBurgerCatalog,
+} from "@/redux/pamplabua/slices/uiSlice";
+import { RootState } from "@/redux/pamplabua/store";
 
 export function Header() {
-  const [isOpenCatalog, setIsOpenCatalog] = useState(false);
-  const [isOpenBurger, setIsOpenBurger] = useState(false);
+  const { isOpenBurger, isOpenBurgerCatalog } = useSelector(
+    (store: RootState) => store.uiSlice
+  );
   const screenWidth = useWindowWidth();
   const pathname = usePathname();
 
@@ -45,7 +51,7 @@ export function Header() {
                 : screenWidth! < 700 && (
                     <div
                       className={`header-burger ${isOpenBurger && "active"}`}
-                      onClick={() => setIsOpenBurger(!isOpenBurger)}
+                      onClick={() => dispatch(toggleBurger())}
                     >
                       <div className="header-burger-line"></div>
                       <div className="header-burger-line"></div>
@@ -68,12 +74,12 @@ export function Header() {
                   <nav className="header-nav-links">
                     <div
                       className="header-link"
-                      onClick={() => setIsOpenCatalog(!isOpenCatalog)}
+                      onClick={() => dispatch(toggleBurgerCatalog())}
                     >
                       <p className="fs-sm font-bold uppercase">каталог</p>
                       <MdKeyboardArrowDown
                         className={`header-link-arrow ${
-                          isOpenCatalog ? "rotate" : ""
+                          isOpenBurgerCatalog ? "rotate" : ""
                         }`}
                       />
                     </div>
@@ -103,7 +109,7 @@ export function Header() {
                     </Link>
                     <div
                       className={`header-catalog-menu ${
-                        isOpenCatalog ? "active" : ""
+                        isOpenBurgerCatalog ? "active" : ""
                       }`}
                     >
                       <div className="header-catalog-menu-top">
@@ -140,12 +146,7 @@ export function Header() {
             </div>
           </div>
         </div>
-        <BurgerMenu
-          isOpenBurger={isOpenBurger}
-          isOpenCatalog={isOpenCatalog}
-          setIsOpenCatalog={setIsOpenCatalog}
-          setIsOpenBurger={setIsOpenBurger}
-        />
+        <BurgerMenu />
       </header>
     </>
   );

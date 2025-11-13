@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 type initialStateType = {
   isOpenAuthModal: boolean;
+  isOpenBurger: boolean;
+  isOpenBurgerCatalog: boolean;
   userName: string | null | undefined;
   sessionId: string | null | undefined;
   isLogged: boolean;
@@ -10,6 +12,8 @@ type initialStateType = {
 };
 
 const initialState: initialStateType = {
+  isOpenBurger: false,
+  isOpenBurgerCatalog: false,
   isOpenAuthModal: false,
   userName: null,
   sessionId: null,
@@ -26,6 +30,18 @@ const uiSlice = createSlice({
     },
     closeAuthModal: (state) => {
       state.isOpenAuthModal = false;
+    },
+    toggleBurger: (state) => {
+      state.isOpenBurger = !state.isOpenBurger;
+    },
+    closeBurger: (state) => {
+      state.isOpenBurger = false;
+    },
+    toggleBurgerCatalog: (state) => {
+      state.isOpenBurgerCatalog = !state.isOpenBurgerCatalog;
+    },
+    closeBurgerCatalog: (state) => {
+      state.isOpenBurgerCatalog = false;
     },
     setSession: (state, action) => {
       const { id, name } = action.payload;
@@ -45,8 +61,16 @@ const uiSlice = createSlice({
   },
 });
 
-export const { toggleAuthModal, closeAuthModal, setSession, setAccountInfo } =
-  uiSlice.actions;
+export const {
+  toggleAuthModal,
+  closeAuthModal,
+  setSession,
+  setAccountInfo,
+  toggleBurger,
+  closeBurger,
+  toggleBurgerCatalog,
+  closeBurgerCatalog,
+} = uiSlice.actions;
 
 // Експорт редюсера для store
 export default uiSlice.reducer;
