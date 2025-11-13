@@ -1,3 +1,5 @@
+"use client";
+
 import { SITE_LINKS } from "@/site-config/site.config";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -23,7 +25,9 @@ export function AccountNav() {
       </Link>
       <Link
         href={SITE_LINKS.ACCOUNT_ORDERS}
-        className="fs-md font-semibold account-nav-link"
+        className={`fs-md font-semibold account-nav-link ${
+          pathname == "/account/orders" && "active"
+        }`}
       >
         Історія замовлень
       </Link>
