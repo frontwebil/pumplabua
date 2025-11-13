@@ -327,6 +327,10 @@ header {
     width: 100%;
   }
 
+  .hero-template-small {
+    margin-top: 122px;
+  }
+
   .hero-template {
     margin-top: 122px;
   }
@@ -357,6 +361,9 @@ header {
     margin-top: 82px;
   }
   .hero-template {
+    margin-top: 82px;
+  }
+  .hero-template-small {
     margin-top: 82px;
   }
   .header-top {
