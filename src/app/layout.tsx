@@ -7,7 +7,6 @@ import { ReduxProviderWrapper } from "@/providers/ReduxProviderWrapper";
 import { AuthForms } from "@/components/AuthForms/AuthForms";
 import { ToastContainer } from "react-toastify";
 import { SessionProviderWrapper } from "@/providers/SessionAuthProviders";
-import RootProvider from "@/providers/RootProvider";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
