@@ -31,14 +31,14 @@ export async function POST(req: Request) {
     });
 
     if (!user) {
-      return NextResponse.json({ error: "Час силки минув!" }, { status: 400 });
+      return NextResponse.json({ error: "Час посилання минув!" }, { status: 400 });
     }
 
     const isSamePasswords = await bcrypt.compare(password, user.password);
 
     if (isSamePasswords) {
       return NextResponse.json(
-        { error: "Пароль не має співпадати зі старим!" },
+        { error: "Новий пароль не має співпадати зі старим!" },
         {
           status: 400,
         }
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(
-      { message: "Password successfully reset!" },
+      { message: "Пароль успішно змінено!" },
       { status: 200 }
     );
   } catch (error) {

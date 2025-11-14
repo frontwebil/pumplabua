@@ -2,12 +2,18 @@
 
 import { useParams, useRouter } from "next/navigation";
 import "@/components/ResetContent/ResetContent.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { toggleAuthModal } from "@/redux/pamplabua/slices/uiSlice";
+import { useDispatch } from "react-redux";
 
 export function ResetPageFormConfirm() {
   const { token } = useParams();
   const router = useRouter();
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const dispatch = useDispatch();
 
   const CheckIsValidToken = async () => {
     const { data } = await axios.get(
@@ -23,6 +29,31 @@ export function ResetPageFormConfirm() {
     }
   }, [router, token]);
 
+  const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      if (password !== confirmPassword) {
+        toast("Паролі мають співпадати");
+      }
+
+      await axios.post("/api/auth/reset/reset-confirm-password", {
+        token,
+        password,
+      });
+
+      toast("Пароль зміненно!");
+      dispatch(toggleAuthModal());
+      router.replace("/");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response?.data?.error) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("Сталася невідома помилка");
+      }
+    }
+  };
+
   return (
     <div className="reset-page">
       <div className="reset-box">
@@ -30,13 +61,25 @@ export function ResetPageFormConfirm() {
         <p className="fs-md">
           Будь ласка, створіть новий пароль для свого облікового запису.
         </p>
-        <form className="reset-form">
+        <form className="reset-form" onSubmit={handleResetPassword}>
           <div className="reset-form-inputs">
-            <input type="text" placeholder="Введіть новий пароль" required />
+            <input
+              type="text"
+              placeholder="Введіть новий пароль"
+              required
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
             <input
               type="password"
               placeholder="Підтвердіть новий пароль"
               required
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+              }}
             />
           </div>
           <button type="submit">Змінити пароль</button>
