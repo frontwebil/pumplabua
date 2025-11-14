@@ -2,31 +2,26 @@
 
 import { useParams, useRouter } from "next/navigation";
 import "@/components/ResetContent/ResetContent.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 
 export function ResetPageFormConfirm() {
   const { token } = useParams();
-  const [isValidToken, setIsValidToken] = useState(true);
   const router = useRouter();
-  console.log(isValidToken);
 
   const CheckIsValidToken = async () => {
     const { data } = await axios.get(
       `/api/auth/reset/is-valid-token?token=${token}`
     );
-    setIsValidToken(data.isValidToken);
+    return data.isValidToken;
   };
 
   useEffect(() => {
-    CheckIsValidToken();
-
+    const isValidToken = CheckIsValidToken();
     if (!isValidToken) {
       router.replace("/");
     }
-  }, [CheckIsValidToken, isValidToken, router, token]);
-
-  
+  }, [router, token]);
 
   return (
     <div className="reset-page">
