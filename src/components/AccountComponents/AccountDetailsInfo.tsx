@@ -83,7 +83,7 @@ export function AccountDetailsInfo() {
         dateBirthday: Birthday,
       });
       if (res.status === 200) {
-        toast("Данні успішно змінені");
+        toast.success("Данні успішно змінені");
       }
     } catch (error) {
       console.error("Помилка при оновленні користувача:", error);
@@ -99,10 +99,7 @@ export function AccountDetailsInfo() {
   return (
     <div>
       <h2 className="fs-xl font-bold uppercase">деталі користувача</h2>
-      <form
-        className="account-details-info-form"
-        onSubmit={updateAccountData}
-      >
+      <form className="account-details-info-form" onSubmit={updateAccountData}>
         <div className="acount-details-row">
           <div className="acount-details-row-input-wrapper">
             <label htmlFor="" className="fs-sm font-semibold">

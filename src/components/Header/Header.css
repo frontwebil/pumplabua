@@ -327,6 +327,10 @@ header {
     width: 100%;
   }
 
+  .reset-page {
+    margin-top: 122px;
+  }
+
   .hero-template-small {
     margin-top: 122px;
   }
@@ -357,6 +361,9 @@ header {
 }
 
 @media only screen and (max-width: 600px) {
+  .reset-page {
+    margin-top: 82px;
+  }
   .hero {
     margin-top: 82px;
   }

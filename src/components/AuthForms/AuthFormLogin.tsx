@@ -96,6 +96,7 @@ export function AuthFormLogin({
                 <Link
                   href={SITE_LINKS.RESET_PASSWORD}
                   className="fs-sm hover:text-blue-500 cursor-pointer transition"
+                  onClick={() => handleCloseModal()}
                 >
                   Забули пароль?
                 </Link>

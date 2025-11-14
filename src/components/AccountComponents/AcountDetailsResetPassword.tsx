@@ -16,7 +16,7 @@ export function AcountDetailsResetPassword() {
     }
 
     try {
-      const res = await axios.post("/api/auth/reset-pass-from-acc", {
+      const res = await axios.post("/api/auth/reset/reset-pass-from-acc", {
         oldPassword,
         newPassword,
       });
