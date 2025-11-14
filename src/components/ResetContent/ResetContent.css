@@ -1,9 +1,8 @@
 .reset-page {
-  height: 50vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 100px 0;
+  margin: 80px 0;
 }
 
 .reset-box {
@@ -57,5 +56,17 @@
 @media only screen and (max-width: 600px) {
   .reset-box {
     padding: 30px 20px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .reset-page {
+    margin: 180px 0 100px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .reset-page {
+    margin: 140px 0 100px;
   }
 }
