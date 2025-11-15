@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     });
 
     if (!user) {
-      return NextResponse.json({ error: "Час посилання минув!" }, { status: 400 });
+      return NextResponse.json({ error: token }, { status: 400 });
     }
 
     const isSamePasswords = await bcrypt.compare(password, user.password);

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import { RootState } from "@/redux/pamplabua/store";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -7,7 +6,7 @@ import { toast } from "react-toastify";
 
 export function AccountDetailsInfo() {
   const { accountInfo } = useSelector((store: RootState) => store.uiSlice);
-
+  const [loading, setLoading] = useState(false);
   const [newData, setNewData] = useState({
     name: "",
     surname: "",
@@ -49,6 +48,8 @@ export function AccountDetailsInfo() {
     try {
       e.preventDefault();
 
+      if (loading) return;
+
       const dayNum = Number(dateBirthday.day);
       const monthNum = Number(dateBirthday.month);
       const yearNum = Number(dateBirthday.year);
@@ -74,6 +75,8 @@ export function AccountDetailsInfo() {
         return;
       }
 
+      setLoading(true);
+
       const Birthday = `${dateBirthday.year?.toString()}-${dateBirthday.month
         ?.toString()
         .padStart(2, "0")}-${dateBirthday.day?.toString().padStart(2, "0")}`;
@@ -93,6 +96,8 @@ export function AccountDetailsInfo() {
       } else {
         toast("Сталася невідома помилка, спробуйте пізніше");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -207,7 +212,9 @@ export function AccountDetailsInfo() {
             }
           />
         </div>
-        <button className="acount-details-save-changes">зберегти зміни</button>
+        <button className="acount-details-save-changes">
+          {loading ? "зберігаємо зміни..." : "зберети зміни"}
+        </button>
       </form>
     </div>
   );

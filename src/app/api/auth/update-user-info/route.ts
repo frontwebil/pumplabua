@@ -41,7 +41,7 @@ export async function POST(req: Request) {
   </div>
 
   <div style="text-align: center; margin-top: 30px;">
-    <p style="color: #475569; font-size: 12px;">© ${new Date().getFullYear()} pamplabua — Усі права захищені.</p>
+    <p style="color: #475569; font-size: 12px;">© ${new Date().getFullYear()} Pamplabua — Усі права захищені.</p>
   </div>
 </div>`;
 

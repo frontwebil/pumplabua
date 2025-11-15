@@ -6,12 +6,18 @@ export function AcountDetailsResetPassword() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (loading) return;
+
+    setLoading(true);
+
     if (newPassword !== confPassword) {
       toast.error("Паролі мають співпадати");
+
       return;
     }
 
@@ -34,6 +40,8 @@ export function AcountDetailsResetPassword() {
       } else {
         toast.error("Сталася невідома помилка");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -80,7 +88,9 @@ export function AcountDetailsResetPassword() {
             required
           />
         </div>
-        <button className="acount-details-save-changes">Змінити пароль</button>
+        <button className="acount-details-save-changes" disabled={loading}>
+          {loading ? "Змінюємо пароль..." : "Змінити пароль"}
+        </button>
       </form>
     </div>
   );

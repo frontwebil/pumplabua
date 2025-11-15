@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       },
     });
 
-    const resetLink = `${process.env.NEXT_PUBLIC_SITE_URL}/reset-password/token=${token}`;
+    const resetLink = `${process.env.NEXT_PUBLIC_SITE_URL}/reset-password/${token}`;
 
     const html = `
     <div style="font-family: 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; padding: 40px; border-radius: 16px; max-width: 500px; margin: auto;">
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
   </div>
 
   <div style="text-align: center; margin-top: 30px;">
-    <p style="color: #475569; font-size: 12px;">© ${new Date().getFullYear()} TreliX — Усі права захищені.</p>
+    <p style="color: #475569; font-size: 12px;">© ${new Date().getFullYear()} Pamplabua — Усі права захищені.</p>
   </div>
 </div>
 `;

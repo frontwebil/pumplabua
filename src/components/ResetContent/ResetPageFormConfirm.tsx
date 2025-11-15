@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
 import { useParams, useRouter } from "next/navigation";
 import "@/components/ResetContent/ResetContent.css";
 import { useEffect, useState } from "react";
@@ -10,9 +8,11 @@ import { useDispatch } from "react-redux";
 
 export function ResetPageFormConfirm() {
   const { token } = useParams();
+  console.log(token);
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const CheckIsValidToken = async () => {
@@ -31,10 +31,16 @@ export function ResetPageFormConfirm() {
 
   const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (loading) return;
+
     try {
       if (password !== confirmPassword) {
         toast("Паролі мають співпадати");
+        return;
       }
+
+      setLoading(true);
 
       await axios.post("/api/auth/reset/reset-confirm-password", {
         token,
@@ -47,10 +53,12 @@ export function ResetPageFormConfirm() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response?.data?.error) {
-        toast.error(error.response.data.error);
+        toast(error.response.data.error);
       } else {
         toast.error("Сталася невідома помилка");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,6 +73,7 @@ export function ResetPageFormConfirm() {
           <div className="reset-form-inputs">
             <input
               type="text"
+              name="new password"
               placeholder="Введіть новий пароль"
               required
               value={password}
@@ -74,6 +83,7 @@ export function ResetPageFormConfirm() {
             />
             <input
               type="password"
+              name="confirm new password"
               placeholder="Підтвердіть новий пароль"
               required
               value={confirmPassword}
@@ -82,7 +92,9 @@ export function ResetPageFormConfirm() {
               }}
             />
           </div>
-          <button type="submit">Змінити пароль</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Змінюємо пароль..." : "Змінити пароль"}
+          </button>
         </form>
       </div>
     </div>

@@ -12,6 +12,7 @@ export function ResetPageForm() {
   const dispatch = useDispatch();
   const { isLogged } = useSelector((store: RootState) => store.uiSlice);
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -23,6 +24,8 @@ export function ResetPageForm() {
   const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (loading) return;
+
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
     if (!isValidEmail) {
@@ -31,6 +34,8 @@ export function ResetPageForm() {
     }
 
     try {
+      setLoading(true);
+
       const res = await fetch("/api/auth/reset/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -46,6 +51,8 @@ export function ResetPageForm() {
       toast.error(
         "Сталася помилка. Спробуйте ще раз та перевірте правильність данних."
       );
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -64,7 +71,9 @@ export function ResetPageForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <button type="submit">Скинути пароль</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Надсилаємо посилання..." : "Скинути пароль"}
+          </button>
         </form>
         <div className="auth-form-under-form">
           <div className="fs-lg text-center" style={{ color: "#4F5052" }}>
