@@ -87,7 +87,7 @@ const addProductFormSlice = createSlice({
       }
     ) => {
       const { field, value } = action.payload;
-      state[field] = value;
+      (state[field] as any) = value;
     },
     // Варіанти
     addVariant: (state) => {
