@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
@@ -10,27 +11,34 @@ export async function POST(req: Request) {
     if (!session?.user || session.user.role !== "admin") {
       return NextResponse.json({ error: "Доступ заборонено" }, { status: 403 });
     }
-    const { variants, ...rest } = await req.json();
 
-    const product = await prisma.product.create({
+    const data = await req.json();
+    const { id, variants, ...productData } = data;
+
+    const updatedProduct = await prisma.product.update({
+      where: { id },
       data: {
-        ...rest,
+        ...productData,
+        updatedAt: new Date(),
         variants: {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          deleteMany: {},
           create: variants.map((v: any) => ({
-            ...v,
-            amount: parseFloat(v.amount),
+            flavor: v.flavor,
+            amount: v.amount,
+            unitType: v.unitType,
             price: parseFloat(v.price),
-            discount: parseFloat(v.discount || 0),
+            inStock: v.inStock,
+            discount: parseFloat(v.discount || "0"),
+            isMain: v.isMain || false,
           })),
         },
       },
+      include: {
+        variants: true,
+      },
     });
 
-    return NextResponse.json(
-      { message: "Товар успішно додано!", product },
-      { status: 201 }
-    );
+    return NextResponse.json({ product: updatedProduct }, { status: 200 });
   } catch (err) {
     console.error("Помилка при створенні товару:", err);
     return NextResponse.json({ error: "Помилка серверу" }, { status: 500 });

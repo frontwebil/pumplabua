@@ -20,15 +20,15 @@ export const SOCIAL_LINKS = {
 };
 
 export const CATEGORYES = [
-  { value: "protein", key: "Протеїн" },
-  { value: "creatine", key: "Креатин" },
-  { value: "gainer", key: "Гейнер" },
-  { value: "aminoacids", key: "Амінокислоти" },
-  { value: "vitamins", key: "Вітаміни та БАДи" },
-  { value: "collagen", key: "Колаген" },
-  { value: "preworkout", key: "Предтренувальні комплекси" },
-  { value: "fatburners", key: "Жироспалювачі" },
-  { value: "healthyfood", key: "Здорове харчування" },
-  { value: "proteinBar", key: "Протеїнові батончики" },
-  { value: "accessories", key: "Аксесуари" },
+  { key: "protein", value: "Протеїн" },
+  { key: "creatine", value: "Креатин" },
+  { key: "gainer", value: "Гейнер" },
+  { key: "aminoacids", value: "Амінокислоти" },
+  { key: "vitamins", value: "Вітаміни та БАДи" },
+  { key: "collagen", value: "Колаген" },
+  { key: "preworkout", value: "Предтренувальні комплекси" },
+  { key: "fatburners", value: "Жироспалювачі" },
+  { key: "healthyfood", value: "Здорове харчування" },
+  { key: "proteinBar", value: "Протеїнові батончики" },
+  { key: "accessories", value: "Аксесуари" },
 ];

@@ -1,6 +1,6 @@
 "use client";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AdditionalInfo } from "../../components/AddProduct/AdditionalInfo";
 import { ProductImageUploader } from "../../components/AddProduct/AddProductImage";
 import { MainInfo } from "../../components/AddProduct/MainInfo";
@@ -11,6 +11,7 @@ import axios from "axios";
 import useUploadImages from "@/custom-hooks/useUploadImage";
 import { toast } from "react-toastify";
 import React, { useState } from "react";
+import { setDefaultValues } from "@/redux/admin/slices/addProductFormSlice";
 
 export default function AddProductPage() {
   const { uploadImages } = useUploadImages();
@@ -30,6 +31,8 @@ export default function AddProductPage() {
   } = useSelector((store: RootState) => store.addProductFormSlice);
   const [loading, setLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
   const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -37,33 +40,42 @@ export default function AddProductPage() {
 
     setLoading(true);
 
-    const urls = await uploadImages();
-    console.log(urls);
-    if (urls.length < 1) {
-      toast("Потрібно хоча б одне фото!");
+    try {
+      const urls = await uploadImages();
+      console.log(urls);
+
+      if (urls.length < 1) {
+        toast("Потрібно хоча б одне фото!");
+        return;
+      }
+
+      await axios.post("/api/product/create", {
+        isActive,
+        isBestseller,
+        name: nameProduct,
+        producer,
+        mainDescription,
+        description,
+        category,
+        features,
+        purpose,
+        components,
+        additional,
+        variants,
+        images: urls,
+      });
+
+      toast("Товар додано!");
+      dispatch(setDefaultValues());
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("Помилка при створенні товару:", error);
+      toast(
+        error?.response?.data?.message || "Сталася помилка при створенні товару"
+      );
+    } finally {
       setLoading(false);
-      return;
     }
-
-    await axios.post("/api/product/create", {
-      isActive,
-      isBestseller,
-      name: nameProduct,
-      producer,
-      mainDescription,
-      description,
-      category,
-      features,
-      purpose,
-      components,
-      additional,
-      variants,
-      images: urls,
-    });
-
-    toast("Товар додано!");
-    setLoading(false);
-    return;
   };
 
   return (

@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Pumplab",
   description:
     "Підтримай своє тіло і досягай результатів з продуктами топових брендів спортивного харчування для будь-якого рівня підготовки",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({

@@ -125,7 +125,7 @@ export function ProductImageUploader() {
                   </button>
                 </div>
 
-                <div className="text-xs mt-1 text-center max-w-36 break-words">
+                <div className="text-xs mt-1 text-center max-w-36 word-break-words">
                   {f.name}
                 </div>
               </div>

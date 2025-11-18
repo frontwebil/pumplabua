@@ -57,7 +57,7 @@ const initialState: initialStateType = {
       price: "",
       inStock: true,
       discount: "0",
-      isMain: false,
+      isMain: true,
     },
   ],
 
@@ -139,6 +139,7 @@ const addProductFormSlice = createSlice({
       state.files = [];
       state.urls = [];
     },
+    setDefaultValues: () => initialState,
   },
 });
 
@@ -153,5 +154,6 @@ export const {
   clearImages,
   toggleActive,
   toggleBestseller,
+  setDefaultValues,
 } = addProductFormSlice.actions;
 export default addProductFormSlice.reducer;

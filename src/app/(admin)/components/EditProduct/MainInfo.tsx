@@ -1,19 +1,19 @@
 "use client";
 
-import {
-  initialStateType,
-  setField,
-} from "@/redux/admin/slices/addProductFormSlice";
+import { setField } from "@/redux/admin/slices/EditProductSlice";
 import { RootState } from "@/redux/admin/store";
 import { CATEGORYES } from "@/site-config/site.config";
+import { Product, Variant } from "@prisma/client";
 import { useDispatch, useSelector } from "react-redux";
 
 export function MainInfo() {
-  const { nameProduct, producer, mainDescription, description, category } =
-    useSelector((store: RootState) => store.addProductFormSlice);
+  const { product } = useSelector((store: RootState) => store.editProductSlice);
   const dispatch = useDispatch();
 
-  const handleChangeInfo = (field: keyof initialStateType, value: string) => {
+  const handleChangeInfo = (
+    field: keyof (Product & { variants: Variant[] }),
+    value: string
+  ) => {
     dispatch(setField({ field, value }));
   };
   return (
@@ -38,8 +38,8 @@ export function MainInfo() {
             border: "1px solid #ddd",
             borderRadius: "4px",
           }}
-          value={nameProduct}
-          onChange={(e) => handleChangeInfo("nameProduct", e.target.value)}
+          value={product.name}
+          onChange={(e) => handleChangeInfo("name", e.target.value)}
         />
       </div>
       <div style={{ marginBottom: "1rem" }}>
@@ -61,7 +61,7 @@ export function MainInfo() {
             border: "1px solid #ddd",
             borderRadius: "4px",
           }}
-          value={producer}
+          value={product.producer}
           onChange={(e) => handleChangeInfo("producer", e.target.value)}
         />
       </div>
@@ -84,7 +84,7 @@ export function MainInfo() {
             border: "1px solid #ddd",
             borderRadius: "4px",
           }}
-          value={mainDescription}
+          value={product.mainDescription}
           onChange={(e) => handleChangeInfo("mainDescription", e.target.value)}
         />
       </div>
@@ -106,7 +106,7 @@ export function MainInfo() {
             border: "1px solid #ddd",
             borderRadius: "4px",
           }}
-          value={description}
+          value={product.description || ""}
           onChange={(e) => handleChangeInfo("description", e.target.value)}
         />
       </div>
@@ -129,7 +129,7 @@ export function MainInfo() {
             background: "#fff",
             cursor: "pointer",
           }}
-          value={category}
+          value={product.category}
           onChange={(e) => handleChangeInfo("category", e.target.value)}
         >
           <option value="">Оберіть категорію</option>

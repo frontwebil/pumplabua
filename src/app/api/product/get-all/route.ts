@@ -3,34 +3,21 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-export async function POST(req: Request) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions);
 
     if (!session?.user || session.user.role !== "admin") {
       return NextResponse.json({ error: "Доступ заборонено" }, { status: 403 });
     }
-    const { variants, ...rest } = await req.json();
 
-    const product = await prisma.product.create({
-      data: {
-        ...rest,
-        variants: {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          create: variants.map((v: any) => ({
-            ...v,
-            amount: parseFloat(v.amount),
-            price: parseFloat(v.price),
-            discount: parseFloat(v.discount || 0),
-          })),
-        },
+    const products = await prisma.product.findMany({
+      include: {
+        variants: true,
       },
     });
 
-    return NextResponse.json(
-      { message: "Товар успішно додано!", product },
-      { status: 201 }
-    );
+    return NextResponse.json({ products }, { status: 200 });
   } catch (err) {
     console.error("Помилка при створенні товару:", err);
     return NextResponse.json({ error: "Помилка серверу" }, { status: 500 });
