@@ -33,12 +33,14 @@ model User {
 model Product {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   name         String
+  producer     String
+  mainDescription String
   description  String?
+  category     String
   features     String?
   purpose      String?
   components   String?
   additional   String?
-  category     String?
   images       String[]
   isBestseller Boolean  @default(false)
   isActive     Boolean  @default(true)
@@ -57,6 +59,8 @@ model Variant {
   price    Float
   inStock  Boolean @default(true)
   discount Float?  @default(0)
+
+  isMain Boolean @default(false)
 
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String  @db.ObjectId

@@ -9,7 +9,7 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Pamplab",
+  title: "Pumplab",
   description:
     "Підтримай своє тіло і досягай результатів з продуктами топових брендів спортивного харчування для будь-якого рівня підготовки",
 };

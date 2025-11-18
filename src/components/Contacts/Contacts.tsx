@@ -25,7 +25,8 @@ export function Contacts() {
               >
                 Мобільний телефон
               </h4>
-              <div className="contacts-text-column-line"></div>
+              {/* <div className="contacts-text-column-line"></div> */}
+
               <Link
                 href={SOCIAL_LINKS.NUMBER1}
                 className="contacts-text-column-link"
@@ -38,6 +39,8 @@ export function Contacts() {
               >
                 +38 (066) 966 - 39 - 69
               </Link>
+              <div className="contacts-text-column-link ">‎</div>
+
               <div className="contacts-text-column-social-links">
                 <Link href={SOCIAL_LINKS.VIBER}>
                   <FaViber className="contacts-text-column-icon" />
@@ -60,24 +63,25 @@ export function Contacts() {
               >
                 адреса
               </h4>
-              <div className="contacts-text-column-line"></div>
               <div className="contacts-text-column-text-row">
-                <p className="fs-sm">Вул. Літературна 27</p>
+                <p className="fs-sm">м. Ірпінь</p>
+              </div>
+              <div className="contacts-text-column-text-row">
+                <Link href={SOCIAL_LINKS.MAPS_LINK} className="fs-sm">
+                  Вул. Літературна 27
+                </Link>
                 <p className="fs-sm">9:00 по 21:00</p>
               </div>
               <div className="contacts-text-column-text-row">
-                <p className="fs-sm">ТРЦ City Mall</p>
+                <Link href={SOCIAL_LINKS.MAPS_LINK} className="fs-sm">
+                  ТРЦ CITY MALL
+                </Link>
                 <p className="fs-sm font-semibold">без вихідних</p>
               </div>
               <div className="contacts-text-column-text-row bottom">
                 <p className="fs-sm">
-                  1 поверх під <span className="font-semibold">Сільпо</span> і
-                  спортивним залом{" "}
-                  <span className="font-semibold">Evolution Fitness</span>
-                </p>
-                <p className="fs-sm">
                   Вхід зі сторони{" "}
-                  <span className="font-semibold">центрального парку</span>
+                  <span className="font-semibold">ЦЕНТРАЛЬНОГО ПАРКУ</span>
                 </p>
               </div>
             </div>

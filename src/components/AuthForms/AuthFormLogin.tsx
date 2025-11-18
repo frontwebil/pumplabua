@@ -39,7 +39,7 @@ export function AuthFormLogin({
       return;
     }
 
-    const res = await signIn("credentials", {
+    const res = await signIn("user-login", {
       email,
       password,
       redirect: false,
@@ -47,11 +47,14 @@ export function AuthFormLogin({
 
     if (res?.error) {
       toast("Неправильний email або пароль");
+      setLoading(false);
+      return;
     } else {
       toast.success("Вхід успішний");
+      setLoading(false);
+      handleCloseModal();
+      return;
     }
-    setLoading(false);
-    handleCloseModal();
   };
 
   return (

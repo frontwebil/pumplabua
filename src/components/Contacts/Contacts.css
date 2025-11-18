@@ -27,6 +27,14 @@
   width: 100%;
 }
 
+.contacts-text-column h4 {
+  margin-bottom: 20px;
+}
+
+.contacts-text-column-right h4 {
+  margin-bottom: 20px;
+}
+
 .contacts-text-column-right {
   display: flex;
   flex-direction: column;
@@ -105,6 +113,7 @@
   .contacts-text {
     flex-direction: column-reverse;
   }
-  .contacts .container{gap: 50px;}
+  .contacts .container {
+    gap: 50px;
+  }
 }
-

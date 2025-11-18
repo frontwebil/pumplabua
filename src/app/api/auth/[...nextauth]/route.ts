@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 export const authOptions: AuthOptions = {
   providers: [
     Credentials({
+      id: "user-login",
       name: "User login",
       credentials: {
         email: { label: "Email", type: "text" },
@@ -36,6 +37,42 @@ export const authOptions: AuthOptions = {
         return { id: user.id, name: user.name, role: "user" };
       },
     }),
+    Credentials({
+      id: "admin-login",
+      name: "Admin login",
+      credentials: {
+        login: { label: "Login", type: "text" },
+        password: { label: "Password", type: "text" },
+      },
+      authorize: async (credentials) => {
+        if (!credentials?.login || !credentials?.password) {
+          return null;
+        }
+
+        const admin = await prisma.admin.findUnique({
+          where: {
+            login: credentials.login,
+          },
+        });
+
+        if (!admin) {
+          return null;
+        }
+
+        const isValidAdmin = await bcrypt.compare(
+          credentials.password,
+          admin.password
+        );
+
+        if (!isValidAdmin) {
+          return null;
+        }
+        return {
+          id: admin.id,
+          role: "admin",
+        };
+      },
+    }),
   ],
   session: {
     strategy: "jwt",
@@ -46,20 +83,30 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.name = user.name!;
         token.role = user.role;
+
+        // 👇 Только для обычных юзеров
+        if (user.role === "user") {
+          token.name = user.name;
+          token.email = user.email;
+        }
       }
       return token;
     },
 
-    // 🔹 Session для фронтенду
+    // 🔹 Session для фронтенда
     async session({ session, token }) {
       if (token?.id) {
         session.user = {
-          id: token.id,
-          name: token.name,
+          id: token.id as string,
           role: token.role as string,
         };
+
+        // 👇 Только для обычных юзеров
+        if (token.role === "user") {
+          session.user.name = token.name as string;
+          session.user.email = token.email as string;
+        }
       }
       return session;
     },
