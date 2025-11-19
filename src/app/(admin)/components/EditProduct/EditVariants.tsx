@@ -192,7 +192,7 @@ export function EditVariants() {
                   fontWeight: 600,
                 }}
               >
-                Кількість *
+                Кількість / Вага *
               </label>
               <input
                 type="number"
