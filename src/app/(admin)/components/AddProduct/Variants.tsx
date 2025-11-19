@@ -113,7 +113,7 @@ export function Variants() {
                   fontWeight: 600,
                 }}
               >
-                Смак
+                Смак / Опис ( Для аксесуарів )
               </label>
               <input
                 type="text"
