@@ -27,9 +27,6 @@ export function AdminCatalogRow({
       {/* КАТЕГОРИЯ */}
       <div className="capitalize">{product.category}</div>
 
-      {/* ФОТО */}
-      <div className="text-center">{product.images?.length || 0}</div>
-
       {/* ВАРИАНТЫ */}
       <div className="text-center">{product.variants.length || 0}</div>
 
@@ -43,6 +40,7 @@ export function AdminCatalogRow({
         {product.isBestseller ? "Так" : "Ні"}
       </div>
       <div>{formatDate(product.updatedAt)}</div>
+      <div>{formatDate(product.createdAt)}</div>
 
       {/* КНОПКА */}
       <div>

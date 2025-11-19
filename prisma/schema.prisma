@@ -27,23 +27,22 @@ model User {
   resetToken       String?
   resetTokenExpiry DateTime?
 
-  favoriteProducts String[]
+  favoriteProducts String[] @db.ObjectId
 }
 
 model Product {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  producer     String
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  producer        String
   mainDescription String
-  description  String?
-  category     String
-  features     String?
-  purpose      String?
-  components   String?
-  additional   String?
-  images       String[]
-  isBestseller Boolean  @default(false)
-  isActive     Boolean  @default(true)
+  description     String?
+  category        String
+  features        String?
+  purpose         String?
+  components      String?
+  additional      String?
+  isBestseller    Boolean  @default(false)
+  isActive        Boolean  @default(true)
 
   variants Variant[]
 
@@ -52,15 +51,16 @@ model Product {
 }
 
 model Variant {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  flavor   String? // може бути null якщо таблетки без смаку
-  amount   Float // кількість (напр. 500 або 60)
-  unitType String // одиниця виміру: "g", "pcs", "caps", "ml"
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  flavor   String?  // може бути null якщо таблетки без смаку
+  amount   Float    // кількість (напр. 500 або 60)
+  unitType String   // одиниця виміру: "g", "pcs", "caps", "ml"
   price    Float
-  inStock  Boolean @default(true)
-  discount Float?  @default(0)
-
-  isMain Boolean? @default(false)
+  inStock  Boolean  @default(true)
+  discount Float?   @default(0)
+  isMain   Boolean? @default(false)
+  
+  images   String[] // фото для кожного варіанту
 
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String  @db.ObjectId

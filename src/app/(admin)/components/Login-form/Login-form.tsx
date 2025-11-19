@@ -44,7 +44,7 @@ export function LoginFormAdmin() {
       setLoading(false);
     } else {
       toast.success("Вхід успішний");
-      router.replace("/admin-pamplabua-51nsugjabxhy");
+      router.replace("/admin-pamplabua-51nsugjabxhy/catalog");
     }
   };
 

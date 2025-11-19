@@ -2,19 +2,17 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { AdditionalInfo } from "../../components/AddProduct/AdditionalInfo";
-import { ProductImageUploader } from "../../components/AddProduct/AddProductImage";
 import { MainInfo } from "../../components/AddProduct/MainInfo";
 import { Variants } from "../../components/AddProduct/Variants";
 import { RootState } from "@/redux/admin/store";
 import ToggleActiveBestSeller from "../../components/AddProduct/ToggleActiveBestSeller";
 import axios from "axios";
-import useUploadImages from "@/custom-hooks/useUploadImage";
 import { toast } from "react-toastify";
 import React, { useState } from "react";
 import { setDefaultValues } from "@/redux/admin/slices/addProductFormSlice";
+import { useRouter } from "next/navigation";
 
 export default function AddProductPage() {
-  const { uploadImages } = useUploadImages();
   const {
     isActive,
     isBestseller,
@@ -30,6 +28,7 @@ export default function AddProductPage() {
     variants,
   } = useSelector((store: RootState) => store.addProductFormSlice);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
@@ -41,14 +40,6 @@ export default function AddProductPage() {
     setLoading(true);
 
     try {
-      const urls = await uploadImages();
-      console.log(urls);
-
-      if (urls.length < 1) {
-        toast("Потрібно хоча б одне фото!");
-        return;
-      }
-
       await axios.post("/api/product/create", {
         isActive,
         isBestseller,
@@ -62,12 +53,12 @@ export default function AddProductPage() {
         components,
         additional,
         variants,
-        images: urls,
       });
 
       toast("Товар додано!");
+      router.replace("/admin-pamplabua-51nsugjabxhy/catalog");
       dispatch(setDefaultValues());
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Помилка при створенні товару:", error);
       toast(
@@ -86,7 +77,6 @@ export default function AddProductPage() {
         <MainInfo />
         <AdditionalInfo />
         <Variants />
-        <ProductImageUploader />
         <button
           className="
     mt-10

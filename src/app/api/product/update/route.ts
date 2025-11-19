@@ -15,21 +15,26 @@ export async function POST(req: Request) {
     const data = await req.json();
     const { id, variants, ...productData } = data;
 
+    // Видаляємо поля які не треба оновлювати
+    delete productData.createdAt;
+    delete productData.updatedAt;
+
     const updatedProduct = await prisma.product.update({
       where: { id },
       data: {
         ...productData,
         updatedAt: new Date(),
         variants: {
-          deleteMany: {},
+          deleteMany: {}, // Видаляємо всі старі варіанти
           create: variants.map((v: any) => ({
-            flavor: v.flavor,
-            amount: v.amount,
+            flavor: v.flavor || null,
+            amount: parseFloat(v.amount), // ⬅️ Перетворюємо на число
             unitType: v.unitType,
             price: parseFloat(v.price),
             inStock: v.inStock,
-            discount: parseFloat(v.discount || "0"),
+            discount: v.discount ? parseFloat(v.discount) : 0,
             isMain: v.isMain || false,
+            images: v.images || [], // ⬅️ Додай дефолтне значення
           })),
         },
       },
@@ -40,7 +45,10 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ product: updatedProduct }, { status: 200 });
   } catch (err) {
-    console.error("Помилка при створенні товару:", err);
-    return NextResponse.json({ error: "Помилка серверу" }, { status: 500 });
+    console.error("Помилка при оновленні товару:", err);
+    return NextResponse.json(
+      { error: "Помилка серверу", details: (err as Error).message },
+      { status: 500 }
+    );
   }
 }

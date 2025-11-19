@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Product } from "@prisma/client";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export type Variant = {
   flavor: string;
@@ -10,6 +10,7 @@ export type Variant = {
   inStock: boolean;
   discount: string;
   isMain?: boolean;
+  images: string[];
 };
 
 export type initialStateType = {
@@ -28,7 +29,6 @@ const initialState: initialStateType = {
     purpose: null,
     components: null,
     additional: null,
-    images: [],
     isActive: false,
     isBestseller: false,
     createdAt: new Date(),
@@ -76,6 +76,7 @@ const editProductSlice = createSlice({
         inStock: true,
         discount: "0",
         isMain: state.product.variants.length === 0, // перший варіант main
+        images: [],
       });
     },
 
@@ -103,18 +104,6 @@ const editProductSlice = createSlice({
         state.product.variants[index][field] = value;
       }
     },
-
-    addImage: (state, action: PayloadAction<string>) => {
-      state.product.images.push(action.payload);
-    },
-
-    removeImage: (state, action: PayloadAction<number>) => {
-      state.product.images.splice(action.payload, 1);
-    },
-
-    reorderImages: (state, action: PayloadAction<string[]>) => {
-      state.product.images = action.payload;
-    },
   },
 });
 
@@ -126,8 +115,5 @@ export const {
   addVariant,
   removeVariant,
   updateVariant,
-  addImage,
-  removeImage,
-  reorderImages,
 } = editProductSlice.actions;
 export default editProductSlice.reducer;

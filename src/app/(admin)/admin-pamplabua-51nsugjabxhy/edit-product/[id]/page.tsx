@@ -2,7 +2,6 @@
 "use client";
 
 import { AdditionalInfo } from "@/app/(admin)/components/EditProduct/AdditionalInfo";
-import { EditProductImages } from "@/app/(admin)/components/EditProduct/EditProductImages";
 import { EditVariants } from "@/app/(admin)/components/EditProduct/EditVariants";
 import { MainInfo } from "@/app/(admin)/components/EditProduct/MainInfo";
 import ToggleActiveBestSeller from "@/app/(admin)/components/EditProduct/ToggleActiveBestSeller";
@@ -20,6 +19,7 @@ export default function EditProduct() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { product } = useSelector((store: RootState) => store.editProductSlice);
+  console.log(product);
 
   const getCurrentProduct = async () => {
     if (!id) return; // якщо id відсутній
@@ -66,7 +66,6 @@ export default function EditProduct() {
       <MainInfo />
       <AdditionalInfo />
       <EditVariants />
-      <EditProductImages loading={loading} setLoading={setLoading} />
       <button
         className="
     mt-10

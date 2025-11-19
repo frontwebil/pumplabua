@@ -30,11 +30,11 @@ export default function CatalogPage() {
         <div>Назва</div>
         <div>Виробник</div>
         <div>Категорія</div>
-        <div className="text-center">Кільк зображень</div>
         <div className="text-center">Варіанти</div>
         <div>Статус</div>
         <div>Хіт продажу</div>
         <div>Змінений</div>
+        <div>Створений</div>
         <div>Редагувати</div>
       </div>
 

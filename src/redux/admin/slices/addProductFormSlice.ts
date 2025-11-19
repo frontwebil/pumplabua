@@ -13,12 +13,7 @@ export type initialStateType = {
   purpose: string;
   components: string;
   additional: string;
-
   variants: Variant[];
-
-  files: File[];
-  urls: string[];
-
   isActive: boolean;
   isBestseller: boolean;
 };
@@ -31,6 +26,7 @@ export type Variant = {
   inStock: boolean;
   discount: string;
   isMain?: boolean;
+  images: string[];
 };
 
 const initialState: initialStateType = {
@@ -58,11 +54,9 @@ const initialState: initialStateType = {
       inStock: true,
       discount: "0",
       isMain: true,
+      images: [],
     },
   ],
-
-  files: [],
-  urls: [],
 };
 
 const addProductFormSlice = createSlice({
@@ -99,6 +93,7 @@ const addProductFormSlice = createSlice({
         inStock: true,
         discount: "0",
         isMain: false,
+        images: [],
       });
     },
 
@@ -126,19 +121,7 @@ const addProductFormSlice = createSlice({
       }
     },
 
-    setImages(state, action: PayloadAction<File[]>) {
-      state.files = action.payload;
-    },
-    reorderImages(state, action: PayloadAction<File[]>) {
-      state.files = action.payload;
-    },
-    setUploadedUrls(state, action: PayloadAction<string[]>) {
-      state.urls = action.payload;
-    },
-    clearImages(state) {
-      state.files = [];
-      state.urls = [];
-    },
+    updateVariantImage : () => {},
     setDefaultValues: () => initialState,
   },
 });
@@ -148,10 +131,6 @@ export const {
   addVariant,
   removeVariant,
   updateVariant,
-  setImages,
-  reorderImages,
-  setUploadedUrls,
-  clearImages,
   toggleActive,
   toggleBestseller,
   setDefaultValues,
