@@ -1,9 +1,11 @@
 import { Product, Variant } from "@prisma/client";
 import { createSlice } from "@reduxjs/toolkit";
 
+type ProductType = Product & { variants: Variant[] };
+
 type initialStateType = {
   topSellersProducts: (Product & { variants: Variant[] })[];
-  products: (Product & { variants: Variant[] })[];
+  products: ProductType[];
 };
 
 const initialState: initialStateType = {
@@ -21,7 +23,7 @@ const productsSlice = createSlice({
       if (!data) return;
 
       const bestSellers = data.filter(
-        (product) => product.isBestseller == true
+        (product: ProductType) => product.isBestseller == true
       );
 
       state.topSellersProducts = bestSellers;
