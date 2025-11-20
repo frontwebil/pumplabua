@@ -6,7 +6,6 @@ import { EnergyForGoals } from "@/components/EnergyForGoals/EnergyForGoals";
 import { Hero } from "@/components/Hero/Hero";
 import { PartnerInGoal } from "@/components/PartnerInGoal/PartnerInGoal";
 import { ProductsCategory } from "@/components/ProductsCategory/ProductsCategory";
-// import { TopSellers } from "@/components/TopSellers/TopSellers";
 import { WhyChoose } from "@/components/WhyChoose/WhyChoose";
 import { useProducts } from "@/custom-hooks/fetchProducts";
 import { setProducts } from "@/redux/pamplabua/slices/productsSlice";
@@ -26,7 +25,6 @@ export default function Home() {
       <Advantages />
       <ProductsCategory />
       <Energy />
-      {/* <TopSellers /> */}
       <EnergyForGoals />
       <div className="bgBetweenBlack"></div>
       <WhyChoose />
