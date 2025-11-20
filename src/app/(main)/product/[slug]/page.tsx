@@ -3,7 +3,13 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import ProductSchema from "@/components/seo/ProductSchema";
 
-export async function generateMetadata({ params }) {
+type ProductPageProps = {
+  params: {
+    slug: string;
+  };
+};
+
+export async function generateMetadata({ params }: ProductPageProps) {
   const product = await prisma.product.findFirst({
     where: { slug: params.slug },
     include: { variants: true },
@@ -22,7 +28,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function ProductPage({ params }) {
+export default async function ProductPage({ params }: ProductPageProps) {
   const product = await prisma.product.findFirst({
     where: { slug: params.slug },
     include: { variants: true },
