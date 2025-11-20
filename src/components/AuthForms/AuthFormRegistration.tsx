@@ -43,7 +43,7 @@ export function AuthFormRegistration({
         password,
       });
 
-      const loginRes = await signIn("credentials", {
+      const loginRes = await signIn("user-login", {
         email,
         password,
         redirect: false,

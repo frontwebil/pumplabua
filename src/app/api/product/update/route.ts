@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import slugify from "slugify";
 
 export async function POST(req: Request) {
   try {
@@ -19,10 +20,21 @@ export async function POST(req: Request) {
     delete productData.createdAt;
     delete productData.updatedAt;
 
+    const oldProduct = await prisma.product.findUnique({
+      where: { id },
+    });
+
+    let slug = oldProduct?.slug;
+
+    if (!slug) {
+      slug = slugify(productData.name, { lower: true, locale: "uk" });
+    }
+
     const updatedProduct = await prisma.product.update({
       where: { id },
       data: {
         ...productData,
+        slug,
         updatedAt: new Date(),
         variants: {
           deleteMany: {}, // Видаляємо всі старі варіанти

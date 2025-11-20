@@ -31,4 +31,5 @@ export const CATEGORYES = [
   { key: "healthyfood", value: "Здорове харчування" },
   { key: "proteinBar", value: "Протеїнові батончики" },
   { key: "accessories", value: "Аксесуари" },
+  { key: "hondroprotecrots", value: "Хондропротектори" },
 ];

@@ -77,6 +77,7 @@ export async function POST(req: Request) {
         password: hashPassword,
         name,
         surname,
+        favoriteProducts: [],
       },
       select: {
         id: true,

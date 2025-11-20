@@ -6,8 +6,8 @@ import Image from "next/image";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 import { PiFlask } from "react-icons/pi";
 import Link from "next/link";
-import { useEffect } from "react";
-import { SITE_LINKS } from "@/site-config/site.config";
+import { useEffect, useRef } from "react";
+import { CATEGORYES, SITE_LINKS } from "@/site-config/site.config";
 import { useWindowWidth } from "@/custom-hooks/useWidth";
 import { usePathname } from "next/navigation";
 import { HeaderTop } from "./components/Header-top";
@@ -16,11 +16,13 @@ import { CabinetLink } from "./components/CabinetLink";
 import { useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setFavoritesProducts,
   setSession,
   toggleBurger,
   toggleBurgerCatalog,
 } from "@/redux/pamplabua/slices/uiSlice";
 import { RootState } from "@/redux/pamplabua/store";
+import axios from "axios";
 
 export function Header() {
   const { isOpenBurger, isOpenBurgerCatalog } = useSelector(
@@ -28,15 +30,44 @@ export function Header() {
   );
   const screenWidth = useWindowWidth();
   const pathname = usePathname();
+  const catalogMenuRef = useRef<HTMLDivElement | null>(null);
 
   const { data, status } = useSession();
   const dispatch = useDispatch();
 
+  const getFavorites = async () => {
+    try {
+      const { data } = await axios.get("/api/user/getFavorites");
+      dispatch(setFavoritesProducts(data));
+    } catch (error) {
+      console.error("Failed to toggle favorite:", error);
+    }
+  };
+
   useEffect(() => {
     if (status === "authenticated" && data?.user.id) {
       dispatch(setSession(data.user));
+      getFavorites();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, data, dispatch]);
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function handleClickOutside(e: any) {
+      if (
+        catalogMenuRef.current &&
+        !catalogMenuRef.current.contains(e.target)
+      ) {
+        if (isOpenBurgerCatalog) {
+          dispatch(toggleBurgerCatalog());
+        }
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [isOpenBurgerCatalog, dispatch]);
 
   return (
     <>
@@ -108,26 +139,30 @@ export function Header() {
                       <p className="fs-sm font-bold uppercase">контакти</p>
                     </Link>
                     <div
+                      ref={catalogMenuRef}
                       className={`header-catalog-menu ${
                         isOpenBurgerCatalog ? "active" : ""
                       }`}
                     >
                       <div className="header-catalog-menu-top">
-                        <h2 className="fs-md uppercase font-bold">
+                        <Link
+                          href={SITE_LINKS.CATALOG}
+                          className="fs-md uppercase font-bold"
+                          onClick={() => dispatch(toggleBurgerCatalog())}
+                        >
                           усі категорії
-                        </h2>
+                        </Link>
                         <MdKeyboardArrowRight className="header-catalog-menu-icon font-bold" />
                       </div>
                       <div className="header-catalog-menu-links">
-                        <div className="fs-md font-bold uppercase">протеїн</div>
-                        <div className="fs-md font-bold uppercase">креатин</div>
-                        <div className="fs-md font-bold uppercase">гейнер</div>
-                        <div className="fs-md font-bold uppercase">
-                          Амінокислоти
-                        </div>
-                        <div className="fs-md font-bold uppercase">
-                          вітаміни та бади
-                        </div>
+                        {CATEGORYES.map((category) => (
+                          <div
+                            className="fs-md font-bold uppercase header-catalog-menu-link"
+                            key={category.key}
+                          >
+                            {category.value}
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </nav>

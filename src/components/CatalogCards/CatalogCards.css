@@ -1,0 +1,19 @@
+.catalog-cards-container {
+  width: 100%;
+  margin-bottom: 100px;
+}
+.catalog-cards-container-top {
+  margin-bottom: 30px;
+}
+.catalog-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 32px;
+  column-gap: 20px;
+}
+
+.catalog-cards-container-top-left{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

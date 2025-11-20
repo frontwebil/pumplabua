@@ -14,6 +14,31 @@ body {
   overflow: hidden; /* блокує вертикальний і горизонтальний скрол */
 }
 
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border: 4px solid #ddd;
+  border-top-color: #000; /* можеш поміняти на свій колір */
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+.Spinner-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .container {
   margin: 0 auto;
   max-width: 1330px;

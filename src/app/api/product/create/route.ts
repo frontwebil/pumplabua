@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import slugify from "slugify";
 
 export async function POST(req: Request) {
   try {
@@ -12,9 +13,12 @@ export async function POST(req: Request) {
     }
     const { variants, ...rest } = await req.json();
 
+    const slug = slugify(rest.name, { lower: true, locale: "uk" });
+
     const product = await prisma.product.create({
       data: {
         ...rest,
+        slug,
         variants: {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           create: variants.map((v: any) => ({

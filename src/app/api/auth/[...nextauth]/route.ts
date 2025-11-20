@@ -34,7 +34,13 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
-        return { id: user.id, name: user.name, role: "user" };
+        return {
+          id: user.id,
+          name: user.name,
+          role: "user",
+          favoritesProducts: user.favoriteProducts,
+          email: user.email,
+        };
       },
     }),
     Credentials({
@@ -85,10 +91,10 @@ export const authOptions: AuthOptions = {
         token.id = user.id;
         token.role = user.role;
 
-        // 👇 Только для обычных юзеров
         if (user.role === "user") {
           token.name = user.name;
-          token.email = user.email;
+          token.email = user.email; // ← тепер НЕ undefined
+          token.favoritesProducts = user.favoritesProducts;
         }
       }
       return token;
@@ -106,6 +112,7 @@ export const authOptions: AuthOptions = {
         if (token.role === "user") {
           session.user.name = token.name as string;
           session.user.email = token.email as string;
+          session.user.favoritesProducts = token.favoritesProducts as string[];
         }
       }
       return session;

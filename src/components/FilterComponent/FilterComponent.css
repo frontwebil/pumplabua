@@ -1,0 +1,53 @@
+.filter-group {
+  background-color: #4f50520d;
+  max-width: 340px;
+  width: 100%;
+  padding: 32px;
+  border-radius: 6px;
+  height: max-content;
+}
+
+.filter-group h2 {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #5a5a5a66;
+}
+
+
+.filter-group-header {
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.filter-arrow {
+  transition: 0.2s;
+}
+
+.filter-arrow.open {
+  transform: rotate(180deg);
+}
+
+.filter-list {
+  margin-top: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.filter-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.filter-label {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.filter-count {
+  color: #888;
+}

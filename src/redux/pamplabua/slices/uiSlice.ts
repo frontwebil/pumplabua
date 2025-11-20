@@ -9,6 +9,7 @@ type initialStateType = {
   sessionId: string | null | undefined;
   isLogged: boolean;
   accountInfo: User | null;
+  favoritesProducts: string[];
 };
 
 const initialState: initialStateType = {
@@ -19,6 +20,7 @@ const initialState: initialStateType = {
   sessionId: null,
   isLogged: false,
   accountInfo: null,
+  favoritesProducts: [],
 };
 
 const uiSlice = createSlice({
@@ -45,7 +47,6 @@ const uiSlice = createSlice({
     },
     setSession: (state, action) => {
       const { id, name } = action.payload;
-
       if (!id || !name) {
         return;
       } else {
@@ -57,6 +58,10 @@ const uiSlice = createSlice({
     setAccountInfo: (state, action) => {
       const body = action.payload;
       state.accountInfo = body;
+    },
+    setFavoritesProducts: (state, action) => {
+      const { favoriteProducts } = action.payload;
+      state.favoritesProducts = favoriteProducts;
     },
   },
 });
@@ -70,6 +75,7 @@ export const {
   closeBurger,
   toggleBurgerCatalog,
   closeBurgerCatalog,
+  setFavoritesProducts
 } = uiSlice.actions;
 
 // Експорт редюсера для store

@@ -1,4 +1,4 @@
-import { SITE_LINKS } from "@/site-config/site.config";
+import { CATEGORYES, SITE_LINKS } from "@/site-config/site.config";
 import Link from "next/link";
 import { CiHeart, CiSearch } from "react-icons/ci";
 import { MdKeyboardArrowDown } from "react-icons/md";
@@ -54,11 +54,11 @@ export default function BurgerMenu() {
               }`}
             >
               <h2 className="fs-md font-semibold">Усі Категорії</h2>
-              <div className="fs-md capitalize ">протеїн</div>
-              <div className="fs-md capitalize ">креатин</div>
-              <div className="fs-md capitalize ">гейнер</div>
-              <div className="fs-md capitalize ">Амінокислоти</div>
-              <div className="fs-md capitalize ">вітаміни та бади</div>
+              {CATEGORYES.map((el) => (
+                <div className="fs-md capitalize" key={el.key}>
+                  {el.value}
+                </div>
+              ))}
             </div>
           </div>
           <Link

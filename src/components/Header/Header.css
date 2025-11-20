@@ -160,7 +160,7 @@ header {
 
 .header-catalog-menu {
   position: absolute;
-  max-width: 400px;
+  max-width: max-content;
   width: 100%;
   top: calc(100% + 30px);
   padding: 20px 20px;
@@ -194,10 +194,18 @@ header {
 }
 
 .header-catalog-menu-links {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 20px;
   padding-top: 16px;
+}
+
+.header-catalog-menu-link {
+  transition: 0.3s ease all;
+}
+.header-catalog-menu-link:hover {
+  color: #0339f4;
+  cursor: pointer;
 }
 
 .burger-menu {

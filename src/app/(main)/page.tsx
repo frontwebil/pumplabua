@@ -6,7 +6,7 @@ import { EnergyForGoals } from "@/components/EnergyForGoals/EnergyForGoals";
 import { Hero } from "@/components/Hero/Hero";
 import { PartnerInGoal } from "@/components/PartnerInGoal/PartnerInGoal";
 import { ProductsCategory } from "@/components/ProductsCategory/ProductsCategory";
-import { TopSellers } from "@/components/TopSellers/TopSellers";
+// import { TopSellers } from "@/components/TopSellers/TopSellers";
 import { WhyChoose } from "@/components/WhyChoose/WhyChoose";
 import { useProducts } from "@/custom-hooks/fetchProducts";
 import { setProducts } from "@/redux/pamplabua/slices/productsSlice";
@@ -14,7 +14,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 export default function Home() {
-  const { data: products, isLoading, error } = useProducts();
+  const { data: products } = useProducts();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setProducts(products));
@@ -26,7 +26,7 @@ export default function Home() {
       <Advantages />
       <ProductsCategory />
       <Energy />
-      <TopSellers />
+      {/* <TopSellers /> */}
       <EnergyForGoals />
       <div className="bgBetweenBlack"></div>
       <WhyChoose />

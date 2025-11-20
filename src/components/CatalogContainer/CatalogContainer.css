@@ -1,0 +1,8 @@
+.catalog-container {
+  margin: 0 auto;
+  max-width: 1330px;
+  padding: 0 15px;
+  display: flex;
+  width: 100%;
+  gap: 15px;
+}

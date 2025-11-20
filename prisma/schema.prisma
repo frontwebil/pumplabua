@@ -27,7 +27,7 @@ model User {
   resetToken       String?
   resetTokenExpiry DateTime?
 
-  favoriteProducts String[] @db.ObjectId
+  favoriteProducts String[]
 }
 
 model Product {
@@ -43,6 +43,7 @@ model Product {
   additional      String?
   isBestseller    Boolean  @default(false)
   isActive        Boolean  @default(true)
+  slug            String?  @unique
 
   variants Variant[]
 
