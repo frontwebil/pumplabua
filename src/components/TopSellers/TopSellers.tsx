@@ -2,14 +2,14 @@
 
 import "swiper/css";
 import "@/components/TopSellers/TopSellers.css";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { ProductCard } from "../ProductCard/ProductCard";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useRef, useState } from "react";
-import { Swiper as SwiperCore } from "swiper";
-import Link from "next/link";
-import { SITE_LINKS } from "@/site-config/site.config";
+// import { MdKeyboardArrowRight } from "react-icons/md";
+// import { ProductCard } from "../ProductCard/ProductCard";
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+// import { useRef, useState } from "react";
+// import { Swiper as SwiperCore } from "swiper";
+// import Link from "next/link";
+// import { SITE_LINKS } from "@/site-config/site.config";
 
 export function TopSellers() {
   // const products = [1, 2, 3, 4, 5, 6, 7];

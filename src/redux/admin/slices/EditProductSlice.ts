@@ -34,6 +34,7 @@ const initialState: initialStateType = {
     createdAt: new Date(),
     updatedAt: new Date(),
     variants: [],
+    slug: "",
   },
 };
 
