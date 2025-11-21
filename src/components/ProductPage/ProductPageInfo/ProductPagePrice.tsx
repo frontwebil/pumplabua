@@ -64,6 +64,9 @@ export function ProductPagePrice() {
 
   const price = quantityProduct * selectedVariant.price;
 
+  const productId = currentProduct?.id ?? "";
+  const isFavorite = favoritesProducts.includes(productId);
+
   return (
     <div className="ProductPagePrice">
       <h2 className="ProductPagePrice-delivery">
@@ -75,11 +78,7 @@ export function ProductPagePrice() {
         <div className="ProductPagePrice-row-addCart">додати у кошик</div>
         <div className="ProductPagePrice-row-funcionalButtons">
           <div className="ProductPagePrice-row-favorites">
-            {favoritesProducts.includes(currentProduct?.id) ? (
-              <FaHeart />
-            ) : (
-              <FaRegHeart />
-            )}
+            {isFavorite ? <FaHeart /> : <FaRegHeart />}
           </div>
         </div>
       </div>
