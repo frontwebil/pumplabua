@@ -11,8 +11,8 @@ export function ProductPageImages() {
     (store: RootState) => store.productPageSlice
   );
 
-  const [currentPhoto, setCurrentPhoto] = useState<string | null>(
-    selectedVariant ? selectedVariant.images[0] : null
+  const [currentPhoto, setCurrentPhoto] = useState<string>(
+    selectedVariant?.images[0] ?? ""
   );
 
   useEffect(() => {
