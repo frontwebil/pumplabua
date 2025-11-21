@@ -34,7 +34,7 @@ export function ProductPageImages() {
           >
             <Image
               src={src}
-              alt={selectedVariant.flavor!}
+              alt={selectedVariant.flavor ?? "Фото товару"}
               width={200}
               height={200}
             />
