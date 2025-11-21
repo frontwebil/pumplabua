@@ -1,0 +1,25 @@
+.ProductPageInfo {
+  max-width: 750px;
+  width: 100%;
+}
+.ProductPageInfo-title {
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 120%;
+  margin-bottom: 12px;
+}
+.ProductPageInfo-catagory-producer {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 120%;
+  color: #0339f4;
+  margin-bottom: 20px;
+}
+.productPageInfo-short-decsription {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 125%;
+  color: #4f5052;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #4f50521a;
+}

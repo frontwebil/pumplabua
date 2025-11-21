@@ -1,7 +1,9 @@
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import ProductSchema from "@/components/seo/ProductSchema";
+import { Breadcrumbs } from "@/components/Breadcrumbs/Breadcrumbs";
+import { ProductPageInit } from "@/components/ProductPage/ProductPageInit";
+import { ProductPageWrapper } from "@/components/ProductPage/ProductPageWrapper";
 
 type ProductPageProps = {
   params: {
@@ -9,9 +11,11 @@ type ProductPageProps = {
   };
 };
 
-export async function generateMetadata({ params }: ProductPageProps) {
-  const product = await prisma.product.findFirst({
-    where: { slug: params.slug },
+export async function generateMetadata(props: ProductPageProps) {
+  const { slug } = await props.params;
+
+  const product = await prisma.product.findUnique({
+    where: { slug },
     include: { variants: true },
   });
 
@@ -28,38 +32,33 @@ export async function generateMetadata({ params }: ProductPageProps) {
   };
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
-  const product = await prisma.product.findFirst({
-    where: { slug: params.slug },
+export default async function ProductPage(props: ProductPageProps) {
+  const { slug } = await props.params;
+
+  const product = await prisma.product.findUnique({
+    where: { slug },
     include: { variants: true },
   });
 
   if (!product) return notFound();
 
-  const mainVariant =
-    product.variants.find((v) => v.isMain) ?? product.variants[0];
+  // const mainVariant =
+  //   product.variants.find((v) => v.isMain) ?? product.variants[0];
 
   return (
-    <div className="container product-page">
-      {/* JSON-LD Schema.org */}
+    <>
       <ProductSchema product={product} />
-
-      <h1 className="product-title">{product.name}</h1>
-
-      <div className="product-layout">
-        <Image
-          width={1000}
-          height={500}
-          src={mainVariant.images[0]}
-          alt={product.name}
-          className="product-image"
+      <div className="container product-container">
+        <Breadcrumbs
+          links={[
+            { title: "Каталог", href: "/catalog" },
+            { title: product.category, href: "/catalog" },
+            { title: product.name },
+          ]}
         />
-
-        <div className="product-info">
-          <p className="price">{mainVariant.price} грн</p>
-          <p>{product.mainDescription}</p>
-        </div>
+        <ProductPageInit product={product} />
+        <ProductPageWrapper />
       </div>
-    </div>
+    </>
   );
 }

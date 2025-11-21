@@ -1,5 +1,3 @@
-"use client";
-
 import {
   setFavoritesProducts,
   toggleAuthModal,
@@ -7,14 +5,21 @@ import {
 import { RootState } from "@/redux/pamplabua/store";
 import axios from "axios";
 import Image from "next/image";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-export function AddToFavorites({ productId }: { productId: string }) {
+export function ProductPagePrice() {
+  const { quantityProduct, selectedVariant, currentProduct } = useSelector(
+    (store: RootState) => store.productPageSlice
+  );
   const { favoritesProducts, isLogged } = useSelector(
     (store: RootState) => store.uiSlice
   );
+
   const dispatch = useDispatch();
+
+  if (!selectedVariant) return null;
 
   const toggleFavorite = async (productId: string) => {
     if (!isLogged) {
@@ -48,7 +53,8 @@ export function AddToFavorites({ productId }: { productId: string }) {
           e.preventDefault();
           e.stopPropagation();
           toast("Увійдіть, щоб додати в улюблені");
-          toggleFavorite(productId);
+          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+          toggleFavorite(currentProduct?.id!);
         }}
       >
         <Image src={`/icons/heart.svg`} width={20} height={20} alt="heart" />
@@ -56,25 +62,27 @@ export function AddToFavorites({ productId }: { productId: string }) {
     );
   }
 
+  const price = quantityProduct * selectedVariant.price;
+
   return (
-    <div
-      className="fav-button"
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        toggleFavorite(productId);
-      }}
-    >
-      <Image
-        src={`${
-          favoritesProducts.includes(productId)
-            ? "/icons/heart-stright.svg"
-            : "/icons/heart.svg"
-        }`}
-        width={20}
-        height={20}
-        alt="heart"
-      />
+    <div className="ProductPagePrice">
+      <h2 className="ProductPagePrice-delivery">
+        БЕЗКОШТОВНА доставка замовлень від 3.000 грн
+      </h2>
+
+      <div className="ProductPagePrice-row">
+        <div className="ProductPagePrice-row-price">{price}</div>
+        <div className="ProductPagePrice-row-addCart">додати у кошик</div>
+        <div className="ProductPagePrice-row-funcionalButtons">
+          <div className="ProductPagePrice-row-favorites">
+            {favoritesProducts.includes(currentProduct?.id) ? (
+              <FaHeart />
+            ) : (
+              <FaRegHeart />
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
