@@ -53,7 +53,9 @@ export default function BurgerMenu() {
                 isOpenBurgerCatalog && "active"
               }`}
             >
-              <h2 className="fs-md font-semibold">Усі Категорії</h2>
+              <Link href={SITE_LINKS.CATALOG} className="fs-md font-semibold">
+                Усі Категорії
+              </Link>
               {CATEGORYES.map((el) => (
                 <div className="fs-md capitalize" key={el.key}>
                   {el.value}
