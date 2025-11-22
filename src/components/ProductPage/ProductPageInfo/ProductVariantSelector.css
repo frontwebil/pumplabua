@@ -53,7 +53,7 @@
   gap: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  padding: 12px 5px;
+  padding: 6px 5px;
   max-width: 200px;
   width: 100%;
 }
@@ -61,7 +61,7 @@
 .quantity-box button {
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 26px;
   cursor: pointer;
 }
 
@@ -70,4 +70,96 @@
   font-weight: 600;
   min-width: 16px;
   text-align: center;
+}
+
+@media only screen and (max-width: 1200px) {
+  .variant-column.size {
+    max-width: 80px;
+    width: 100%;
+  }
+  .variant-column.taste {
+    max-width: 330px;
+    width: 100%;
+  }
+  .variant-column.counts {
+    max-width: 95px;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .variant-column select {
+    font-size: 16px;
+  }
+  .quantity-box span {
+    font-size: 18px;
+  }
+  .quantity-box {
+    padding: 3px 5px;
+  }
+  .variant-column label {
+    font-size: 17px;
+  }
+  .variant-selector {
+    margin-top: 15px;
+    padding-bottom: 15px;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .variant-selector {
+    gap: 7px;
+  }
+  .variant-column.size {
+    max-width: 100px;
+    width: 100%;
+  }
+  .variant-column.taste {
+    max-width: 420px;
+    width: 100%;
+  }
+  .variant-column.counts {
+    max-width: 70px;
+    width: 100%;
+  }
+  .variant-column label {
+    font-size: 15px;
+  }
+  .variant-column select {
+    font-size: 14px;
+  }
+  .quantity-box span {
+    font-size: 14px;
+  }
+  .quantity-box {
+    padding: 3px 5px;
+    gap: 7px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .variant-column.size {
+    max-width: 80px;
+    width: 100%;
+  }
+  .variant-column.taste {
+    max-width: 420px;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+    .variant-column select {
+    font-size: 12px;
+  }
+  .quantity-box{
+    padding: 6px 5px;
+  }
+  .variant-column.size{
+    max-width: 65px;
+  }
+  .quantity-box button{
+    font-size: 20px;
+  }
 }

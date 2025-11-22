@@ -334,6 +334,11 @@ header {
     top: 0;
     width: 100%;
   }
+
+  .product-container {
+    margin-top: 165px;
+  }
+
   .hero-template-small {
     margin-top: 122px;
   }
@@ -369,6 +374,9 @@ header {
   }
   .reset-page {
     margin-top: 82px;
+  }
+  .product-container {
+    margin-top: 102px;
   }
   .hero {
     margin-top: 82px;

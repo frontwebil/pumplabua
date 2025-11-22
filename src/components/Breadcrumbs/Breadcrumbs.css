@@ -3,6 +3,7 @@
 }
 .breadcrumbs-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
 }
@@ -50,7 +51,7 @@
   }
   .breadcrumb-item {
     gap: 8px;
-    font-size: 16px;
+    font-size: 14px;
   }
   .breadcrumb-separator {
     width: 18px;

@@ -124,3 +124,121 @@
   text-transform: lowercase;
   text-decoration: line-through;
 }
+
+@media only screen and (max-width: 1200px) {
+  .ProductPagePrice-row-funcionalButtons {
+    max-width: 120px;
+    gap: 10px;
+  }
+  .ProductPagePrice-row-share svg,
+  .ProductPagePrice-row-favorites svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+@media only screen and (max-width: 1110px) {
+  .ProductPagePrice-row-price {
+    max-width: 100%;
+  }
+  .ProductPagePrice-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ProductPagePrice-row-favorites,
+  .ProductPagePrice-row-share {
+    padding: 10px 5px;
+  }
+  .ProductPagePrice-delivery {
+    font-size: 18px;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .ProductPagePrice-delivery {
+    font-size: 16px;
+  }
+  .ProductPageInfo-title {
+    font-size: 26px;
+  }
+  .ProductPageInfo-catagory-producer {
+    font-size: 20px;
+  }
+  .productPageInfo-short-decsription {
+    font-size: 16px;
+    padding-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 880px) {
+  .ProductPagePrice-delivery {
+    font-size: 16px;
+  }
+  .ProductPagePrice-row-price {
+    font-size: 18px;
+  }
+  .ProductPagePrice-row-addCart {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .ProductPagePrice-row-price {
+    font-size: 15px;
+  }
+  .ProductPagePrice-row-addCart {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .ProductPagePrice-row-addCart {
+    max-width: 100%;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .ProductPageInfo-title {
+    font-size: 23px;
+    margin-bottom: 10px;
+  }
+  .ProductPageInfo-catagory-producer {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .productPageInfo-short-decsription {
+    font-size: 14px;
+    padding-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .ProductPagePrice-row {
+    display: flex;
+    flex-direction: column;
+  }
+  .ProductPageInfo-title {
+    font-size: 21px;
+    margin-bottom: 5px;
+  }
+  .ProductPageInfo-catagory-producer {
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
+  .productPageInfo-short-decsription {
+    font-size: 13px;
+    padding-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  .ProductPageInfo-title {
+    font-size: 19px;
+    margin-bottom: 5px;
+  }
+  .ProductPageInfo-catagory-producer {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .productPageInfo-short-decsription {
+    font-size: 12px;
+    padding-bottom: 20px;
+  }
+}
