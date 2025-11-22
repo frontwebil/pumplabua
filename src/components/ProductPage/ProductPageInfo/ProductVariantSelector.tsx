@@ -46,34 +46,65 @@ export function ProductVariantSelector() {
   const grouped = groupVariants(currentProduct.variants);
   const sizes = grouped.map((g) => `${g.amount} ${g.unitType}`);
 
-  const flavors = selectedAmount
+  const availableFlavors = selectedAmount
     ? grouped.find((g) => `${g.amount} ${g.unitType}` === selectedAmount)
         ?.flavors ?? []
     : [];
 
+  // 1. Синхронізація Redux -> Локальний стейт (при першому завантаженні або зміні ззовні)
   useEffect(() => {
     if (!selectedVariant) return;
-
     const amountKey = `${selectedVariant.amount} ${selectedVariant.unitType}`;
-    setSelectedAmount(amountKey);
-    setSelectedFlavor(selectedVariant.flavor);
+
+    // Оновлюємо локальний стейт тільки якщо він відрізняється, щоб уникнути циклів
+    if (amountKey !== selectedAmount) setSelectedAmount(amountKey);
+    if (selectedVariant.flavor !== selectedFlavor)
+      setSelectedFlavor(selectedVariant.flavor);
   }, [selectedVariant]);
 
-  useEffect(() => {
-    if (!selectedAmount || !selectedFlavor) return;
+  // 2. Логіка зміни ВАГИ
+  const handleAmountChange = (newAmount: string) => {
+    setSelectedAmount(newAmount);
 
-    dispatch(setQuantity(1));
+    // Знаходимо смаки для нової ваги
+    const newGroup = grouped.find(
+      (g) => `${g.amount} ${g.unitType}` === newAmount
+    );
+    const newFlavors = newGroup?.flavors ?? [];
+
+    // Якщо поточного смаку немає в новій вазі, вибираємо перший доступний
+    let flavorToSelect = selectedFlavor;
+    if (selectedFlavor && !newFlavors.includes(selectedFlavor)) {
+      flavorToSelect = newFlavors[0]; // Авто-вибір першого смаку
+      setSelectedFlavor(flavorToSelect);
+    }
+
+    // Одразу шукаємо і діспатчимо варіант, не чекаючи useEffect
+    const variant = currentProduct.variants.find(
+      (v) =>
+        `${v.amount} ${v.unitType}` === newAmount && v.flavor === flavorToSelect
+    );
+
+    if (variant) {
+      dispatch(setQuantity(1));
+      dispatch(setSelectedVariant(variant));
+    }
+  };
+
+  // 3. Логіка зміни СМАКУ
+  const handleFlavorChange = (newFlavor: string) => {
+    setSelectedFlavor(newFlavor);
 
     const variant = currentProduct.variants.find(
       (v) =>
-        `${v.amount} ${v.unitType}` === selectedAmount &&
-        v.flavor === selectedFlavor
+        `${v.amount} ${v.unitType}` === selectedAmount && v.flavor === newFlavor
     );
 
-    if (variant && selectedVariant?.id !== variant.id) {
+    if (variant) {
+      dispatch(setQuantity(1));
       dispatch(setSelectedVariant(variant));
     }
-  }, [selectedAmount, selectedFlavor, currentProduct, dispatch]);
+  };
 
   return (
     <div className="variant-selector">
@@ -81,7 +112,7 @@ export function ProductVariantSelector() {
         <label>Маса</label>
         <select
           value={selectedAmount ?? ""}
-          onChange={(e) => setSelectedAmount(e.target.value)}
+          onChange={(e) => handleAmountChange(e.target.value)} // Використовуємо нову функцію
         >
           {sizes.map((s) => (
             <option key={s} value={s}>
@@ -95,9 +126,9 @@ export function ProductVariantSelector() {
         <label>Смак</label>
         <select
           value={selectedFlavor ?? ""}
-          onChange={(e) => setSelectedFlavor(e.target.value)}
+          onChange={(e) => handleFlavorChange(e.target.value)} // Використовуємо нову функцію
         >
-          {flavors.map((f) => (
+          {availableFlavors.map((f) => (
             <option key={f} value={f}>
               {f}
             </option>
@@ -105,6 +136,7 @@ export function ProductVariantSelector() {
         </select>
       </div>
 
+      {/* ... решта коду (кількість) без змін ... */}
       <div className="variant-column counts">
         <label>Кількість</label>
         <div className="quantity-box">
