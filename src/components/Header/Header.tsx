@@ -23,6 +23,8 @@ import {
 } from "@/redux/pamplabua/slices/uiSlice";
 import { RootState } from "@/redux/pamplabua/store";
 import axios from "axios";
+import { useProducts } from "@/custom-hooks/fetchProducts";
+import { setProducts } from "@/redux/pamplabua/slices/productsSlice";
 
 export function Header() {
   const { isOpenBurger, isOpenBurgerCatalog } = useSelector(
@@ -31,9 +33,13 @@ export function Header() {
   const screenWidth = useWindowWidth();
   const pathname = usePathname();
   const catalogMenuRef = useRef<HTMLDivElement | null>(null);
-
   const { data, status } = useSession();
   const dispatch = useDispatch();
+  const { data: products } = useProducts();
+
+  useEffect(() => {
+    dispatch(setProducts(products));
+  }, [dispatch, products]);
 
   const getFavorites = async () => {
     try {

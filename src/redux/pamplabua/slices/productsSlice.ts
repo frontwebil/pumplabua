@@ -9,14 +9,18 @@ type initialStateType = {
   categoryCount: Record<string, number>;
   producerCount: Record<string, number>;
   weightCount: Record<string, number>;
+  searchProducts: ProductType[];
 };
 
 const initialState: initialStateType = {
   topSellersProducts: [],
   products: [],
+
   categoryCount: {},
   producerCount: {},
   weightCount: {},
+
+  searchProducts: [],
 };
 
 function countBy<T>(arr: T[], key: keyof T): Record<string, number> {
@@ -59,9 +63,21 @@ const productsSlice = createSlice({
 
       state.topSellersProducts = bestSellers;
     },
+    searchProduct: (state, action) => {
+      const searchTerm = action.payload.toLowerCase();
+      const baseList: ProductType[] = state.products;
+
+      if (action.payload === "") {
+        state.searchProducts = [];
+      } else {
+        state.searchProducts = baseList.filter((film) =>
+          film.name.toLowerCase().includes(searchTerm)
+        );
+      }
+    },
   },
 });
 
-export const { setProducts } = productsSlice.actions;
+export const { setProducts , searchProduct } = productsSlice.actions;
 
 export default productsSlice.reducer;

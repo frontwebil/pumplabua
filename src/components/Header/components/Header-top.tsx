@@ -1,7 +1,7 @@
 import { SOCIAL_LINKS } from "@/site-config/site.config";
 import Image from "next/image";
 import Link from "next/link";
-import { CiSearch } from "react-icons/ci";
+import { Search } from "./Search";
 
 export function HeaderTop() {
   return (
@@ -44,21 +44,7 @@ export function HeaderTop() {
           />
         </Link>
       </div>
-      <form
-        className="header-search-input-wrapper"
-        role="search"
-        aria-label="Пошук по сайту"
-      >
-        <input
-          id="header-search"
-          type="search"
-          placeholder="Пошук"
-          className="header-search-input fs-xs"
-        />
-        <label className="search-icon" htmlFor="header-search">
-          <CiSearch color="#4F5052" />
-        </label>
-      </form>
+      <Search />
     </div>
   );
 }

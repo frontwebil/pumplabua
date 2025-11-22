@@ -53,7 +53,11 @@ export default function BurgerMenu() {
                 isOpenBurgerCatalog && "active"
               }`}
             >
-              <Link href={SITE_LINKS.CATALOG} className="fs-md font-semibold">
+              <Link
+                href={SITE_LINKS.CATALOG}
+                onClick={() => dispatch(closeBurger())}
+                className="fs-md font-semibold"
+              >
                 Усі Категорії
               </Link>
               {CATEGORYES.map((el) => (
