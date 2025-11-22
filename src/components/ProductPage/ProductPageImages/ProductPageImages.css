@@ -24,7 +24,7 @@
 .ProductPageImages-mainImage {
   position: relative;
   width: 100%;
-  background: #fff;
+  /* background: #fff; */
   height: 450px;
 }
 

@@ -62,6 +62,8 @@ export function ProductVariantSelector() {
   useEffect(() => {
     if (!selectedAmount || !selectedFlavor) return;
 
+    dispatch(setQuantity(1));
+
     const variant = currentProduct.variants.find(
       (v) =>
         `${v.amount} ${v.unitType}` === selectedAmount &&

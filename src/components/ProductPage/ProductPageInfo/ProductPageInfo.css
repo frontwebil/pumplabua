@@ -23,3 +23,104 @@
   padding-bottom: 30px;
   border-bottom: 1px solid #4f50521a;
 }
+
+.ProductPagePrice {
+  padding-top: 30px;
+}
+.ProductPagePrice-delivery {
+  font-weight: 600;
+  font-size: 20px;
+  color: #0d0e10;
+}
+.ProductPagePrice-row {
+  display: flex;
+  gap: 15px;
+  align-items: stretch;
+  margin-top: 15px;
+}
+.ProductPagePrice-row-price {
+  max-width: 220px;
+  width: 100%;
+  font-weight: 700;
+  font-size: 22px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #0339f4;
+  background: #0339f40d;
+  border-radius: 6px;
+  padding: 12px 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.ProductPagePrice-row-price.has-discount {
+  color: #ff5a00;
+  background: #ff5a000d;
+}
+.ProductPagePrice-row-addCart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 310px;
+  width: 100%;
+  text-align: center;
+  background: #0339f4;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #f8faf9;
+  border-radius: 6px;
+  padding: 12px 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ProductPagePrice-row-addCart:hover {
+  background: #1033a4;
+}
+
+.ProductPagePrice-row-funcionalButtons {
+  display: flex;
+  max-width: 180px;
+  width: 100%;
+  gap: 15px;
+}
+.ProductPagePrice-row-favorites {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: #0339f40d;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.ProductPagePrice-row-share {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: #0339f40d;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ProductPagePrice-row-share svg {
+  width: 28px;
+  height: 28px;
+  color: #0339f4;
+}
+
+.ProductPagePrice-row-favorites svg {
+  width: 28px;
+  height: 28px;
+  color: #0339f4;
+}
+
+.ProductPagePrice-row-oldprice {
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: lowercase;
+  text-decoration: line-through;
+}

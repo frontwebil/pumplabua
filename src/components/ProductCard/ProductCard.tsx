@@ -3,7 +3,6 @@ import { Product, Variant } from "@prisma/client";
 import Image from "next/image";
 import { AddToFavorites } from "./AddToFavorites";
 import Link from "next/link";
-import { SITE_LINKS } from "@/site-config/site.config";
 
 type ProductType = {
   variants: Variant[];
