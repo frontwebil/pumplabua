@@ -14,9 +14,11 @@ export function CatalogContainer() {
   }, [dispatch, products]);
 
   return (
-    <div className="catalog-container">
-      <FilterComponent />
-      <CatalogCards products={products} />
-    </div>
+    <>
+      <div className="catalog-container">
+        <FilterComponent />
+        <CatalogCards products={products} />
+      </div>
+    </>
   );
 }

@@ -12,7 +12,6 @@
   border-bottom: 1px solid #5a5a5a66;
 }
 
-
 .filter-group-header {
   padding-top: 20px;
   display: flex;
@@ -50,4 +49,11 @@
 
 .filter-count {
   color: #888;
+}
+
+.filter-label input {
+  display: flex;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
 }

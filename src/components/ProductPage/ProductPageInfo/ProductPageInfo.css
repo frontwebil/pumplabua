@@ -125,6 +125,40 @@
   text-decoration: line-through;
 }
 
+.ProductPageDescriptionInfo {
+  margin-bottom: 20px;
+}
+.ProductPageDescriptionInfo-content-titles {
+  display: flex;
+  width: 100%;
+}
+.ProductPageDescriptionInfo-content-title {
+  width: 100%;
+  background: #4f50521a;
+  border: 1px solid #f8faf9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 25px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ProductPageDescriptionInfo-content-title.active {
+  background: #0339f4;
+  color: #f8faf9;
+  font-weight: 700;
+}
+
+.ProductPageDescriptionInfo-content-text {
+  background: #4f50521a;
+  color: #0d0e10;
+  font-size: 20px;
+  padding: 32px;
+}
+
 @media only screen and (max-width: 1200px) {
   .ProductPagePrice-row-funcionalButtons {
     max-width: 120px;
@@ -181,6 +215,14 @@
 }
 
 @media only screen and (max-width: 800px) {
+  .ProductPageDescriptionInfo-content-title {
+    font-size: 16px;
+    padding: 20px 10px;
+  }
+  .ProductPageDescriptionInfo-content-text {
+    font-size: 18px;
+    padding: 24px;
+  }
   .ProductPagePrice-row-price {
     font-size: 15px;
   }
@@ -207,9 +249,23 @@
     font-size: 14px;
     padding-bottom: 20px;
   }
+  .ProductPageDescriptionInfo-content-title {
+    font-size: 14px;
+    padding: 15px 6px;
+  }
+  .ProductPageDescriptionInfo-content-text {
+    font-size: 16px;
+    padding: 24px;
+  }
 }
 
 @media only screen and (max-width: 500px) {
+  .ProductPageDescriptionInfo-content-titles{
+    flex-direction: column;
+  }
+  .ProductPageDescriptionInfo-content-title{
+    padding: 10px 5px;
+  }
   .ProductPagePrice-row {
     display: flex;
     flex-direction: column;
