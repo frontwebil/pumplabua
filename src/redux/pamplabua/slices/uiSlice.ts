@@ -75,7 +75,7 @@ export const {
   closeBurger,
   toggleBurgerCatalog,
   closeBurgerCatalog,
-  setFavoritesProducts
+  setFavoritesProducts,
 } = uiSlice.actions;
 
 // Експорт редюсера для store

@@ -44,7 +44,7 @@ export function ProductPageFuncButtons() {
   };
 
   const productId = currentProduct?.id ?? "";
-  const isFavorite = favoritesProducts.includes(productId) ?? false;
+  const isFavorite = favoritesProducts && favoritesProducts.includes(productId);
 
   return (
     <div className="ProductPagePrice-row-funcionalButtons">
