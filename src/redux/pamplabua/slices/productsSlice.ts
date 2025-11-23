@@ -3,29 +3,45 @@ import { createSlice } from "@reduxjs/toolkit";
 
 type ProductType = Product & { variants: Variant[] };
 
+// ключі-фільтри
+type FilterKeys = "categorySelectFilters" | "producerSelectFilter";
+
 type initialStateType = {
-  topSellersProducts: (Product & { variants: Variant[] })[];
   products: ProductType[];
-  categoryCount: Record<string, number>;
-  producerCount: Record<string, number>;
-  weightCount: Record<string, number>;
+  filteredProducts: ProductType[];
+
+  // головні фільтри
+  categorySelectFilters: string[];
+  producerSelectFilter: string[];
+
+  // ГЛОБАЛЬНІ лічильники — не змінюються
+  globalCategoryCount: Record<string, number>;
+  globalProducerCount: Record<string, number>;
+
+  // ДИНАМІЧНІ — змінюються після фільтрації
+  filteredCategoryCount: Record<string, number>;
+  filteredProducerCount: Record<string, number>;
+
+  topSellersProducts: ProductType[];
   searchProducts: ProductType[];
 };
 
 const initialState: initialStateType = {
-  topSellersProducts: [],
   products: [],
+  filteredProducts: [],
 
-  categoryCount: {},
-  producerCount: {},
-  weightCount: {},
+  categorySelectFilters: [],
+  producerSelectFilter: [],
 
+  globalCategoryCount: {},
+  globalProducerCount: {},
+
+  filteredCategoryCount: {},
+  filteredProducerCount: {},
+
+  topSellersProducts: [],
   searchProducts: [],
 };
-
-function getMainVariant(product: ProductType) {
-  return product.variants.find((v) => v.isMain) || product.variants[0];
-}
 
 function countBy<T>(arr: T[], key: keyof T): Record<string, number> {
   return arr.reduce((acc, item) => {
@@ -35,50 +51,52 @@ function countBy<T>(arr: T[], key: keyof T): Record<string, number> {
   }, {} as Record<string, number>);
 }
 
-function countVariantWeight(products: ProductType[]): Record<string, number> {
-  return products
-    .flatMap((p) =>
-      p.variants.map((v) => ({
-        weight: `${v.amount} ${v.unitType}`,
-      }))
-    )
-    .reduce((acc, item) => {
-      acc[item.weight] = (acc[item.weight] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+function getMainVariant(product: ProductType) {
+  return product.variants.find((v) => v.isMain) || product.variants[0];
 }
 
-const productsSlice = createSlice({
+export const productsSlice = createSlice({
   name: "Products Slice",
   initialState,
   reducers: {
+    // ------------------------
+    // 1) Коли продукти приходять з API
+    // ------------------------
     setProducts: (state, action) => {
-      const data = action.payload;
+      const data = action.payload || [];
+
       state.products = data;
-      if (!data) return;
+      state.filteredProducts = data;
 
-      const bestSellers = data.filter(
-        (product: ProductType) => product.isBestseller == true
+      // ГЛОБАЛЬНІ підрахунки — стабільні
+      state.globalCategoryCount = countBy(data, "category");
+      state.globalProducerCount = countBy(data, "producer");
+
+      // початкові filtered
+      state.filteredCategoryCount = countBy(data, "category");
+      state.filteredProducerCount = countBy(data, "producer");
+
+      // топи
+      state.topSellersProducts = data.filter(
+        (product: ProductType) => product.isBestseller === true
       );
-
-      state.categoryCount = countBy(data, "category");
-      state.producerCount = countBy(data, "producer");
-      state.weightCount = countVariantWeight(data);
-
-      state.topSellersProducts = bestSellers;
     },
+
+    // ------------------------
+    // 2) Пошук
+    // ------------------------
     searchProduct: (state, action) => {
       const searchTerm = action.payload.toLowerCase();
       const baseList: ProductType[] = state.products;
 
-      if (action.payload === "") {
+      if (!searchTerm) {
         state.searchProducts = [];
-      } else {
-        const filtered = baseList.filter((prod) =>
-          prod.name.toLowerCase().includes(searchTerm)
-        );
+        return;
+      }
 
-        filtered.sort((a, b) => {
+      const filtered = baseList
+        .filter((prod) => prod.name.toLowerCase().includes(searchTerm))
+        .sort((a, b) => {
           if (a.isActive !== b.isActive) {
             return Number(b.isActive) - Number(a.isActive);
           }
@@ -92,12 +110,54 @@ const productsSlice = createSlice({
           return discB - discA;
         });
 
-        state.searchProducts = filtered;
+      state.searchProducts = filtered;
+    },
+
+    // ------------------------
+    // 3) Toggle фільтрів (категорія, виробник)
+    // ------------------------
+    setFilters: (state, action) => {
+      const { value, filters }: { value: string; filters: FilterKeys } =
+        action.payload;
+
+      const arr = state[filters];
+
+      // toggle
+      if (arr.includes(value)) {
+        state[filters] = arr.filter((el) => el !== value);
+      } else {
+        state[filters].push(value);
       }
+
+      // ------------------------
+      // ФІЛЬТРАЦІЯ
+      // ------------------------
+      let result = [...state.products];
+
+      // фільтр по категоріям (головний)
+      if (state.categorySelectFilters.length > 0) {
+        result = result.filter((p) =>
+          state.categorySelectFilters.includes(p.category)
+        );
+      }
+
+      // фільтр по виробникам
+      if (state.producerSelectFilter.length > 0) {
+        result = result.filter((p) =>
+          state.producerSelectFilter.includes(p.producer)
+        );
+      }
+
+      // зберігаємо
+      state.filteredProducts = result;
+
+      // ДИНАМІЧНІ підрахунки
+      state.filteredCategoryCount = countBy(result, "category");
+      state.filteredProducerCount = countBy(result, "producer");
     },
   },
 });
 
-export const { setProducts, searchProduct } = productsSlice.actions;
+export const { setProducts, searchProduct, setFilters } = productsSlice.actions;
 
 export default productsSlice.reducer;
