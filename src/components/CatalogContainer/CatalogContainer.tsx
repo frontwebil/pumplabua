@@ -10,13 +10,14 @@ import { RootState } from "@/redux/pamplabua/store";
 export function CatalogContainer() {
   const { data: products } = useProducts();
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setProducts(products));
-  }, [dispatch, products]);
-
   const { filteredProducts } = useSelector(
     (store: RootState) => store.productsSlice
   );
+  useEffect(() => {
+    if (products) {
+      dispatch(setProducts(products));
+    }
+  }, [products, dispatch]);
 
   const currentProducts =
     filteredProducts.length < 1 ? products : filteredProducts;

@@ -23,7 +23,10 @@ import {
 import { RootState } from "@/redux/pamplabua/store";
 import axios from "axios";
 import { useProducts } from "@/custom-hooks/fetchProducts";
-import { setProducts } from "@/redux/pamplabua/slices/productsSlice";
+import {
+  setFiltersFromLink,
+  setProducts,
+} from "@/redux/pamplabua/slices/productsSlice";
 import { FavoriteLink } from "./components/FavoriteLink";
 
 export function Header() {
@@ -162,12 +165,17 @@ export function Header() {
                       </div>
                       <div className="header-catalog-menu-links">
                         {CATEGORYES.map((category) => (
-                          <div
+                          <Link
+                            href={SITE_LINKS.CATALOG}
+                            onClick={() => {
+                              dispatch(setFiltersFromLink([category.value])); // <—— ОЦЕ ПРАВИЛЬНО
+                              dispatch(toggleBurgerCatalog());
+                            }}
                             className="fs-md font-bold uppercase header-catalog-menu-link"
                             key={category.key}
                           >
                             {category.value}
-                          </div>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -184,7 +192,7 @@ export function Header() {
             </div>
           </div>
         </div>
-        <BurgerMenu/>
+        <BurgerMenu />
       </header>
     </>
   );

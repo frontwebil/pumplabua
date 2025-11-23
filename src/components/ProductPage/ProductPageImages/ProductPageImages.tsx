@@ -21,7 +21,31 @@ export function ProductPageImages() {
     setCurrentPhoto(selectedVariant.images[0]);
   }, [selectedVariant?.id]);
 
-  if (!selectedVariant || !currentPhoto) return null;
+  if (!selectedVariant || !currentPhoto)
+    return (
+      <div className="ProductPageImages-container">
+        <div className="ProductPageImages-nav">
+          <div className={"smooth"}>
+            <Image
+              src={"/no-image.png"}
+              alt={"Фото товару"}
+              width={200}
+              height={200}
+              loading="eager"
+            />
+          </div>
+        </div>
+
+        <div className="ProductPageImages-mainImage">
+          <Image
+            src={"/no-image.png"}
+            alt={"Фото товару"}
+            width={1000}
+            height={1000}
+          />
+        </div>
+      </div>
+    );
 
   return (
     <div className="ProductPageImages-container">

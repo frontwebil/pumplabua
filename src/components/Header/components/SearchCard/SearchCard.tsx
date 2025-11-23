@@ -39,7 +39,7 @@ export function SearchCard({ product }: { product: ProductType }) {
         className={`search-card-img ${!product.isActive && "not-active-image"}`}
       >
         <Image
-          src={mainVariant.images[0]}
+          src={mainVariant.images[0] ?? "/no-image.png"}
           alt={product.name}
           width={90}
           height={90}

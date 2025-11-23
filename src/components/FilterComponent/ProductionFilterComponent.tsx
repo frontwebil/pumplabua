@@ -44,14 +44,15 @@ export function ProductionFilterComponent() {
                   <input
                     type="checkbox"
                     checked={categorySelectFilters.includes(key)}
-                    onChange={() =>
+                    onChange={() => {
+                      if (actualCount === 0) return;
                       dispatch(
                         setFilters({
                           value: key,
                           filters: "categorySelectFilters",
                         })
-                      )
-                    }
+                      );
+                    }}
                   />
                   <span className="fs-lg">{key}</span>
                 </label>

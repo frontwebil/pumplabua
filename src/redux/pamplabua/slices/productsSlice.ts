@@ -66,7 +66,13 @@ export const productsSlice = createSlice({
       const data = action.payload || [];
 
       state.products = data;
-      state.filteredProducts = data;
+      
+      if (
+        state.categorySelectFilters.length === 0 &&
+        state.producerSelectFilter.length === 0
+      ) {
+        state.filteredProducts = data;
+      }
 
       // ГЛОБАЛЬНІ підрахунки — стабільні
       state.globalCategoryCount = countBy(data, "category");
@@ -155,9 +161,39 @@ export const productsSlice = createSlice({
       state.filteredCategoryCount = countBy(result, "category");
       state.filteredProducerCount = countBy(result, "producer");
     },
+    setFiltersFromLink: (state, action) => {
+      const filters = action.payload;
+      // ставимо категорії
+      state.categorySelectFilters = filters;
+
+      // ------------------------
+      // запускаємо фільтрацію
+      // ------------------------
+      let result = [...state.products];
+
+      if (state.categorySelectFilters.length > 0) {
+        result = result.filter((p) =>
+          state.categorySelectFilters.includes(p.category)
+        );
+      }
+
+      if (state.producerSelectFilter.length > 0) {
+        result = result.filter((p) =>
+          state.producerSelectFilter.includes(p.producer)
+        );
+      }
+
+      // зберігаємо
+      state.filteredProducts = result;
+
+      // оновлюємо лічильники
+      state.filteredCategoryCount = countBy(result, "category");
+      state.filteredProducerCount = countBy(result, "producer");
+    },
   },
 });
 
-export const { setProducts, searchProduct, setFilters } = productsSlice.actions;
+export const { setProducts, searchProduct, setFilters, setFiltersFromLink } =
+  productsSlice.actions;
 
 export default productsSlice.reducer;

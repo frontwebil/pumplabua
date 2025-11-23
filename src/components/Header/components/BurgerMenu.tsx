@@ -12,7 +12,10 @@ import {
   toggleBurgerCatalog,
 } from "@/redux/pamplabua/slices/uiSlice";
 import { useEffect, useState } from "react";
-import { searchProduct } from "@/redux/pamplabua/slices/productsSlice";
+import {
+  searchProduct,
+  setFiltersFromLink,
+} from "@/redux/pamplabua/slices/productsSlice";
 import { toast } from "react-toastify";
 import { useWindowWidth } from "@/custom-hooks/useWidth";
 
@@ -108,9 +111,18 @@ export default function BurgerMenu() {
                 Усі Категорії
               </Link>
               {CATEGORYES.map((el) => (
-                <div className="fs-md capitalize" key={el.key}>
+                <Link
+                  className="fs-md capitalize"
+                  key={el.key}
+                  href={SITE_LINKS.CATALOG}
+                  onClick={() => {
+                    dispatch(setFiltersFromLink([el.value])); // <—— ОЦЕ ПРАВИЛЬНО
+                    dispatch(toggleBurgerCatalog());
+                    dispatch(closeBurger());
+                  }}
+                >
                   {el.value}
-                </div>
+                </Link>
               ))}
             </div>
           </div>
