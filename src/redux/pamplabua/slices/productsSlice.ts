@@ -66,21 +66,20 @@ export const productsSlice = createSlice({
       const data = action.payload || [];
 
       state.products = data;
-      
+
       if (
         state.categorySelectFilters.length === 0 &&
         state.producerSelectFilter.length === 0
       ) {
         state.filteredProducts = data;
+        // початкові filtered
+        state.filteredCategoryCount = countBy(data, "category");
+        state.filteredProducerCount = countBy(data, "producer");
       }
 
       // ГЛОБАЛЬНІ підрахунки — стабільні
       state.globalCategoryCount = countBy(data, "category");
       state.globalProducerCount = countBy(data, "producer");
-
-      // початкові filtered
-      state.filteredCategoryCount = countBy(data, "category");
-      state.filteredProducerCount = countBy(data, "producer");
 
       // топи
       state.topSellersProducts = data.filter(
