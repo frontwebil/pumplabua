@@ -1,6 +1,5 @@
 "use client";
 
-import { CiHeart } from "react-icons/ci";
 import "@/components/Header/Header.css";
 import Image from "next/image";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
@@ -25,6 +24,7 @@ import { RootState } from "@/redux/pamplabua/store";
 import axios from "axios";
 import { useProducts } from "@/custom-hooks/fetchProducts";
 import { setProducts } from "@/redux/pamplabua/slices/productsSlice";
+import { FavoriteLink } from "./components/FavoriteLink";
 
 export function Header() {
   const { isOpenBurger, isOpenBurgerCatalog } = useSelector(
@@ -175,10 +175,7 @@ export function Header() {
                 )}
 
             <div className="header-nav-user-func">
-              <div className="header-nav-user-func-col">
-                <CiHeart className="header-nav-user-func-icon" />
-                <p className="fs-xs font-bold">Збережено</p>
-              </div>
+              <FavoriteLink />
               <div className="header-nav-user-func-col">
                 <PiFlask className="header-nav-user-func-icon" />
                 <p className="fs-xs font-bold">Кошик</p>
@@ -187,7 +184,7 @@ export function Header() {
             </div>
           </div>
         </div>
-        <BurgerMenu />
+        <BurgerMenu screenWidth={screenWidth} />
       </header>
     </>
   );

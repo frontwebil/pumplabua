@@ -1,0 +1,98 @@
+.SearchCard {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  gap: 20px;
+}
+.search-card-img {
+  display: flex;
+  flex-shrink: 0;
+  max-width: 90px;
+  width: 100%;
+  height: 90px;
+}
+.search-card-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.search-card-text-title {
+  font-weight: 400;
+  font-size: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  display: block;
+}
+.search-card-text-weight {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.not-active-image {
+  filter: blur(1px);
+  opacity: 0.9;
+}
+
+.search-card-text-price {
+  font-weight: 600;
+  font-size: 18px;
+  color: #0339f4;
+}
+
+.active-product {
+  font-weight: 600;
+  color: #15b200;
+}
+.not-active-product > * {
+  color: #0d0e10 !important;
+  opacity: 0.8;
+}
+
+.price-with-discount {
+  color: #ff5a00;
+  font-weight: 700;
+}
+.old-price {
+  text-decoration: line-through;
+  color: #ff5a00;
+}
+
+.search-list {
+  max-height: 50vh;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
+@media only screen and (max-width: 600px) {
+  .search-list {
+    top: calc(100% + 5px);
+    border: 1px solid #4f50521a;
+    max-height: 50vh;
+    overflow-y: scroll;
+    padding: 20px;
+  }
+  .search-card-text-title {
+    font-size: 16px;
+  }
+  .search-card-text-weight {
+    font-size: 14px;
+  }
+  .search-card-text-price {
+    font-size: 16px;
+  }
+  .search-card-img {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .search-card-img {
+    width: 70px;
+    height: 70px;
+  }
+}

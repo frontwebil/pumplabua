@@ -32,7 +32,7 @@ export function AdminCatalogRow({
 
       {/* АКТИВНОСТЬ */}
       <div className={product.isActive ? "text-green-600" : "text-red-600"}>
-        {product.isActive ? "Активний" : "Прихований"}
+        {product.isActive ? "Активний" : "Не активний"}
       </div>
       <div
         className={product.isBestseller ? "text-green-600" : "text-gray-600"}

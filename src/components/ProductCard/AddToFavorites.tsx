@@ -18,6 +18,7 @@ export function AddToFavorites({ productId }: { productId: string }) {
 
   const toggleFavorite = async (productId: string) => {
     if (!isLogged) {
+      toast("Увійдіть, щоб додати в улюблені");
       dispatch(toggleAuthModal());
       return;
     }

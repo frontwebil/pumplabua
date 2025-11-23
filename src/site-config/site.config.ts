@@ -7,6 +7,7 @@ export const SITE_LINKS = {
   ACCOUNT: "/account",
   ACCOUNT_ORDERS: "/account/orders",
   RESET_PASSWORD: "/reset-password",
+  FAVORITES: "/favorites",
 };
 
 export const SOCIAL_LINKS = {

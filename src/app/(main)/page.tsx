@@ -23,16 +23,16 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Advantages />
+      {/* <Advantages /> */}
       <ProductsCategory />
       <Energy />
       <TopSellers />
-      <EnergyForGoals />
-      <div className="bgBetweenBlack"></div>
-      <WhyChoose />
-      <div className="bgBetweenBlack"></div>
-      <PartnerInGoal />
-      <div className="bgBetweenBlack"></div>
+      {/* <EnergyForGoals /> */}
+      {/* <div className="bgBetweenBlack"></div> */}
+      {/* <WhyChoose /> */}
+      {/* <div className="bgBetweenBlack"></div> */}
+      {/* <PartnerInGoal /> */}
+      {/* <div className="bgBetweenBlack"></div> */}
     </>
   );
 }

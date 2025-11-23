@@ -16,6 +16,17 @@ export function AdditionalInfo() {
   const handleChangeInfo = (field: keyof initialStateType, value: string) => {
     dispatch(setField({ field, value }));
   };
+
+  const textareaStyle: React.CSSProperties = {
+    width: "100%",
+    padding: "0.75rem",
+    border: "1px solid #ddd",
+    borderRadius: "4px",
+    minHeight: "120px",
+    resize: "vertical",
+    whiteSpace: "pre-wrap",
+  };
+
   return (
     <details>
       <summary
@@ -23,6 +34,8 @@ export function AdditionalInfo() {
       >
         Додаткова інформація
       </summary>
+
+      {/* Особливості */}
       <div style={{ marginBottom: "1rem" }}>
         <label
           style={{
@@ -33,18 +46,15 @@ export function AdditionalInfo() {
         >
           Особливості
         </label>
-        <input
-          type="text"
-          style={{
-            width: "100%",
-            padding: "0.75rem",
-            border: "1px solid #ddd",
-            borderRadius: "4px",
-          }}
+
+        <textarea
+          style={textareaStyle}
           value={features}
           onChange={(e) => handleChangeInfo("features", e.target.value)}
-        />
+        ></textarea>
       </div>
+
+      {/* Для чого */}
       <div style={{ marginBottom: "1rem" }}>
         <label
           style={{
@@ -55,18 +65,15 @@ export function AdditionalInfo() {
         >
           Для чого?
         </label>
-        <input
-          type="text"
-          style={{
-            width: "100%",
-            padding: "0.75rem",
-            border: "1px solid #ddd",
-            borderRadius: "4px",
-          }}
+
+        <textarea
+          style={textareaStyle}
           value={purpose}
           onChange={(e) => handleChangeInfo("purpose", e.target.value)}
-        />
+        ></textarea>
       </div>
+
+      {/* Компоненти */}
       <div style={{ marginBottom: "1rem" }}>
         <label
           style={{
@@ -77,18 +84,15 @@ export function AdditionalInfo() {
         >
           Компоненти
         </label>
-        <input
-          type="text"
-          style={{
-            width: "100%",
-            padding: "0.75rem",
-            border: "1px solid #ddd",
-            borderRadius: "4px",
-          }}
+
+        <textarea
+          style={textareaStyle}
           value={components}
           onChange={(e) => handleChangeInfo("components", e.target.value)}
-        />
+        ></textarea>
       </div>
+
+      {/* Додатково */}
       <div style={{ marginBottom: "1rem" }}>
         <label
           style={{
@@ -99,17 +103,12 @@ export function AdditionalInfo() {
         >
           Додатково
         </label>
-        <input
-          type="text"
-          style={{
-            width: "100%",
-            padding: "0.75rem",
-            border: "1px solid #ddd",
-            borderRadius: "4px",
-          }}
+
+        <textarea
+          style={textareaStyle}
           value={additional}
           onChange={(e) => handleChangeInfo("additional", e.target.value)}
-        />
+        ></textarea>
       </div>
     </details>
   );

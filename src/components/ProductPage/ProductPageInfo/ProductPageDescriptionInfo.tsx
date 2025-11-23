@@ -49,7 +49,10 @@ export function ProductPageDescriptionInfo() {
           </div>
         ))}
       </div>
-      <div className="ProductPageDescriptionInfo-content-text">
+      <div
+        className="ProductPageDescriptionInfo-content-text"
+        style={{ whiteSpace: "pre-wrap" }}
+      >
         {tabs[activeTab].text!.length > 1
           ? tabs[activeTab].text
           : "Інформація відстутня"}

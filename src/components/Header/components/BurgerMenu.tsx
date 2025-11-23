@@ -8,29 +8,73 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/pamplabua/store";
 import {
   closeBurger,
+  toggleAuthModal,
   toggleBurgerCatalog,
 } from "@/redux/pamplabua/slices/uiSlice";
+import { useEffect, useState } from "react";
+import { searchProduct } from "@/redux/pamplabua/slices/productsSlice";
+import { toast } from "react-toastify";
 
-export default function BurgerMenu() {
-  const { isOpenBurger, isOpenBurgerCatalog } = useSelector(
+export default function BurgerMenu({ screenWidth }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const { isOpenBurger, isOpenBurgerCatalog, isLogged } = useSelector(
     (store: RootState) => store.uiSlice
   );
+  const { searchProducts } = useSelector(
+    (store: RootState) => store.productsSlice
+  );
+  
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(searchProduct(searchTerm));
+  }, [dispatch, searchTerm]);
 
   return (
     <div className={`burger-menu ${isOpenBurger && "active"}`}>
       <div className="container">
         <div className="burger-menu-func">
-          <div className="burger-menu-func-row">
-            <CiSearch className="burger-menu-func-icon" />
-            <p className="fs-md uppercase font-bold">пошук</p>
-          </div>
+          {screenWidth < 600 && (
+            <div className="burger-menu-func-row">
+              <CiSearch className="burger-menu-func-icon" />
+              <input
+                type="text"
+                className="fs-md font-bold outline-none"
+                placeholder="Пошук"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          )}
+
           <CabinetLinkMobile />
-          <div className="burger-menu-func-row">
-            <CiHeart className="burger-menu-func-icon" />
-            <p className="fs-md uppercase font-bold">Збережено</p>
-          </div>
-          <div className="burger-menu-func-row">
+          {!isLogged ? (
+            <div
+              className="burger-menu-func-row"
+              onClick={() => {
+                dispatch(toggleAuthModal());
+                toast("Увійдіть, щоб переглянути улюблені");
+                dispatch(closeBurger());
+              }}
+            >
+              <CiHeart className="burger-menu-func-icon" />
+              <p className="fs-md uppercase font-bold">Збережено</p>
+            </div>
+          ) : (
+            <Link
+              href={SITE_LINKS.FAVORITES}
+              className="burger-menu-func-row"
+              onClick={() => dispatch(closeBurger())}
+            >
+              <CiHeart className="burger-menu-func-icon" />
+              <p className="fs-md uppercase font-bold">Збережено</p>
+            </Link>
+          )}
+
+          <div
+            className="burger-menu-func-row"
+            onClick={() => dispatch(closeBurger())}
+          >
             <PiFlask className="burger-menu-func-icon" />
             <p className="fs-md uppercase font-bold">Кошик</p>
           </div>

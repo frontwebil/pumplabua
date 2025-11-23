@@ -23,6 +23,10 @@ const initialState: initialStateType = {
   searchProducts: [],
 };
 
+function getMainVariant(product: ProductType) {
+  return product.variants.find((v) => v.isMain) || product.variants[0];
+}
+
 function countBy<T>(arr: T[], key: keyof T): Record<string, number> {
   return arr.reduce((acc, item) => {
     const value = String(item[key]);
@@ -70,14 +74,31 @@ const productsSlice = createSlice({
       if (action.payload === "") {
         state.searchProducts = [];
       } else {
-        state.searchProducts = baseList.filter((film) =>
-          film.name.toLowerCase().includes(searchTerm)
+        const filtered = baseList.filter((prod) =>
+          prod.name.toLowerCase().includes(searchTerm)
         );
+
+        filtered.sort((a, b) => {
+          // 1 — активні спочатку
+          if (a.isActive !== b.isActive) {
+            return Number(b.isActive) - Number(a.isActive);
+          }
+
+          const mainA = getMainVariant(a);
+          const mainB = getMainVariant(b);
+
+          const discA = Number(mainA.discount) || 0;
+          const discB = Number(mainB.discount) || 0;
+
+          return discB - discA;
+        });
+
+        state.searchProducts = filtered;
       }
     },
   },
 });
 
-export const { setProducts , searchProduct } = productsSlice.actions;
+export const { setProducts, searchProduct } = productsSlice.actions;
 
 export default productsSlice.reducer;

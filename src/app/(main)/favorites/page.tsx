@@ -1,17 +1,16 @@
 "use client";
 
-import { AccountContent } from "@/components/AccountComponents/AccountContent";
 import { Breadcrumbs } from "@/components/Breadcrumbs/Breadcrumbs";
 import { HeroTemplateSmall } from "@/components/HeroTemplate/HeroTemplateSmall";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function AccountPage() {
-  const { data, status } = useSession();
+export default function FavoritesPage() {
+  const { status } = useSession();
+
   const router = useRouter();
-  console.log(data);
-  console.log(status);
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/");
@@ -19,15 +18,14 @@ export default function AccountPage() {
   }, [status, router]);
 
   return (
-    <>
+    <div>
       <HeroTemplateSmall
-        title="Персональний акаунт"
-        bgImage="/Account/bg.png"
+        title="Збережені"
+        bgImage="/Favorites/favorites-bg.png"
       />
       <Breadcrumbs
-        links={[{ title: "Головна", href: "/" }, { title: "Користувач" }]}
+        links={[{ title: "Головна", href: "/" }, { title: "Збережені" }]}
       />
-      <AccountContent />
-    </>
+    </div>
   );
 }

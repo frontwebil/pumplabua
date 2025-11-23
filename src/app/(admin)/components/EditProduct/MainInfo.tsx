@@ -83,6 +83,8 @@ export function MainInfo() {
             padding: "0.75rem",
             border: "1px solid #ddd",
             borderRadius: "4px",
+            resize: "vertical",
+            whiteSpace: "pre-wrap",
           }}
           value={product.mainDescription}
           onChange={(e) => handleChangeInfo("mainDescription", e.target.value)}
