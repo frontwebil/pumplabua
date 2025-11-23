@@ -17,84 +17,82 @@ export function TopSellers() {
   const { topSellersProducts } = useSelector(
     (store: RootState) => store.productsSlice
   );
+
+  // 🚀 Берём только первые 12 товаров
+  const top12 = topSellersProducts.slice(0, 12);
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const swiperRef = useRef<SwiperCore | null>(null);
 
-  if (topSellersProducts.length < 1) return null;
+  if (top12.length < 1) return null;
 
   const slidesPerView = 4;
 
-  const handlePrev = () => {
-    if (swiperRef.current) swiperRef.current.slidePrev();
-  };
+  const handlePrev = () => swiperRef.current?.slidePrev();
+  const handleNext = () => swiperRef.current?.slideNext();
+  const handleBulletClick = (index: number) =>
+    swiperRef.current?.slideToLoop(index);
 
-  const handleNext = () => {
-    if (swiperRef.current) swiperRef.current.slideNext();
-  };
-
-  const handleBulletClick = (index: number) => {
-    if (swiperRef.current) swiperRef.current.slideToLoop(index);
-  };
   return (
-    <>
-      <section className="topSellers">
-        <div className="container">
-          <div className="top-Sellers-header">
-            <h2 className="fs-xxl uppercase font-bold">
-              <span style={{ color: "#0339F4" }}>Top</span> Sellers
-            </h2>
-            <Link href={SITE_LINKS.CATALOG} className="topSellers-see-all">
-              <p className="fs-md font-semibold">Переглянути усе</p>
-              <MdKeyboardArrowRight className="topSellers-see-all-icon" />
-            </Link>
-          </div>
-          <div className="goods-slider w-full">
-            <Swiper
-              spaceBetween={20}
-              slidesPerView={slidesPerView}
-              loop={true}
-              onSwiper={(swiper) => (swiperRef.current = swiper)}
-              onSlideChange={(swiper) =>
-                setCurrentSlide(swiper.realIndex % topSellersProducts.length)
-              }
-              breakpoints={{
-                320: { slidesPerView: slidesPerView - 3 },
-                480: { slidesPerView: slidesPerView - 2 },
-                780: { slidesPerView: slidesPerView - 1 },
-                1024: { slidesPerView: slidesPerView },
-              }}
-            >
-              {topSellersProducts.map((item, index) => (
-                <SwiperSlide key={index}>
-                  <ProductCard product={item} />
-                </SwiperSlide>
+    <section className="topSellers">
+      <div className="container">
+        <div className="top-Sellers-header">
+          <h2 className="fs-xxl uppercase font-bold">
+            <span style={{ color: "#0339F4" }}>Top</span> Sellers
+          </h2>
+
+          <Link href={SITE_LINKS.CATALOG} className="topSellers-see-all">
+            <p className="fs-md font-semibold">Переглянути усе</p>
+            <MdKeyboardArrowRight className="topSellers-see-all-icon" />
+          </Link>
+        </div>
+
+        <div className="goods-slider w-full">
+          <Swiper
+            spaceBetween={20}
+            slidesPerView={slidesPerView}
+            loop={true}
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
+            onSlideChange={(swiper) =>
+              setCurrentSlide(swiper.realIndex % top12.length)
+            }
+            breakpoints={{
+              320: { slidesPerView: slidesPerView - 3 },
+              480: { slidesPerView: slidesPerView - 2 },
+              780: { slidesPerView: slidesPerView - 1 },
+              1024: { slidesPerView: slidesPerView },
+            }}
+          >
+            {top12.map((item, index) => (
+              <SwiperSlide key={index}>
+                <ProductCard product={item} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          <div className="swiper-nav">
+            <button className="swiper-nav-button" onClick={handlePrev}>
+              <IoIosArrowBack />
+            </button>
+
+            <div className="swiper-nav-pagination">
+              {top12.map((_, index) => (
+                <div
+                  key={index}
+                  className={`swiper-bullet ${
+                    currentSlide === index ? "active" : ""
+                  }`}
+                  onClick={() => handleBulletClick(index)}
+                ></div>
               ))}
-            </Swiper>
-
-            <div className="swiper-nav">
-              <button className="swiper-nav-button" onClick={handlePrev}>
-                <IoIosArrowBack />
-              </button>
-
-              <div className="swiper-nav-pagination">
-                {topSellersProducts.map((_, index) => (
-                  <div
-                    key={index}
-                    className={`swiper-bullet ${
-                      currentSlide === index ? "active" : ""
-                    }`}
-                    onClick={() => handleBulletClick(index)}
-                  ></div>
-                ))}
-              </div>
-
-              <button className="swiper-nav-button" onClick={handleNext}>
-                <IoIosArrowForward />
-              </button>
             </div>
+
+            <button className="swiper-nav-button" onClick={handleNext}>
+              <IoIosArrowForward />
+            </button>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

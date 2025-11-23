@@ -1,13 +1,13 @@
 "use client";
 
-import { Advantages } from "@/components/Advantages/Advantages";
+// import { Advantages } from "@/components/Advantages/Advantages";
 import { Energy } from "@/components/Energy/Energy";
-import { EnergyForGoals } from "@/components/EnergyForGoals/EnergyForGoals";
+// import { EnergyForGoals } from "@/components/EnergyForGoals/EnergyForGoals";
 import { Hero } from "@/components/Hero/Hero";
-import { PartnerInGoal } from "@/components/PartnerInGoal/PartnerInGoal";
+// import { PartnerInGoal } from "@/components/PartnerInGoal/PartnerInGoal";
 import { ProductsCategory } from "@/components/ProductsCategory/ProductsCategory";
 import { TopSellers } from "@/components/TopSellers/TopSellers";
-import { WhyChoose } from "@/components/WhyChoose/WhyChoose";
+// import { WhyChoose } from "@/components/WhyChoose/WhyChoose";
 import { useProducts } from "@/custom-hooks/fetchProducts";
 import { setProducts } from "@/redux/pamplabua/slices/productsSlice";
 import { useEffect } from "react";

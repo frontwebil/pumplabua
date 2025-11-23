@@ -16,13 +16,17 @@ export function ProductPagePrice() {
     ? Math.ceil(price - price * (selectedVariant.discount! / 100))
     : price;
   return (
-    <div className="ProductPagePrice">
+    <div className={`ProductPagePrice`}>
       <h2 className="ProductPagePrice-delivery">
         БЕЗКОШТОВНА доставка замовлень від 3.000 грн
       </h2>
 
       <div className="ProductPagePrice-row">
-        <div className={`ProductPagePrice-row-price ${hasDiscount && "has-discount"}`}>
+        <div
+          className={`ProductPagePrice-row-price ${
+            hasDiscount && "has-discount"
+          }`}
+        >
           {hasDiscount ? (
             <span className="ProductPagePrice-row-oldprice">{price} грн</span>
           ) : (
@@ -30,7 +34,12 @@ export function ProductPagePrice() {
           )}{" "}
           {actualPrice} ГРН
         </div>
-        <div className="ProductPagePrice-row-addCart">додати у кошик</div>
+        <button
+          className={`ProductPagePrice-row-addCart ${!selectedVariant.inStock && "not-active"}`}
+          disabled={!selectedVariant.inStock}
+        >
+          {!selectedVariant.inStock ? "Немає в наявності" : "Додати у кошик"}
+        </button>
         <ProductPageFuncButtons />
       </div>
     </div>

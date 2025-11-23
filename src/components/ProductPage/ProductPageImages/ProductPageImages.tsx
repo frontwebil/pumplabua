@@ -37,6 +37,7 @@ export function ProductPageImages() {
               alt={selectedVariant.flavor ?? "Фото товару"}
               width={200}
               height={200}
+              loading="eager"
             />
           </div>
         ))}

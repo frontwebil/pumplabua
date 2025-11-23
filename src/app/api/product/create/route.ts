@@ -13,7 +13,10 @@ export async function POST(req: Request) {
     }
     const { variants, ...rest } = await req.json();
 
-    const slug = slugify(rest.name, { lower: true, locale: "uk" });
+    const slug = slugify(rest.name.replace(/:/g, "-"), {
+      lower: true,
+      locale: "uk",
+    });
 
     const product = await prisma.product.create({
       data: {

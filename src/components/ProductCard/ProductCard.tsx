@@ -19,6 +19,11 @@ export function ProductCard({ product }: { product: ProductType }) {
     ? Math.ceil(oldPrice - oldPrice * (mainVariant.discount! / 100))
     : oldPrice;
 
+  const imageSrc =
+    mainVariant.images && mainVariant.images.length > 0
+      ? mainVariant.images[0]
+      : "/no-image.png"; // свій плейсхолдер
+
   return (
     <Link href={`/product/${product.slug}`} className="product-card">
       {mainVariant.discount! > 0 && (
@@ -26,12 +31,7 @@ export function ProductCard({ product }: { product: ProductType }) {
       )}
       <AddToFavorites productId={product.id} />
       <div>
-        <Image
-          src={mainVariant.images[0]}
-          alt={product.name}
-          width={200}
-          height={200}
-        />
+        <Image src={imageSrc} alt={product.name} width={200} height={200} />
         <p className="product-card-category">{product.category}</p>
         <h2 className="product-card-title">{product.name}</h2>
       </div>

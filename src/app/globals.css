@@ -136,6 +136,55 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+.Catalog-top-right-wrap {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  position: relative;
+}
+.Catalog-top-right-wrap-sort-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.Catalog-top-right-wrap-sort-wrapper-text {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0339f4;
+  cursor: pointer;
+}
+.Catalog-top-right-wrap-sort-wrapper-menu {
+  width: max-content;
+  right: 0;
+  position: absolute;
+  top: calc(100% + 10px);
+  box-shadow: 0 4px 4px -1px rgba(12, 12, 13, 0.05),
+    0 4px 4px -1px rgba(12, 12, 13, 0.1);
+  background: #f8faf9;
+  padding: 10px 24px;
+  z-index: 5;
+}
+
+.Catalog-top-right-wrap-sort-wrapper-menu-button {
+  max-width: 240px;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #4f50521a;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #0d0e10;
+  color: 16px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.Catalog-top-right-wrap-sort-wrapper-menu-button.actual {
+  font-weight: 700;
+}
+
 @media only screen and (max-width: 800px) {
   .fs-xxl {
     font-size: 32px;

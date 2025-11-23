@@ -1,6 +1,7 @@
 "use client";
 
 import { Breadcrumbs } from "@/components/Breadcrumbs/Breadcrumbs";
+import { FavoritesCatalog } from "@/components/FavoritesCatalog/FavoritesCatalog";
 import { HeroTemplateSmall } from "@/components/HeroTemplate/HeroTemplateSmall";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -26,6 +27,7 @@ export default function FavoritesPage() {
       <Breadcrumbs
         links={[{ title: "Головна", href: "/" }, { title: "Збережені" }]}
       />
+      <FavoritesCatalog/>
     </div>
   );
 }

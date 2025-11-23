@@ -4,6 +4,9 @@
 }
 .catalog-cards-container-top {
   margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .catalog-cards {
   display: grid;

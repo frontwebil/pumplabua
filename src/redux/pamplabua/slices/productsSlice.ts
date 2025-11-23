@@ -79,7 +79,6 @@ const productsSlice = createSlice({
         );
 
         filtered.sort((a, b) => {
-          // 1 — активні спочатку
           if (a.isActive !== b.isActive) {
             return Number(b.isActive) - Number(a.isActive);
           }

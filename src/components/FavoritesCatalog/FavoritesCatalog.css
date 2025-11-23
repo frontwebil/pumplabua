@@ -1,0 +1,123 @@
+.FavoritesCatalog-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.FavoritesCatalog-top-left-wrap {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.Catalog-top-right-wrap {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  position: relative;
+}
+.Catalog-top-right-wrap-sort-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.Catalog-top-right-wrap-sort-wrapper-text {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0339f4;
+  cursor: pointer;
+}
+.Catalog-top-right-wrap-sort-wrapper-menu {
+  width: max-content;
+  right: 0;
+  position: absolute;
+  top: calc(100% + 10px);
+  box-shadow: 0 4px 4px -1px rgba(12, 12, 13, 0.05),
+    0 4px 4px -1px rgba(12, 12, 13, 0.1);
+  background: #f8faf9;
+  padding: 10px 24px;
+  z-index: 5;
+}
+
+.Catalog-top-right-wrap-sort-wrapper-menu-button {
+  max-width: 240px;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #4f50521a;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #0d0e10;
+  color: 16px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.Catalog-top-right-wrap-sort-wrapper-menu-button.actual {
+  font-weight: 700;
+}
+
+.FavoritesCatalog {
+  margin-top: 24px;
+  margin-bottom: 36px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px 20px;
+}
+
+.FavoritesCatalog .product-card {
+  max-width: 350px;
+}
+
+.favorites-not-found {
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #5a5a5a;
+}
+.favorites-not-found svg {
+  font-size: 48px;
+  opacity: 0.6;
+}
+
+.favorites-not-found {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .FavoritesCatalog {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px 15px;
+  }
+}
+
+@media only screen and (max-width: 680px) {
+  .FavoritesCatalog {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px 15px;
+  }
+}
+
+@media only screen and (max-width: 620px) {
+  .FavoritesCatalog-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+}
