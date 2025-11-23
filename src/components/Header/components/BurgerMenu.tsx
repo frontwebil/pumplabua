@@ -14,8 +14,11 @@ import {
 import { useEffect, useState } from "react";
 import { searchProduct } from "@/redux/pamplabua/slices/productsSlice";
 import { toast } from "react-toastify";
+import { useWindowWidth } from "@/custom-hooks/useWidth";
 
-export default function BurgerMenu({ screenWidth }) {
+export default function BurgerMenu() {
+  const screenWidth = useWindowWidth();
+
   const [searchTerm, setSearchTerm] = useState("");
   const { isOpenBurger, isOpenBurgerCatalog, isLogged } = useSelector(
     (store: RootState) => store.uiSlice
@@ -23,7 +26,7 @@ export default function BurgerMenu({ screenWidth }) {
   const { searchProducts } = useSelector(
     (store: RootState) => store.productsSlice
   );
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,7 +37,7 @@ export default function BurgerMenu({ screenWidth }) {
     <div className={`burger-menu ${isOpenBurger && "active"}`}>
       <div className="container">
         <div className="burger-menu-func">
-          {screenWidth < 600 && (
+          {screenWidth && screenWidth < 600 && (
             <div className="burger-menu-func-row">
               <CiSearch className="burger-menu-func-icon" />
               <input

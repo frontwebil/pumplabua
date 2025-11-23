@@ -184,7 +184,7 @@ export function Header() {
             </div>
           </div>
         </div>
-        <BurgerMenu screenWidth={screenWidth} />
+        <BurgerMenu/>
       </header>
     </>
   );
