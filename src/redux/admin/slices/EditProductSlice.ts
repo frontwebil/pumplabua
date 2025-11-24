@@ -11,6 +11,7 @@ export type Variant = {
   discount: string;
   isMain?: boolean;
   images: string[];
+  sizeAmount?: string;
 };
 
 export type initialStateType = {
@@ -72,6 +73,7 @@ const editProductSlice = createSlice({
       state.product.variants.push({
         flavor: "",
         amount: "",
+        sizeAmount: "s",
         unitType: "g",
         price: "",
         inStock: true,

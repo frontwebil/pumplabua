@@ -243,6 +243,7 @@ export function EditVariants() {
                 <option value="l">л (літри)</option>
                 <option value="pcs">шт (штуки)</option>
                 <option value="caps">капс (капсули)</option>
+                <option value="size">розмір</option>
               </select>
             </div>
 
@@ -254,13 +255,24 @@ export function EditVariants() {
                   fontWeight: 600,
                 }}
               >
-                Кількість / Вага *
+                Кількість / Вага / розмір*
               </label>
+
               <input
-                type="number"
+                type={variant.unitType === "size" ? "text" : "number"}
                 step="0.01"
-                value={variant.amount}
-                onChange={(e) => updateVariant(index, "amount", e.target.value)}
+                value={
+                  variant.unitType === "size"
+                    ? variant.sizeAmount
+                    : variant.amount
+                }
+                onChange={(e) => {
+                  if (variant.unitType === "size") {
+                    updateVariant(index, "sizeAmount", e.target.value);
+                  } else {
+                    updateVariant(index, "amount", e.target.value);
+                  }
+                }}
                 required
                 style={{
                   width: "100%",

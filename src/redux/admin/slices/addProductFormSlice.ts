@@ -27,6 +27,7 @@ export type Variant = {
   discount: string;
   isMain?: boolean;
   images: string[];
+  sizeAmount?: string;
 };
 
 const initialState: initialStateType = {
@@ -121,7 +122,7 @@ const addProductFormSlice = createSlice({
       }
     },
 
-    updateVariantImage : () => {},
+    updateVariantImage: () => {},
     setDefaultValues: () => initialState,
   },
 });

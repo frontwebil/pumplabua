@@ -40,7 +40,8 @@ export async function POST(req: Request) {
           deleteMany: {}, // Видаляємо всі старі варіанти
           create: variants.map((v: any) => ({
             flavor: v.flavor || null,
-            amount: parseFloat(v.amount), // ⬅️ Перетворюємо на число
+            amount: v.unitType === "size" ? 0 : parseFloat(v.amount),
+            sizeAmount: v.unitType === "size" ? v.sizeAmount : null,
             unitType: v.unitType,
             price: parseFloat(v.price),
             inStock: v.inStock,

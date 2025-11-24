@@ -244,6 +244,7 @@ export function Variants() {
                 <option value="l">л (літри)</option>
                 <option value="pcs">шт (штуки)</option>
                 <option value="caps">капс (капсули)</option>
+                <option value="size">розмір</option>
               </select>
             </div>
 
@@ -255,10 +256,10 @@ export function Variants() {
                   fontWeight: 600,
                 }}
               >
-                Кількість / Вага *
+                Кількість / Вага / Розмір *
               </label>
               <input
-                type="number"
+                type="text"
                 step="0.01"
                 value={variant.amount}
                 onChange={(e) => updateVariant(index, "amount", e.target.value)}

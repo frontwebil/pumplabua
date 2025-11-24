@@ -25,10 +25,17 @@ export async function POST(req: Request) {
         variants: {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           create: variants.map((v: any) => ({
-            ...v,
-            amount: parseFloat(v.amount),
+            flavor: v.flavor || null,
+
+            amount: v.unitType === "size" ? null : parseFloat(v.amount),
+            sizeAmount: v.unitType === "size" ? v.amount : null,
+
+            unitType: v.unitType,
             price: parseFloat(v.price),
-            discount: parseFloat(v.discount || 0),
+            inStock: v.inStock,
+            discount: v.discount ? parseFloat(v.discount) : 0,
+            isMain: v.isMain || false,
+            images: v.images || [],
           })),
         },
       },
