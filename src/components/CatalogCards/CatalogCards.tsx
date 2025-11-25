@@ -220,7 +220,9 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
               )}
             </div>
           </div>
-          <div className="Filter-mobile-button"></div>
+          <div className="Filter-mobile-button">
+            <PiFaders />
+          </div>
         </div>
       </div>
 

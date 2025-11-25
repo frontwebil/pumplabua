@@ -14,6 +14,7 @@ export function ProductPageImages() {
   const [currentPhoto, setCurrentPhoto] = useState<string>(
     selectedVariant?.images[0] ?? ""
   );
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   useEffect(() => {
     if (!selectedVariant) return;
@@ -79,14 +80,29 @@ export function ProductPageImages() {
             {selectedVariant.inStock ? "У наявності" : "Немає в наявності"}
           </div>
         </div>
-
-        <Image
-          src={currentPhoto}
-          alt={selectedVariant.flavor ?? "Фото товару"}
-          width={1000}
-          height={1000}
-        />
+        <div
+          className="ProductPageImages-mainImage"
+          onClick={() => setIsOpenModal(true)}
+        >
+          <Image
+            src={currentPhoto}
+            alt={selectedVariant.flavor ?? "Фото товару"}
+            width={1000}
+            height={1000}
+          />
+        </div>
       </div>
+      {isOpenModal && (
+        <div className="image-modal" onClick={() => setIsOpenModal(false)}>
+          <Image
+            width={1000}
+            height={1000}
+            src={currentPhoto}
+            className="image-modal-content"
+            alt="modal-image"
+          />
+        </div>
+      )}
     </div>
   );
 }
