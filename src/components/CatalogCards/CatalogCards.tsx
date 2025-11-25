@@ -28,6 +28,7 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
 
   const itemsPerPage = 15;
 
+  // Початкове значення сторінки з URL
   const pageFromUrl = Number(searchParams.get("page")) || 1;
   const [currentPage, setCurrentPage] = useState(pageFromUrl);
 
@@ -35,14 +36,54 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
 
   const isLoading = !products;
 
-  // --- Синхронізація з URL при перезавантаженні ---
+  // ---------- СОРТУВАННЯ (працює навіть якщо products = [] або undefined) ----------
+  const sortedProducts: ProductType[] = products
+    ? [...products].sort((a, b) => {
+        switch (sortType) {
+          case "hits":
+            return Number(b.isBestseller) - Number(a.isBestseller);
+          case "newest":
+            return (
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
+          case "oldest":
+            return (
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+            );
+          case "priceLow":
+            return getPrice(a) - getPrice(b);
+          case "priceHigh":
+            return getPrice(b) - getPrice(a);
+          default:
+            return 0;
+        }
+      })
+    : [];
+
+  const totalPages = Math.max(
+    1,
+    sortedProducts.length > 0
+      ? Math.ceil(sortedProducts.length / itemsPerPage)
+      : 1
+  );
+
+  // --- СИНХРОНІЗАЦІЯ З URL (якщо зміниться ?page=...) ---
   useEffect(() => {
     const urlPage = Number(searchParams.get("page")) || 1;
-    if (urlPage !== currentPage) {
-      setCurrentPage(urlPage);
-    }
-  }, [searchParams]);
+    const safePage = !Number.isNaN(urlPage) && urlPage > 0 ? urlPage : 1;
 
+    if (safePage !== currentPage) {
+      setCurrentPage(safePage);
+    }
+  }, [searchParams, currentPage]);
+
+  // --- ЯКЩО ПІСЛЯ ФІЛЬТРІВ/ЗМІН КІЛЬКОСТІ ТОВАРІВ СТОРІНКА > totalPages → СКИДАЄМО НА 1 ---
+  useEffect(() => {
+    setCurrentPage(1);
+    router.replace(`?page=1`);
+  }, [totalPages]);
+
+  // Спінер показуємо тільки коли products ще немає
   if (isLoading)
     return (
       <div className="Spinner-container">
@@ -50,38 +91,15 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
       </div>
     );
 
-  // ---------- Сортування ----------
-  const sortedProducts = [...products].sort((a, b) => {
-    switch (sortType) {
-      case "hits":
-        return Number(b.isBestseller) - Number(a.isBestseller);
-      case "newest":
-        return (
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-      case "oldest":
-        return (
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        );
-      case "priceLow":
-        return getPrice(a) - getPrice(b);
-      case "priceHigh":
-        return getPrice(b) - getPrice(a);
-      default:
-        return 0;
-    }
-  });
-
-  const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
+  // ---------- ПАГІНАЦІЯ ДЛЯ ВЖЕ ВІДСОРТОВАНИХ ----------
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
   const currentProducts = sortedProducts.slice(indexOfFirst, indexOfLast);
   const end = Math.min(indexOfLast, products.length);
 
-  // ---------- Пагінація ----------
   function getPaginationRange(currentPage: number, totalPages: number) {
     const delta = 1;
-    const range = [];
+    const range: number[] = [];
     const rangeWithDots: (number | string)[] = [];
 
     for (let i = 1; i <= totalPages; i++) {
@@ -119,6 +137,14 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleSortChange = (
+    type: "hits" | "newest" | "oldest" | "priceLow" | "priceHigh"
+  ) => {
+    setSortType(type);
+    handlePageChange(1);
+    setIsOpenSortMenu(false);
+  };
+
   return (
     <div className="catalog-cards-container">
       <div className="catalog-cards-container-top">
@@ -139,7 +165,7 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
             <div className="Catalog-top-right-wrap-sort-wrapper" ref={sortRef}>
               <div
                 className="Catalog-top-right-wrap-sort-wrapper-text"
-                onClick={() => setIsOpenSortMenu(!isOpenSortMenu)}
+                onClick={() => setIsOpenSortMenu((prev) => !prev)}
               >
                 <p>
                   {
@@ -162,11 +188,7 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
                     className={`Catalog-top-right-wrap-sort-wrapper-menu-button ${
                       sortType === "hits" ? "actual" : ""
                     }`}
-                    onClick={() => {
-                      setSortType("hits");
-                      handlePageChange(1);
-                      setIsOpenSortMenu(false);
-                    }}
+                    onClick={() => handleSortChange("hits")}
                   >
                     Хіти продажу
                   </p>
@@ -175,11 +197,7 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
                     className={`Catalog-top-right-wrap-sort-wrapper-menu-button ${
                       sortType === "newest" ? "actual" : ""
                     }`}
-                    onClick={() => {
-                      setSortType("newest");
-                      handlePageChange(1);
-                      setIsOpenSortMenu(false);
-                    }}
+                    onClick={() => handleSortChange("newest")}
                   >
                     Найновіші
                   </p>
@@ -188,11 +206,7 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
                     className={`Catalog-top-right-wrap-sort-wrapper-menu-button ${
                       sortType === "oldest" ? "actual" : ""
                     }`}
-                    onClick={() => {
-                      setSortType("oldest");
-                      handlePageChange(1);
-                      setIsOpenSortMenu(false);
-                    }}
+                    onClick={() => handleSortChange("oldest")}
                   >
                     Найстаріші
                   </p>
@@ -201,11 +215,7 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
                     className={`Catalog-top-right-wrap-sort-wrapper-menu-button ${
                       sortType === "priceLow" ? "actual" : ""
                     }`}
-                    onClick={() => {
-                      setSortType("priceLow");
-                      handlePageChange(1);
-                      setIsOpenSortMenu(false);
-                    }}
+                    onClick={() => handleSortChange("priceLow")}
                   >
                     Ціна: Від низької до високої
                   </p>
@@ -214,11 +224,7 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
                     className={`Catalog-top-right-wrap-sort-wrapper-menu-button ${
                       sortType === "priceHigh" ? "actual" : ""
                     }`}
-                    onClick={() => {
-                      setSortType("priceHigh");
-                      handlePageChange(1);
-                      setIsOpenSortMenu(false);
-                    }}
+                    onClick={() => handleSortChange("priceHigh")}
                   >
                     Ціна: Від високої до низької
                   </p>
@@ -238,46 +244,54 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
         {currentProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
+
+        {currentProducts.length === 0 && (
+          <p style={{ gridColumn: "1 / -1", textAlign: "center" }}>
+            Товари за даними фільтрами не знайдені
+          </p>
+        )}
       </div>
 
       {/* PAGINATION */}
-      <div className="pagination">
-        <button
-          className="pagination-button"
-          disabled={currentPage === 1}
-          onClick={() => handlePageChange(currentPage - 1)}
-        >
-          <IoIosArrowBack />
-          <p>Назад</p>
-        </button>
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button
+            className="pagination-button"
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            <IoIosArrowBack />
+            <p>Назад</p>
+          </button>
 
-        <div>
-          {pagination.map((item, i) =>
-            item === "..." ? (
-              <span key={i} className="dots">
-                ...
-              </span>
-            ) : (
-              <button
-                key={i}
-                className={currentPage === item ? "active" : ""}
-                onClick={() => handlePageChange(item as number)}
-              >
-                {item}
-              </button>
-            )
-          )}
+          <div>
+            {pagination.map((item, i) =>
+              item === "..." ? (
+                <span key={i} className="dots">
+                  ...
+                </span>
+              ) : (
+                <button
+                  key={i}
+                  className={currentPage === item ? "active" : ""}
+                  onClick={() => handlePageChange(item as number)}
+                >
+                  {item}
+                </button>
+              )
+            )}
+          </div>
+
+          <button
+            className="pagination-button"
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
+            <p>Далі</p>
+            <IoIosArrowForward />
+          </button>
         </div>
-
-        <button
-          className="pagination-button"
-          disabled={currentPage === totalPages}
-          onClick={() => handlePageChange(currentPage + 1)}
-        >
-          <p>Далі</p>
-          <IoIosArrowForward />
-        </button>
-      </div>
+      )}
     </div>
   );
 }
