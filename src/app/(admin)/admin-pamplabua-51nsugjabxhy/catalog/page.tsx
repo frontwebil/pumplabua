@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AdminCatalogRow } from "../../components/Catalog/Catalog";
 import { RootState } from "@/redux/admin/store";
-import { Product, Variant } from "@prisma/client";
 import { CATEGORYES } from "@/site-config/site.config";
 
 export default function CatalogPage() {
