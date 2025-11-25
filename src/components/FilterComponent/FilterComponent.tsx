@@ -9,6 +9,7 @@ import { RootState } from "@/redux/pamplabua/store";
 import { CgClose } from "react-icons/cg";
 import { toogleIsOpenMobileFilter } from "@/redux/pamplabua/slices/uiSlice";
 import { useEffect } from "react";
+import { resetFilters } from "@/redux/pamplabua/slices/productsSlice";
 
 export function FilterComponent() {
   const { isOpenMobileFilter } = useSelector(
@@ -44,7 +45,7 @@ export function FilterComponent() {
         <div className="filter-top flex justify-between items-center">
           <h2 className="fs-lg font-bold uppercase">фільтр</h2>
           <CgClose
-          className="filter-top-mobile-close"
+            className="filter-top-mobile-close"
             size={24}
             onClick={() => {
               dispatch(toogleIsOpenMobileFilter());
@@ -55,6 +56,18 @@ export function FilterComponent() {
         <ProductionFilterComponent />
         <ProducerFilterComponent />
         <WeightFilterComponent />
+        <div
+          className="filter-button-search-mobile"
+          onClick={() => dispatch(toogleIsOpenMobileFilter())}
+        >
+          Шукати
+        </div>
+        <p
+          className="fs-md underline text-center"
+          onClick={() => dispatch(resetFilters())}
+        >
+          Скинути фільтр
+        </p>
       </div>
     </>
   );

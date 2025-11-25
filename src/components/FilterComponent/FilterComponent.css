@@ -89,6 +89,20 @@
   display: none;
 }
 
+.filter-button-search-mobile {
+  display: none;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 16px 0;
+  background: #0339f1;
+  border-radius: 6px;
+  text-align: center;
+  color: white;
+  margin: 20px 0 10px;
+}
+
 @media only screen and (max-width: 1100px) {
   .filter-label > * {
     font-size: 16px;
@@ -103,6 +117,9 @@
 }
 
 @media only screen and (max-width: 1000px) {
+  .filter-button-search-mobile {
+    display: block;
+  }
   .filter-group {
     position: fixed;
     top: 0;

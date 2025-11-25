@@ -242,10 +242,29 @@ export const productsSlice = createSlice({
         (w) => w
       );
     },
+
+    resetFilters: (state) => {
+      state.categorySelectFilters = [];
+      state.producerSelectFilter = [];
+      state.weightSelectFilter = [];
+
+      // Вертаємо усі продукти
+      state.filteredProducts = state.products;
+
+      // Відновлюємо глобальні лічильники
+      state.filteredCategoryCount = state.globalCategoryCount;
+      state.filteredProducerCount = state.globalProducerCount;
+      state.filteredWeightCount = state.globalWeightCount;
+    },
   },
 });
 
-export const { setProducts, searchProduct, setFilters, setFiltersFromLink } =
-  productsSlice.actions;
+export const {
+  setProducts,
+  searchProduct,
+  setFilters,
+  setFiltersFromLink,
+  resetFilters,
+} = productsSlice.actions;
 
 export default productsSlice.reducer;
