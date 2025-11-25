@@ -6,3 +6,18 @@
   width: 100%;
   gap: 15px;
 }
+
+@media only screen and (max-width: 1000px) {
+  .catalog-cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 20px;
+  }
+  .catalog-cards-container-top {
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -13,6 +13,8 @@
   width: 100%;
   max-width: 240px;
   margin: 0 auto 10px;
+  object-fit: contain;
+  aspect-ratio: 1/1;
 }
 
 .discount-block {

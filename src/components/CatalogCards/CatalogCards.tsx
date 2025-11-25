@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { PiFaders } from "react-icons/pi";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useWindowWidth } from "@/custom-hooks/useWidth";
 
 type ProductType = Product & { variants: Variant[] };
 
@@ -20,11 +21,13 @@ function getPrice(product: ProductType): number {
 export function CatalogCards({ products }: { products: ProductType[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const width = useWindowWidth();
 
   const [isOpenSortMenu, setIsOpenSortMenu] = useState(false);
   const [sortType, setSortType] = useState<
     "hits" | "newest" | "oldest" | "priceLow" | "priceHigh"
   >("hits");
+  const [isOpenFilter, setIsOpenFilter] = useState(false);
 
   const itemsPerPage = 15;
 
