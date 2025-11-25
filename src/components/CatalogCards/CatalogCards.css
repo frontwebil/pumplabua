@@ -46,3 +46,8 @@
   font-size: 18px;
   gap: 20px;
 }
+
+.selected-filter-mobile {
+  display: none;
+  margin-bottom: 30px;
+}

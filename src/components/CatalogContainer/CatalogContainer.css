@@ -8,6 +8,10 @@
 }
 
 @media only screen and (max-width: 1000px) {
+  .selected-filter-mobile {
+    display: flex;
+    margin-bottom: 10px;
+  }
   .catalog-cards {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px 20px;
@@ -23,6 +27,12 @@
 }
 
 @media only screen and (max-width: 725px) {
+  .SelectedFilters-card {
+    padding: 10px;
+  }
+  .SelectedFilters-card p {
+    font-size: 14px;
+  }
   .catalog-cards {
     gap: 10px;
   }

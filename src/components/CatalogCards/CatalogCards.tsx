@@ -11,6 +11,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useWindowWidth } from "@/custom-hooks/useWidth";
 import { useDispatch } from "react-redux";
 import { toogleIsOpenMobileFilter } from "@/redux/pamplabua/slices/uiSlice";
+import { SelectedFilters } from "../FilterComponent/SelectedFilters";
 
 type ProductType = Product & { variants: Variant[] };
 
@@ -158,7 +159,9 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
             Показано {end} / {products.length}
           </span>
         </div>
-
+        <div className="selected-filter-mobile">
+          <SelectedFilters />
+        </div>
         <div className="Catalog-top-right-wrap-container">
           <div className="Catalog-top-right-wrap">
             <div className="Catalog-top-right-wrap-sort-text">
