@@ -64,7 +64,10 @@ export function FilterComponent() {
         </div>
         <p
           className="fs-md underline text-center"
-          onClick={() => dispatch(resetFilters())}
+          onClick={() => {
+            dispatch(resetFilters());
+            dispatch(toogleIsOpenMobileFilter());
+          }}
         >
           Скинути фільтр
         </p>
