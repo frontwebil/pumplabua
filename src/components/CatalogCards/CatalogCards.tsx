@@ -7,6 +7,7 @@ import { Product, Variant } from "@prisma/client";
 import { useEffect, useRef, useState } from "react";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { PiFaders } from "react-icons/pi";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type ProductType = Product & { variants: Variant[] };
 
@@ -17,24 +18,30 @@ function getPrice(product: ProductType): number {
 }
 
 export function CatalogCards({ products }: { products: ProductType[] }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [isOpenSortMenu, setIsOpenSortMenu] = useState(false);
   const [sortType, setSortType] = useState<
     "hits" | "newest" | "oldest" | "priceLow" | "priceHigh"
   >("hits");
-  const [currentPage, setCurrentPage] = useState(1);
+
   const itemsPerPage = 15;
+
+  const pageFromUrl = Number(searchParams.get("page")) || 1;
+  const [currentPage, setCurrentPage] = useState(pageFromUrl);
+
   const sortRef = useRef<HTMLDivElement | null>(null);
 
   const isLoading = !products;
 
+  // --- Синхронізація з URL при перезавантаженні ---
   useEffect(() => {
-    if (!products) return;
-    const totalPages = Math.ceil(products.length / itemsPerPage);
-
-    if (currentPage > totalPages) {
-      setCurrentPage(1);
+    const urlPage = Number(searchParams.get("page")) || 1;
+    if (urlPage !== currentPage) {
+      setCurrentPage(urlPage);
     }
-  }, [products?.length, currentPage]);
+  }, [searchParams]);
 
   if (isLoading)
     return (
@@ -65,24 +72,15 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
     }
   });
 
-  const handleSortChange = (
-    type: "hits" | "newest" | "oldest" | "priceLow" | "priceHigh"
-  ) => {
-    setSortType(type);
-    setCurrentPage(1);
-    setIsOpenSortMenu(false);
-  };
-
-  // ---------- Пагінація логіка ----------
   const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
   const currentProducts = sortedProducts.slice(indexOfFirst, indexOfLast);
   const end = Math.min(indexOfLast, products.length);
 
-  // ---------- Генерація розумної пагінації ----------
+  // ---------- Пагінація ----------
   function getPaginationRange(currentPage: number, totalPages: number) {
-    const delta = 1; // кількість кнопок навколо активної
+    const delta = 1;
     const range = [];
     const rangeWithDots: (number | string)[] = [];
 
@@ -115,9 +113,10 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
   const pagination = getPaginationRange(currentPage, totalPages);
 
   const handlePageChange = (num: number) => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
     if (num < 1 || num > totalPages) return;
     setCurrentPage(num);
+    router.replace(`?page=${num}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -136,6 +135,7 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
               <PiFaders />
               <p>Сортувати:</p>
             </div>
+
             <div className="Catalog-top-right-wrap-sort-wrapper" ref={sortRef}>
               <div
                 className="Catalog-top-right-wrap-sort-wrapper-text"
@@ -152,6 +152,7 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
                     }[sortType]
                   }
                 </p>
+
                 <IoIosArrowForward />
               </div>
 
@@ -162,8 +163,9 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
                       sortType === "hits" ? "actual" : ""
                     }`}
                     onClick={() => {
-                      handleSortChange("hits");
+                      setSortType("hits");
                       handlePageChange(1);
+                      setIsOpenSortMenu(false);
                     }}
                   >
                     Хіти продажу
@@ -174,8 +176,9 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
                       sortType === "newest" ? "actual" : ""
                     }`}
                     onClick={() => {
-                      handleSortChange("newest");
+                      setSortType("newest");
                       handlePageChange(1);
+                      setIsOpenSortMenu(false);
                     }}
                   >
                     Найновіші
@@ -186,8 +189,9 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
                       sortType === "oldest" ? "actual" : ""
                     }`}
                     onClick={() => {
-                      handleSortChange("oldest");
+                      setSortType("oldest");
                       handlePageChange(1);
+                      setIsOpenSortMenu(false);
                     }}
                   >
                     Найстаріші
@@ -198,8 +202,9 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
                       sortType === "priceLow" ? "actual" : ""
                     }`}
                     onClick={() => {
-                      handleSortChange("priceLow");
+                      setSortType("priceLow");
                       handlePageChange(1);
+                      setIsOpenSortMenu(false);
                     }}
                   >
                     Ціна: Від низької до високої
@@ -210,8 +215,9 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
                       sortType === "priceHigh" ? "actual" : ""
                     }`}
                     onClick={() => {
-                      handleSortChange("priceHigh");
+                      setSortType("priceHigh");
                       handlePageChange(1);
+                      setIsOpenSortMenu(false);
                     }}
                   >
                     Ціна: Від високої до низької
@@ -220,6 +226,7 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
               )}
             </div>
           </div>
+
           <div className="Filter-mobile-button">
             <PiFaders />
           </div>
@@ -235,7 +242,6 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
 
       {/* PAGINATION */}
       <div className="pagination">
-        {/* ← Prev */}
         <button
           className="pagination-button"
           disabled={currentPage === 1}
@@ -245,7 +251,6 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
           <p>Назад</p>
         </button>
 
-        {/* Pages */}
         <div>
           {pagination.map((item, i) =>
             item === "..." ? (
@@ -264,7 +269,6 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
           )}
         </div>
 
-        {/* Next → */}
         <button
           className="pagination-button"
           disabled={currentPage === totalPages}

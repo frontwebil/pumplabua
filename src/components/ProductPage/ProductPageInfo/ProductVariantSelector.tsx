@@ -120,9 +120,9 @@ export function ProductVariantSelector() {
   return (
     <div className="variant-selector">
       <div className="variant-column size">
-        <label>
+        {/* <label>
           {currentProduct.category === "Аксесуари" ? "Розмір" : "Маса"}
-        </label>
+        </label> */}
         <select
           value={selectedAmount ?? ""}
           onChange={(e) => handleAmountChange(e.target.value)}
@@ -136,10 +136,10 @@ export function ProductVariantSelector() {
       </div>
 
       <div className="variant-column taste">
-        <label>
+        {/* <label>
           {" "}
           {currentProduct.category === "Аксесуари" ? "Опис" : "Маса"}
-        </label>
+        </label> */}
         <select
           value={selectedFlavor ?? ""}
           onChange={(e) => handleFlavorChange(e.target.value)}
@@ -153,7 +153,7 @@ export function ProductVariantSelector() {
       </div>
 
       <div className="variant-column counts">
-        <label>Кількість</label>
+        {/* <label>Кількість</label> */}
         <div className="quantity-box">
           <button
             onClick={() =>
