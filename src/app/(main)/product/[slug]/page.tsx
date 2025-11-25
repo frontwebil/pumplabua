@@ -4,6 +4,7 @@ import ProductSchema from "@/components/seo/ProductSchema";
 import { Breadcrumbs } from "@/components/Breadcrumbs/Breadcrumbs";
 import { ProductPageInit } from "@/components/ProductPage/ProductPageInit";
 import { ProductPageWrapper } from "@/components/ProductPage/ProductPageWrapper";
+import { ScrollTop } from "@/custom-hooks/scrollTop";
 
 type ProductPageProps = {
   params: {
@@ -42,13 +43,11 @@ export default async function ProductPage(props: ProductPageProps) {
 
   if (!product) return notFound();
 
-  // const mainVariant =
-  //   product.variants.find((v) => v.isMain) ?? product.variants[0];
-
   return (
     <>
       <ProductSchema product={product} />
       <div className="container product-container">
+        <ScrollTop />
         <Breadcrumbs
           links={[
             { title: "Каталог", href: "/catalog" },

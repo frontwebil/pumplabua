@@ -15,8 +15,34 @@
   column-gap: 20px;
 }
 
-.catalog-cards-container-top-left{
+.catalog-cards-container-top-left {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.pagination {
+  margin: 30px auto 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pagination button {
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background: #0339f40d;
+  border: 1px solid #0339f4;
+  color: #0339f4;
+}
+
+.pagination-button {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  gap: 20px;
 }

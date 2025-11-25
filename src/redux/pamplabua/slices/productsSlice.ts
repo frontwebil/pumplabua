@@ -1,26 +1,29 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Product, Variant } from "@prisma/client";
 import { createSlice } from "@reduxjs/toolkit";
 
 type ProductType = Product & { variants: Variant[] };
 
-// ключі-фільтри
-type FilterKeys = "categorySelectFilters" | "producerSelectFilter";
+type FilterKeys =
+  | "categorySelectFilters"
+  | "producerSelectFilter"
+  | "weightSelectFilter";
 
 type initialStateType = {
   products: ProductType[];
   filteredProducts: ProductType[];
 
-  // головні фільтри
   categorySelectFilters: string[];
   producerSelectFilter: string[];
+  weightSelectFilter: string[];
 
-  // ГЛОБАЛЬНІ лічильники — не змінюються
   globalCategoryCount: Record<string, number>;
   globalProducerCount: Record<string, number>;
+  globalWeightCount: Record<string, number>;
 
-  // ДИНАМІЧНІ — змінюються після фільтрації
   filteredCategoryCount: Record<string, number>;
   filteredProducerCount: Record<string, number>;
+  filteredWeightCount: Record<string, number>;
 
   topSellersProducts: ProductType[];
   searchProducts: ProductType[];
@@ -32,21 +35,27 @@ const initialState: initialStateType = {
 
   categorySelectFilters: [],
   producerSelectFilter: [],
+  weightSelectFilter: [],
 
   globalCategoryCount: {},
   globalProducerCount: {},
+  globalWeightCount: {},
 
   filteredCategoryCount: {},
   filteredProducerCount: {},
+  filteredWeightCount: {},
 
   topSellersProducts: [],
   searchProducts: [],
 };
 
-function countBy<T>(arr: T[], key: keyof T): Record<string, number> {
+function countBy<T>(
+  arr: T[],
+  keyFn: (item: T) => string
+): Record<string, number> {
   return arr.reduce((acc, item) => {
-    const value = String(item[key]);
-    acc[value] = (acc[value] || 0) + 1;
+    const key = keyFn(item);
+    acc[key] = (acc[key] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 }
@@ -59,68 +68,74 @@ export const productsSlice = createSlice({
   name: "Products Slice",
   initialState,
   reducers: {
-    // ------------------------
-    // 1) Коли продукти приходять з API
-    // ------------------------
+    // ============================
+    // 1) PRODUCTS LOADED
+    // ============================
     setProducts: (state, action) => {
       const data = action.payload || [];
-
       state.products = data;
 
+      // ----- GLOBAL CATEGORY -----
+      state.globalCategoryCount = countBy(data, (p: any) => p.category);
+
+      // ----- GLOBAL PRODUCER -----
+      state.globalProducerCount = countBy(data, (p: any) => p.producer);
+
+      // ----- GLOBAL WEIGHT (SKIP "size") -----
+      const weights = data
+        .map((p: any) => {
+          const m = getMainVariant(p);
+          if (m.unitType === "size") return null;
+          return `${m.amount}${m.unitType}`;
+        })
+        .filter(Boolean) as string[];
+
+      state.globalWeightCount = countBy(weights, (w) => w);
+
+      // If filters empty → show all
       if (
         state.categorySelectFilters.length === 0 &&
-        state.producerSelectFilter.length === 0
+        state.producerSelectFilter.length === 0 &&
+        state.weightSelectFilter.length === 0
       ) {
         state.filteredProducts = data;
-        // початкові filtered
-        state.filteredCategoryCount = countBy(data, "category");
-        state.filteredProducerCount = countBy(data, "producer");
+        state.filteredCategoryCount = state.globalCategoryCount;
+        state.filteredProducerCount = state.globalProducerCount;
+        state.filteredWeightCount = state.globalWeightCount;
       }
 
-      // ГЛОБАЛЬНІ підрахунки — стабільні
-      state.globalCategoryCount = countBy(data, "category");
-      state.globalProducerCount = countBy(data, "producer");
-
-      // топи
-      state.topSellersProducts = data.filter(
-        (product: ProductType) => product.isBestseller === true
-      );
+      // Tops
+      state.topSellersProducts = data.filter((p: any) => p.isBestseller);
     },
 
-    // ------------------------
-    // 2) Пошук
-    // ------------------------
+    // ============================
+    // 2) SEARCH
+    // ============================
     searchProduct: (state, action) => {
-      const searchTerm = action.payload.toLowerCase();
-      const baseList: ProductType[] = state.products;
-
-      if (!searchTerm) {
+      const term = action.payload.toLowerCase();
+      if (!term) {
         state.searchProducts = [];
         return;
       }
 
-      const filtered = baseList
-        .filter((prod) => prod.name.toLowerCase().includes(searchTerm))
+      const filtered = state.products
+        .filter((p) => p.name.toLowerCase().includes(term))
         .sort((a, b) => {
-          if (a.isActive !== b.isActive) {
+          if (a.isActive !== b.isActive)
             return Number(b.isActive) - Number(a.isActive);
-          }
 
-          const mainA = getMainVariant(a);
-          const mainB = getMainVariant(b);
+          const A = getMainVariant(a);
+          const B = getMainVariant(b);
 
-          const discA = Number(mainA.discount) || 0;
-          const discB = Number(mainB.discount) || 0;
-
-          return discB - discA;
+          return (Number(B.discount) || 0) - (Number(A.discount) || 0);
         });
 
       state.searchProducts = filtered;
     },
 
-    // ------------------------
-    // 3) Toggle фільтрів (категорія, виробник)
-    // ------------------------
+    // ============================
+    // 3) MAIN FILTER ACTION
+    // ============================
     setFilters: (state, action) => {
       const { value, filters }: { value: string; filters: FilterKeys } =
         action.payload;
@@ -134,60 +149,98 @@ export const productsSlice = createSlice({
         state[filters].push(value);
       }
 
-      // ------------------------
-      // ФІЛЬТРАЦІЯ
-      // ------------------------
-      let result = [...state.products];
+      // -------------------------
+      // STEP 1: CATEGORY FILTER
+      // -------------------------
+      let afterCategory = state.products;
 
-      // фільтр по категоріям (головний)
       if (state.categorySelectFilters.length > 0) {
-        result = result.filter((p) =>
+        afterCategory = afterCategory.filter((p) =>
           state.categorySelectFilters.includes(p.category)
         );
       }
 
-      // фільтр по виробникам
+      state.filteredProducerCount = countBy(afterCategory, (p) => p.producer);
+
+      state.filteredWeightCount = countBy(
+        afterCategory
+          .map((p) => {
+            const m = getMainVariant(p);
+            if (m.unitType === "size") return null;
+            return `${m.amount}${m.unitType}`;
+          })
+          .filter(Boolean) as string[],
+        (w) => w
+      );
+
+      // -------------------------
+      // STEP 2: PRODUCER FILTER
+      // -------------------------
+      let afterProducer = afterCategory;
+
       if (state.producerSelectFilter.length > 0) {
-        result = result.filter((p) =>
+        afterProducer = afterProducer.filter((p) =>
           state.producerSelectFilter.includes(p.producer)
         );
       }
 
-      // зберігаємо
-      state.filteredProducts = result;
+      state.filteredCategoryCount = countBy(afterProducer, (p) => p.category);
 
-      // ДИНАМІЧНІ підрахунки
-      state.filteredCategoryCount = countBy(result, "category");
-      state.filteredProducerCount = countBy(result, "producer");
+      state.filteredWeightCount = countBy(
+        afterProducer
+          .map((p) => {
+            const m = getMainVariant(p);
+            if (m.unitType === "size") return null;
+            return `${m.amount}${m.unitType}`;
+          })
+          .filter(Boolean) as string[],
+        (w) => w
+      );
+
+      // -------------------------
+      // STEP 3: WEIGHT FILTER
+      // -------------------------
+      let final = afterProducer;
+
+      if (state.weightSelectFilter.length > 0) {
+        final = final.filter((p) => {
+          const m = getMainVariant(p);
+          if (m.unitType === "size") return false;
+          return state.weightSelectFilter.includes(`${m.amount}${m.unitType}`);
+        });
+      }
+
+      state.filteredProducts = final;
     },
-    setFiltersFromLink: (state, action) => {
-      const filters = action.payload;
-      // ставимо категорії
-      state.categorySelectFilters = filters;
 
-      // ------------------------
-      // запускаємо фільтрацію
-      // ------------------------
-      let result = [...state.products];
+    // ============================
+    // 4) FILTER FROM LINK
+    // ============================
+    setFiltersFromLink: (state, action) => {
+      state.categorySelectFilters = action.payload;
+
+      let filtered = state.products;
 
       if (state.categorySelectFilters.length > 0) {
-        result = result.filter((p) =>
+        filtered = filtered.filter((p) =>
           state.categorySelectFilters.includes(p.category)
         );
       }
 
-      if (state.producerSelectFilter.length > 0) {
-        result = result.filter((p) =>
-          state.producerSelectFilter.includes(p.producer)
-        );
-      }
+      state.filteredProducts = filtered;
+      state.filteredCategoryCount = countBy(filtered, (p) => p.category);
+      state.filteredProducerCount = countBy(filtered, (p) => p.producer);
 
-      // зберігаємо
-      state.filteredProducts = result;
-
-      // оновлюємо лічильники
-      state.filteredCategoryCount = countBy(result, "category");
-      state.filteredProducerCount = countBy(result, "producer");
+      state.filteredWeightCount = countBy(
+        filtered
+          .map((p) => {
+            const m = getMainVariant(p);
+            if (m.unitType === "size") return null;
+            return `${m.amount}${m.unitType}`;
+          })
+          .filter(Boolean) as string[],
+        (w) => w
+      );
     },
   },
 });

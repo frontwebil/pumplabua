@@ -136,6 +136,11 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+.Catalog-top-right-wrap-container {
+  display: flex;
+  justify-content: space-between;
+}
+
 .Catalog-top-right-wrap {
   display: flex;
   align-items: center;

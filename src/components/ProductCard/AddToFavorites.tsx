@@ -48,7 +48,6 @@ export function AddToFavorites({ productId }: { productId: string }) {
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          toast("Увійдіть, щоб додати в улюблені");
           toggleFavorite(productId);
         }}
       >
