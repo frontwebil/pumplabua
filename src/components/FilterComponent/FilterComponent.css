@@ -168,8 +168,7 @@
 
 @media only screen and (max-width: 420px) {
   .filter-group {
-    padding-bottom: 80px;
-    padding: 15px;
+    padding: 15px 15px 80px;
     top: 40px;
     max-width: 100%;
     width: 100%;
