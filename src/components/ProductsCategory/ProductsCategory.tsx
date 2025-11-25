@@ -26,21 +26,21 @@ export function ProductsCategory() {
       description:
         "Добавки, що прискорюють метаболізм і допомагають контролювати вагу",
       bgImage: "/Home/ProductsCategory/2.png",
-      filters: [""],
+      filters: ["Жироспалювачі"],
     },
     {
       title: "Підвищення енергії та витривалості",
       description:
         "Предтренувальні та енергетичні формули для максимальних тренувань",
       bgImage: "/Home/ProductsCategory/3.png",
-      filters: [""],
+      filters: ["Амінокислоти", "Предтренувальні комплекси"],
     },
     {
       title: "Відновлення та зниження втоми",
       description:
         "Амінокислоти та гейнери для швидкого відновлення після навантажень",
       bgImage: "/Home/ProductsCategory/4.png",
-      filters: [""],
+      filters: ["Хондропротектори", "Амінокислоти"],
     },
   ];
 
