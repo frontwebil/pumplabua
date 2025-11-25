@@ -21,3 +21,16 @@
     flex-direction: column;
   }
 }
+
+@media only screen and (max-width: 725px) {
+  .catalog-cards {
+    gap: 10px;
+  }
+}
+
+@media only screen and (max-width: 660px) {
+  .catalog-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10;
+  }
+}

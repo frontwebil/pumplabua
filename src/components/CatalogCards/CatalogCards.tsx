@@ -9,6 +9,8 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { PiFaders } from "react-icons/pi";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useWindowWidth } from "@/custom-hooks/useWidth";
+import { useDispatch } from "react-redux";
+import { toogleIsOpenMobileFilter } from "@/redux/pamplabua/slices/uiSlice";
 
 type ProductType = Product & { variants: Variant[] };
 
@@ -22,16 +24,15 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const width = useWindowWidth();
+  const dispatch = useDispatch();
 
   const [isOpenSortMenu, setIsOpenSortMenu] = useState(false);
   const [sortType, setSortType] = useState<
     "hits" | "newest" | "oldest" | "priceLow" | "priceHigh"
   >("hits");
-  const [isOpenFilter, setIsOpenFilter] = useState(false);
 
-  const itemsPerPage = 15;
+  const itemsPerPage = width && width < 661 ? 20 : 15;
 
-  // Початкове значення сторінки з URL
   const pageFromUrl = Number(searchParams.get("page")) || 1;
   const [currentPage, setCurrentPage] = useState(pageFromUrl);
 
@@ -236,7 +237,10 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
             </div>
           </div>
 
-          <div className="Filter-mobile-button">
+          <div
+            className="Filter-mobile-button"
+            onClick={() => dispatch(toogleIsOpenMobileFilter())}
+          >
             <PiFaders />
           </div>
         </div>

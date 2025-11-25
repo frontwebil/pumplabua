@@ -9,6 +9,7 @@ type initialStateType = {
   sessionId: string | null | undefined;
   isLogged: boolean;
   accountInfo: User | null;
+  isOpenMobileFilter: boolean;
   favoritesProducts: string[];
 };
 
@@ -21,6 +22,7 @@ const initialState: initialStateType = {
   isLogged: false,
   accountInfo: null,
   favoritesProducts: [],
+  isOpenMobileFilter: false,
 };
 
 const uiSlice = createSlice({
@@ -63,6 +65,9 @@ const uiSlice = createSlice({
       const { favoriteProducts } = action.payload;
       state.favoritesProducts = favoriteProducts;
     },
+    toogleIsOpenMobileFilter: (state) => {
+      state.isOpenMobileFilter = !state.isOpenMobileFilter;
+    },
   },
 });
 
@@ -76,6 +81,7 @@ export const {
   toggleBurgerCatalog,
   closeBurgerCatalog,
   setFavoritesProducts,
+  toogleIsOpenMobileFilter,
 } = uiSlice.actions;
 
 // Експорт редюсера для store

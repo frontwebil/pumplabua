@@ -5,7 +5,7 @@ import { CatalogCards } from "../CatalogCards/CatalogCards";
 import { FilterComponent } from "../FilterComponent/FilterComponent";
 import "@/components/CatalogContainer/CatalogContainer.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setProducts } from "@/redux/pamplabua/slices/productsSlice";
 import { RootState } from "@/redux/pamplabua/store";
 
@@ -24,11 +24,12 @@ export function CatalogContainer() {
   const currentProducts =
     filteredProducts.length < 1 ? products : filteredProducts;
 
+
   return (
     <>
       <div className="catalog-container">
         <FilterComponent />
-        <CatalogCards products={currentProducts} />
+        <CatalogCards products={currentProducts}/>
       </div>
     </>
   );
