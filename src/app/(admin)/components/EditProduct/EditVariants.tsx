@@ -244,7 +244,7 @@ export function EditVariants() {
                 <option value="pcs">шт (штуки)</option>
                 <option value="caps">капс (капсули)</option>
                 <option value="size">розмір</option>
-                <option value="tab">таблетки(Таб)</option>
+                <option value="tabs">таблетки(Таб)</option>
                 <option value="gum">жувальні(gum)</option>
               </select>
             </div>
