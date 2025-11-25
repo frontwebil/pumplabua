@@ -168,7 +168,7 @@ export function Header() {
                           <Link
                             href={SITE_LINKS.CATALOG}
                             onClick={() => {
-                              dispatch(setFiltersFromLink([category.value])); // <—— ОЦЕ ПРАВИЛЬНО
+                              dispatch(setFiltersFromLink([category.value]));
                               dispatch(toggleBurgerCatalog());
                             }}
                             className="fs-md font-bold uppercase header-catalog-menu-link"

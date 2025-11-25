@@ -1,41 +1,46 @@
 import "@/components/ProductsCategory/ProductsCategory.css";
+import { setFiltersFromLink } from "@/redux/pamplabua/slices/productsSlice";
+import { SITE_LINKS } from "@/site-config/site.config";
+import Link from "next/link";
+import { useDispatch } from "react-redux";
 
 type ProductsCategoryType = {
   title: string;
   description: string;
   bgImage: string;
-  link: string;
+  filters: string[];
 };
 
 export function ProductsCategory() {
+  const dispatch = useDispatch();
   const cards: ProductsCategoryType[] = [
     {
       title: "Набір м’язової маси",
       description:
         "Продукти для ефективного росту м’язів та швидкого відновлення",
       bgImage: "/Home/ProductsCategory/1.png",
-      link: "",
+      filters: ["Протеїн", "Креатин"],
     },
     {
       title: "Схуднення та жироспалювання",
       description:
         "Добавки, що прискорюють метаболізм і допомагають контролювати вагу",
       bgImage: "/Home/ProductsCategory/2.png",
-      link: "",
+      filters: [""],
     },
     {
       title: "Підвищення енергії та витривалості",
       description:
         "Предтренувальні та енергетичні формули для максимальних тренувань",
       bgImage: "/Home/ProductsCategory/3.png",
-      link: "",
+      filters: [""],
     },
     {
       title: "Відновлення та зниження втоми",
       description:
         "Амінокислоти та гейнери для швидкого відновлення після навантажень",
       bgImage: "/Home/ProductsCategory/4.png",
-      link: "",
+      filters: [""],
     },
   ];
 
@@ -52,7 +57,13 @@ export function ProductsCategory() {
               <p className="fs-lg">{card.description}</p>
             </div>
           </div>
-          <div className="productsCategory-link fs-md">Перейти</div>
+          <Link
+            href={SITE_LINKS.CATALOG}
+            className="productsCategory-link fs-md"
+            onClick={() => dispatch(setFiltersFromLink(card.filters))}
+          >
+            Перейти
+          </Link>
         </div>
       ))}
     </section>

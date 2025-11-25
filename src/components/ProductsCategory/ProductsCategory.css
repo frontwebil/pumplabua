@@ -27,6 +27,7 @@
   gap: 16px;
 }
 .productsCategory-link {
+  display: block;
   border-radius: 6px;
   font-weight: 600;
   padding: 15px;

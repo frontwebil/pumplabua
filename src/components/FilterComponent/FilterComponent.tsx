@@ -66,7 +66,6 @@ export function FilterComponent() {
           className="fs-md underline text-center"
           onClick={() => {
             dispatch(resetFilters());
-            dispatch(toogleIsOpenMobileFilter());
           }}
         >
           Скинути фільтр

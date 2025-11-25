@@ -19,7 +19,7 @@ export default function EditProduct() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { product } = useSelector((store: RootState) => store.editProductSlice);
-  console.log(product);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const getCurrentProduct = async () => {
     if (!id) return; // якщо id відсутній
@@ -59,32 +59,77 @@ export default function EditProduct() {
     }
   };
 
+  const handleDelete = async () => {
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete("/api/product/delete", {
+        data: {
+          id: product.id,
+        },
+      });
+
+      toast.success("Товар успішно видалено");
+      router.replace("/admin-pamplabua-51nsugjabxhy/catalog");
+    } catch (error: any) {
+      console.error("Помилка при видаленні:", error);
+      toast.error(error?.response?.data?.error || "Помилка при видаленні");
+    }
+  };
+
   return (
-    <form className="mt-10" onSubmit={handleUpdate}>
-      <h2 className="pb-10 text-xl font-bold">Редагування товару</h2>
-      <ToggleActiveBestSeller />
-      <MainInfo />
-      <AdditionalInfo />
-      <EditVariants />
+    <div className="mt-10 mb-10">
+      <form onSubmit={handleUpdate}>
+        <h2 className="pb-10 text-xl font-bold">Редагування товару</h2>
+        <ToggleActiveBestSeller />
+        <MainInfo />
+        <AdditionalInfo />
+        <EditVariants />
+        <div className="flex gap-10">
+          <button
+            className="
+          mt-10
+          px-5 py-2.5
+          bg-blue-600 
+          text-white 
+          font-medium
+          rounded
+          shadow-sm
+          hover:bg-blue-700 
+          active:bg-blue-800
+          transition-all 
+          duration-200
+          cursor-pointer
+          "
+            disabled={loading}
+          >
+            {loading ? "Змінюємо товар..." : "Змінити"}
+          </button>
+        </div>
+      </form>
       <button
         className="
-    mt-10
-    px-5 py-2.5
-    bg-blue-600 
-    text-white 
-    font-medium
-    rounded
-    shadow-sm
-    hover:bg-blue-700 
-    active:bg-blue-800
-    transition-all 
-    duration-200
-    cursor-pointer
-  "
+          mt-10
+          px-5 py-2.5
+          bg-red-600 
+          text-white 
+          font-medium
+          rounded
+          shadow-sm
+          hover:bg-red-700 
+          active:bg-red-800
+          transition-all 
+          duration-200
+          cursor-pointer
+          "
         disabled={loading}
+        onClick={() => {
+          setConfirmDelete(true);
+          handleDelete();
+        }}
       >
-        {loading ? "Змінюємо товар..." : "Змінити"}
+        {!confirmDelete ? "Видалити товар" : "Ви впевнені що хочете видалити?"}
       </button>
-    </form>
+    </div>
   );
 }
