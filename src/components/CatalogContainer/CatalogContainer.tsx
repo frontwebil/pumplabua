@@ -1,3 +1,5 @@
+"use client";
+
 import { useProducts } from "@/custom-hooks/fetchProducts";
 import { CatalogCards } from "../CatalogCards/CatalogCards";
 import { FilterComponent } from "../FilterComponent/FilterComponent";
