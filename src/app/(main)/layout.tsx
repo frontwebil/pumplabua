@@ -6,6 +6,8 @@ import { AuthForms } from "@/components/AuthForms/AuthForms";
 import { ToastContainer } from "react-toastify";
 import { SessionProviderWrapper } from "@/providers/SessionAuthProviders";
 import { QueryProviders } from "@/providers/QueryProvider";
+import { OrderModal } from "@/components/OrderModal/OrderModal";
+import { OrderCart } from "@/components/OrderCart/OrderCart";
 
 export default function MainLayout({
   children,
@@ -23,6 +25,8 @@ export default function MainLayout({
             autoClose={3000}
           />
           <AuthForms />
+          <OrderModal />
+          <OrderCart />
           <Header />
           {children}
           <Footer />

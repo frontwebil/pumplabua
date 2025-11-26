@@ -63,7 +63,7 @@ export function FilterComponent() {
           Шукати
         </div>
         <p
-          className="fs-md underline text-center"
+          className="fs-md underline text-center cursor-pointer"
           onClick={() => {
             dispatch(resetFilters());
           }}

@@ -178,7 +178,8 @@ header {
 }
 
 .header-nav-user-func-icon {
-  font-size: 22px;
+  width: 26px;
+  height: 26px;
   color: #0339f4;
   stroke-width: 1px;
 }

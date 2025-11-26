@@ -19,6 +19,7 @@ import {
   setSession,
   toggleBurger,
   toggleBurgerCatalog,
+  toggleIsOpenOrderModal,
 } from "@/redux/pamplabua/slices/uiSlice";
 import { RootState } from "@/redux/pamplabua/store";
 import axios from "axios";
@@ -184,8 +185,17 @@ export function Header() {
 
             <div className="header-nav-user-func">
               <FavoriteLink />
-              <div className="header-nav-user-func-col">
-                <PiFlask className="header-nav-user-func-icon" />
+              <div
+                className="header-nav-user-func-col"
+                onClick={() => dispatch(toggleIsOpenOrderModal())}
+              >
+                <Image
+                  src={"/favicon.png"}
+                  alt=""
+                  width={1000}
+                  height={1000}
+                  className="header-nav-user-func-icon"
+                />
                 <p className="fs-xs font-bold">Кошик</p>
               </div>
               <CabinetLink />

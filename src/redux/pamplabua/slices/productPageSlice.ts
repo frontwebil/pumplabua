@@ -47,7 +47,6 @@ export const productPageSlice = createSlice({
     },
 
     setQuantity(state, action) {
-      console.log(action.payload);
       state.quantityProduct = action.payload;
     },
 

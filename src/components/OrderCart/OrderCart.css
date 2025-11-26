@@ -1,0 +1,46 @@
+.OrderCart-fixed-bottom-right {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  /* z-index: 99; */
+}
+
+.OrderCart-fixed-container {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.OrderCart-fixed-container:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.25);
+}
+
+.OrderCart-products-in-card {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff3b30; /* красный iOS-style, можно поменять */
+  color: white;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: bold;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  pointer-events: none; /* не мешает клику */
+}

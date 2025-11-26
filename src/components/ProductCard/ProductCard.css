@@ -20,14 +20,13 @@
 .discount-block {
   position: absolute;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 0;
   font-size: 16px;
   font-weight: bold;
   padding: 12px 12px;
   background-color: #ff5a00;
   color: white;
-  border-radius: 0 0 6px 6px;
+  border-radius: 0 6px 0px 6px;
 }
 
 .product-card-price-wrapper {

@@ -15,7 +15,6 @@ const catalogSlice = createSlice({
   reducers: {
     setProducts: (state, action) => {
       const { products } = action.payload;
-      console.log(products);
       state.products = products;
     },
   },

@@ -1,9 +1,14 @@
 import { RootState } from "@/redux/pamplabua/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ProductPageFuncButtons } from "./ProductPageFuncButtons";
+import { addProductToOrders } from "@/redux/pamplabua/slices/orderSlice";
+import { toggleIsOpenOrderModal } from "@/redux/pamplabua/slices/uiSlice";
+import { toast } from "react-toastify";
 
 export function ProductPagePrice() {
-  const { quantityProduct, selectedVariant } = useSelector(
+  const dispatch = useDispatch();
+
+  const { currentProduct, quantityProduct, selectedVariant } = useSelector(
     (store: RootState) => store.productPageSlice
   );
 
@@ -35,8 +40,26 @@ export function ProductPagePrice() {
           {actualPrice} ГРН
         </div>
         <button
-          className={`ProductPagePrice-row-addCart ${!selectedVariant.inStock && "not-active"}`}
+          className={`ProductPagePrice-row-addCart ${
+            !selectedVariant.inStock && "not-active"
+          }`}
           disabled={!selectedVariant.inStock}
+          onClick={() => {
+            if (!currentProduct) return;
+
+            const productWithoutVariants = (({ variants, ...rest }) => rest)(
+              currentProduct
+            );
+            dispatch(
+              addProductToOrders({
+                ...productWithoutVariants,
+                selectedVariant,
+                quantityProduct,
+              })
+            );
+            toast.success("Товар додано до кошику!");
+            dispatch(toggleIsOpenOrderModal());
+          }}
         >
           {!selectedVariant.inStock ? "Немає в наявності" : "Додати у кошик"}
         </button>

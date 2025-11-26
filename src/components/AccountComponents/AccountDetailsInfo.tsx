@@ -54,8 +54,6 @@ export function AccountDetailsInfo() {
       const monthNum = Number(dateBirthday.month);
       const yearNum = Number(dateBirthday.year);
 
-      console.log(dayNum, monthNum, yearNum);
-
       if (!dayNum || !monthNum || !yearNum) {
         toast("Введіть дані для дати народження");
         return;

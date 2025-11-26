@@ -5,6 +5,7 @@ type initialStateType = {
   isOpenAuthModal: boolean;
   isOpenBurger: boolean;
   isOpenBurgerCatalog: boolean;
+  isOpenOrderModal: boolean;
   userName: string | null | undefined;
   sessionId: string | null | undefined;
   isLogged: boolean;
@@ -17,6 +18,7 @@ const initialState: initialStateType = {
   isOpenBurger: false,
   isOpenBurgerCatalog: false,
   isOpenAuthModal: false,
+  isOpenOrderModal: false,
   userName: null,
   sessionId: null,
   isLogged: false,
@@ -46,6 +48,12 @@ const uiSlice = createSlice({
     },
     closeBurgerCatalog: (state) => {
       state.isOpenBurgerCatalog = false;
+    },
+    toggleIsOpenOrderModal: (state) => {
+      state.isOpenOrderModal = !state.isOpenOrderModal;
+    },
+    closeOrderModal: (state) => {
+      state.isOpenOrderModal = false;
     },
     setSession: (state, action) => {
       const { id, name } = action.payload;
@@ -82,6 +90,8 @@ export const {
   closeBurgerCatalog,
   setFavoritesProducts,
   toogleIsOpenMobileFilter,
+  toggleIsOpenOrderModal,
+  closeOrderModal,
 } = uiSlice.actions;
 
 // Експорт редюсера для store

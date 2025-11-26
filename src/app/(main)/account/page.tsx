@@ -10,8 +10,6 @@ import { useEffect } from "react";
 export default function AccountPage() {
   const { data, status } = useSession();
   const router = useRouter();
-  console.log(data);
-  console.log(status);
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/");

@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 
 export function ResetPageFormConfirm() {
   const { token } = useParams();
-  console.log(token);
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
