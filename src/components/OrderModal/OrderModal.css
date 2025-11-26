@@ -200,6 +200,7 @@
   padding: 20px;
   height: max-content;
   max-width: 390px;
+  width: 100%;
 }
 .order-total-price-title {
   font-size: 18px;
@@ -236,7 +237,7 @@
 .order-total-price-total {
   display: flex;
   justify-content: space-between;
-  padding: 30px 0;
+  padding: 30px 0 20px;
   color: #0339f4;
   font-size: 18px;
 }
@@ -259,6 +260,9 @@
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: block;
+  max-width: 100%;
+  width: 100%;
 }
 
 .order-total-go-to-order-page:hover {
@@ -304,6 +308,7 @@
     align-items: center;
     flex-shrink: 0;
     text-align: center;
+    justify-content: center;
   }
   .OrderModal-products-row.counts {
     max-width: 140px;
@@ -377,10 +382,10 @@
     padding-top: 18px;
     padding-bottom: 18px;
   }
-  .order-total-price{
+  .order-total-price {
     padding: 20px 15px;
   }
-  .order-total-price-total{
+  .order-total-price-total {
     padding: 18px 0;
   }
 }

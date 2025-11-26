@@ -31,7 +31,7 @@ model User {
 }
 
 model Product {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
   name            String
   producer        String
   mainDescription String
@@ -41,9 +41,9 @@ model Product {
   purpose         String?
   components      String?
   additional      String?
-  isBestseller    Boolean  @default(false)
-  isActive        Boolean  @default(true)
-  slug            String?  @unique
+  isBestseller    Boolean @default(false)
+  isActive        Boolean @default(true)
+  slug            String? @unique
 
   variants Variant[]
 
@@ -52,18 +52,93 @@ model Product {
 }
 
 model Variant {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  flavor   String?  // може бути null якщо таблетки без смаку
-  amount   Float    // кількість (напр. 500 або 60)
-  unitType String   // одиниця виміру: "g", "pcs", "caps", "ml"
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  flavor     String? // може бути null якщо таблетки без смаку
+  amount     Float // кількість (напр. 500 або 60)
+  unitType   String // одиниця виміру: "g", "pcs", "caps", "ml"
   sizeAmount String?
-  price    Float
-  inStock  Boolean  @default(true)
-  discount Float?   @default(0)
-  isMain   Boolean? @default(false)
-  
-  images   String[] // фото для кожного варіанту
+  price      Float
+  inStock    Boolean  @default(true)
+  discount   Float?   @default(0)
+  isMain     Boolean? @default(false)
+
+  images String[] // фото для кожного варіанту
 
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String  @db.ObjectId
+}
+
+model OrderItem {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  orderId String @db.ObjectId
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  name      String
+  producer  String
+  category  String
+  slug      String?
+
+  flavor     String?
+  amount     Float
+  unitType   String
+  sizeAmount String?
+  price      Float
+  discount   Float?
+  images     String[]
+
+  quantity   Int
+  finalPrice Int
+
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // --- CONTACT ---
+  name        String
+  surname     String
+  middleName  String?
+  phoneNumber String
+  email       String?
+
+  // --- DELIVERY ---
+  delivery     String
+  villageCity  String?
+  street       String?
+  department   String?
+
+  // --- PAYMENT ---
+  typeOfPay OrderPayType
+  status    OrderStatus @default(PENDING)
+
+  // --- TOTALS ---
+  totalPrice    Int
+  deliveryPrice Int
+  discount      Int @default(0)
+
+  // --- WAYFORPAY ---
+  orderRef String? @unique
+
+  // --- ITEMS ---
+  items OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum OrderPayType {
+  online
+  when_received
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
+  NEW
+  CANCELED
+  SENDTORECEIVER
+  DELIVERED
 }

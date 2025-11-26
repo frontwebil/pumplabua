@@ -8,15 +8,38 @@ type OrderProductsSafe = Omit<Product, "createdAt" | "updatedAt"> & {
   quantityProduct: number;
 };
 
+type PersonInfo = {
+  name: string;
+  surname: string;
+  middleName: string;
+  phoneNumber: string;
+  email: string;
+  delivery: string;
+  villageCity: string;
+  street: string;
+  department: string;
+  typeOfPay: "online" | "when received";
+};
+
 type InitialStateType = {
   orderProducts: OrderProductsSafe[];
 };
 
-const initialState: InitialStateType = {
+const initialState: InitialStateType & PersonInfo = {
+  name: "",
+  surname: "",
+  middleName: "",
+  phoneNumber: "",
+  email: "",
+  delivery: "Відділення",
+  villageCity: "",
+  street: "",
+  department: "",
   orderProducts:
     typeof window !== "undefined"
       ? JSON.parse(localStorage.getItem("cart") || "[]")
       : [],
+  typeOfPay: "when received",
 };
 
 const saveToLocalStorage = (state: InitialStateType) => {
@@ -63,9 +86,55 @@ export const OrderProductsSlice = createSlice({
 
       saveToLocalStorage(state);
     },
+    setName: (state, action) => {
+      state.name = action.payload;
+    },
+    setSurname: (state, action) => {
+      state.surname = action.payload;
+    },
+    setMiddleName: (state, action) => {
+      state.middleName = action.payload;
+    },
+    setPhoneNumber: (state, action) => {
+      state.phoneNumber = action.payload;
+    },
+    setEmail: (state, action) => {
+      state.email = action.payload;
+    },
+
+    setDeliveryType: (state, action) => {
+      state.delivery = action.payload;
+    },
+
+    setVillageCity: (state, action) => {
+      state.villageCity = action.payload;
+    },
+    setStreet: (state, action) => {
+      state.street = action.payload;
+    },
+    setDepartment: (state, action) => {
+      state.department = action.payload;
+    },
+
+    setTypeOfPay: (state, action) => {
+      state.typeOfPay = action.payload;
+    },
   },
 });
 
-export const { addProductToOrders, addQuantityProduct, removeQuantityProduct } =
-  OrderProductsSlice.actions;
+export const {
+  addProductToOrders,
+  addQuantityProduct,
+  removeQuantityProduct,
+  setName,
+  setSurname,
+  setMiddleName,
+  setPhoneNumber,
+  setEmail,
+  setDeliveryType,
+  setVillageCity,
+  setStreet,
+  setDepartment,
+  setTypeOfPay,
+} = OrderProductsSlice.actions;
 export default OrderProductsSlice.reducer;
