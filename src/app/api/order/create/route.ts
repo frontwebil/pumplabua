@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
       department,
       typeOfPay,
       totalPrice: 2,
-      deliveryPrice,
+      deliveryPrice: 0,
       discount: 0,
       status: typeOfPay === "online" ? "PENDING" : "NEW",
       items: {
