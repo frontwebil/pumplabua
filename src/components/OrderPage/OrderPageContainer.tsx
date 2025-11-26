@@ -98,7 +98,11 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
     const div = document.createElement("div");
     div.innerHTML = data.form;
     document.body.appendChild(div);
-    (document.getElementsByName("wayforpay")[0] as HTMLFormElement).submit();
+
+    const form = document.querySelector(
+      'form[name="wayforpay"]'
+    ) as HTMLFormElement;
+    form.submit();
   };
 
   return (
