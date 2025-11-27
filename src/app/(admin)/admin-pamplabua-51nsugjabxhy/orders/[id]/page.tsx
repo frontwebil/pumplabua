@@ -210,13 +210,9 @@ export default function OrderPage() {
                     )}
                     <div>
                       <b>{item.name}</b>
-                      <div className="text-xs text-slate-500">
-                        {item.producer}
-                      </div>
-                      <div className="text-xs text-slate-500">
-                        {item.flavor}
-                      </div>
-                      <div className="text-xs text-slate-500">
+                      <div className="text-slate-500">{item.producer}</div>
+                      <div className=" text-slate-500">{item.flavor}</div>
+                      <div className=" text-slate-500">
                         {item.amount} {item.unitType}
                       </div>
                     </div>
