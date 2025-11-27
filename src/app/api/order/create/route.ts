@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createWayForPayForm } from "@/lib/wayforpay";
 import { OrderPayType } from "@prisma/client";
 import prisma from "@/lib/prisma";
+import { getOrderEmailTemplate } from "@/lib/orderEmail";
+import { sendMail } from "@/lib/sendEmail";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -85,6 +87,22 @@ export async function POST(req: NextRequest) {
       },
     },
   });
+
+  if (order.email) {
+    await sendMail({
+      to: order.email,
+      subject:
+        order.status === "PENDING"
+          ? "⏳ Очікується оплата — Pamplabua"
+          : "✅ Замовлення прийнято — Pamplabua",
+      html: getOrderEmailTemplate({
+        name: order.name,
+        orderRef: order.orderRef!,
+        status: order.status,
+        total: order.totalPrice + order.deliveryPrice,
+      }),
+    });
+  }
 
   // ✅ OFFLINE PAYMENT
   if (typeOfPay === "when received") {

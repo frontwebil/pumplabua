@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import crypto from "crypto";
+import { getOrderEmailTemplate } from "@/lib/orderEmail";
+import { sendMail } from "@/lib/sendEmail";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
@@ -26,6 +28,7 @@ export async function POST(req: NextRequest) {
     .update(signString)
     .digest("hex");
 
+  // ✅ SIGN CHECK
   if (localSignature !== merchantSignature) {
     return NextResponse.json({ error: "INVALID SIGN" }, { status: 403 });
   }
@@ -38,16 +41,29 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "ORDER NOT FOUND" }, { status: 404 });
   }
 
-  // ✅ TEST MODE SUCCESS
-  if (data.transactionStatus === "Approved") {
-    await prisma.order.update({
-      where: { orderRef: orderReference },
-      data: { status: "PAID" },
-    });
-  } else {
-    await prisma.order.update({
-      where: { orderRef: orderReference },
-      data: { status: "FAILED" },
+  // ✅ STATUS DEFINE
+  const newStatus = data.transactionStatus === "Approved" ? "PAID" : "FAILED";
+
+  // ✅ UPDATE ORDER
+  const updated = await prisma.order.update({
+    where: { orderRef: orderReference },
+    data: { status: newStatus },
+  });
+
+  // ✅ SEND EMAIL
+  if (updated.email) {
+    await sendMail({
+      to: updated.email,
+      subject:
+        newStatus === "PAID"
+          ? "✅ Оплата успішна — Pamplabua"
+          : "❌ Помилка оплати — Pamplabua",
+      html: getOrderEmailTemplate({
+        name: updated.name,
+        orderRef: updated.orderRef!,
+        status: newStatus,
+        total: updated.totalPrice + updated.deliveryPrice,
+      }),
     });
   }
 
