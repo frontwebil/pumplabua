@@ -22,9 +22,17 @@ const STATUS_CONFIG = {
 export default function AdminOrdersPage() {
   const router = useRouter();
   const [orders, setOrders] = useState<TypeOrder[]>([]);
-  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([
+    "NEW",
+    "PENDING",
+    "PAID",
+    "CONFIRMED",
+    "SENDTORECEIVER",
+    "DELIVERED",
+    "FAILED",
+  ]);
   const [loading, setLoading] = useState(true);
-
+  console.log(selectedStatuses);
   useEffect(() => {
     fetch("/api/admin/get-orders")
       .then((res) => res.json())
