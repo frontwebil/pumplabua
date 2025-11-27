@@ -1,7 +1,8 @@
 import "@/components/AccountComponents/AccountComponents.css";
 import { AccountNav } from "./AccountNav";
 
-export function AccauntOrdersContent({ orders }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function AccauntOrdersContent({ orders }: { orders: any }) {
   console.log(orders);
   return (
     <div className="container">
