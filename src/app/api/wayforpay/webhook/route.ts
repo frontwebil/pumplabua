@@ -4,7 +4,7 @@ import { makeSignature } from "@/lib/wayforpay";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  console.log("WAYFORPAY WEBHOOK DATA:", data);
+  console.log("WAYFORPAY_SECRET =", process.env.WAYFORPAY_MERCHANT_SECRET);
   const secret = process.env.WAYFORPAY_WEBHOOK_SECRET!;
 
   // Перевірка підпису (опційно, але рекомендовано)
@@ -27,6 +27,7 @@ export async function POST(req: NextRequest) {
 
   const orderRef = data.orderReference;
   console.log("ORDER REF:", data.orderReference);
+
   await prisma.order.update({
     where: { orderRef },
     data: {
