@@ -22,6 +22,7 @@ const STATUS_CONFIG = {
 export default function AdminOrdersPage() {
   const router = useRouter();
   const [orders, setOrders] = useState<TypeOrder[]>([]);
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -35,6 +36,60 @@ export default function AdminOrdersPage() {
 
   return (
     <div style={{ padding: "40px", minHeight: "100vh" }}>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "10px",
+          marginBottom: "20px",
+        }}
+      >
+        {Object.entries(STATUS_CONFIG).map(([key, config]) => {
+          const active = selectedStatuses.includes(key);
+
+          return (
+            <button
+              key={key}
+              className={`filter-btn ${active ? "active" : ""}`}
+              style={{
+                background: active ? config.color : "#f4f6ff",
+                color: active ? "white" : "#2c3e70",
+                border: "1px solid #dbe3ff",
+                padding: "6px 12px",
+                borderRadius: "999px",
+                fontSize: "12px",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                setSelectedStatuses((prev) =>
+                  prev.includes(key)
+                    ? prev.filter((s) => s !== key)
+                    : [...prev, key]
+                );
+              }}
+            >
+              {config.label}
+            </button>
+          );
+        })}
+
+        {selectedStatuses.length > 0 && (
+          <button
+            onClick={() => setSelectedStatuses([])}
+            style={{
+              background: "#f1f3ff",
+              color: "#4b5ed7",
+              border: "1px dashed #c7d2ff",
+              padding: "6px 12px",
+              borderRadius: "999px",
+              fontSize: "12px",
+              cursor: "pointer",
+            }}
+          >
+            Очистити
+          </button>
+        )}
+      </div>
       <h1 style={{ fontSize: "26px", fontWeight: 700, marginBottom: "20px" }}>
         Замовлення
       </h1>
@@ -72,53 +127,59 @@ export default function AdminOrdersPage() {
           </thead>
 
           <tbody>
-            {orders.map((order, index) => {
-              const status = STATUS_CONFIG[order.status];
-              const itemsCount = order.items.reduce(
-                (sum, el) => (sum += el.quantity),
-                0
-              );
+            {orders
+              .filter(
+                (order) =>
+                  selectedStatuses.length === 0 ||
+                  selectedStatuses.includes(order.status)
+              )
+              .map((order, index) => {
+                const status = STATUS_CONFIG[order.status];
+                const itemsCount = order.items.reduce(
+                  (sum, el) => (sum += el.quantity),
+                  0
+                );
 
-              return (
-                <tr
-                  key={order.id}
-                  style={{
-                    borderBottom: "1px solid #f0f2f8",
-                    transition: "0.15s",
-                    cursor: "pointer",
-                  }}
-                  onClick={() =>
-                    router.push(
-                      `/admin-pamplabua-51nsugjabxhy/orders/${order.id}`
-                    )
-                  }
-                >
-                  <td style={td}>{index + 1}</td>
-                  <td style={td}>{order.orderRef}</td>
-                  <td style={td}>{itemsCount}</td>
-                  <td style={td}>{order.totalPrice} грн</td>
+                return (
+                  <tr
+                    key={order.id}
+                    style={{
+                      borderBottom: "1px solid #f0f2f8",
+                      transition: "0.15s",
+                      cursor: "pointer",
+                    }}
+                    onClick={() =>
+                      router.push(
+                        `/admin-pamplabua-51nsugjabxhy/orders/${order.id}`
+                      )
+                    }
+                  >
+                    <td style={td}>{index + 1}</td>
+                    <td style={td}>{order.orderRef}</td>
+                    <td style={td}>{itemsCount}</td>
+                    <td style={td}>{order.totalPrice} грн</td>
 
-                  <td style={td}>
-                    <span
-                      style={{
-                        background: status.color,
-                        color: "white",
-                        padding: "4px 10px",
-                        borderRadius: "999px",
-                        fontSize: "12px",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {status.label}
-                    </span>
-                  </td>
+                    <td style={td}>
+                      <span
+                        style={{
+                          background: status.color,
+                          color: "white",
+                          padding: "4px 10px",
+                          borderRadius: "999px",
+                          fontSize: "12px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {status.label}
+                      </span>
+                    </td>
 
-                  <td style={td}>
-                    {new Date(order.createdAt).toLocaleString("uk-UA")}
-                  </td>
-                </tr>
-              );
-            })}
+                    <td style={td}>
+                      {new Date(order.createdAt).toLocaleString("uk-UA")}
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
