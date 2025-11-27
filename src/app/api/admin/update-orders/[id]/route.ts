@@ -5,6 +5,46 @@ import { sendMail } from "@/lib/sendEmail";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
+const STATUS_TEXT: Record<string, { title: string; message: string }> = {
+  NEW: {
+    title: "Замовлення прийнято ✅",
+    message:
+      "Дякуємо за замовлення! Ми вже отримали його та розпочали обробку.",
+  },
+  PENDING: {
+    title: "Очікується оплата ⏳",
+    message:
+      "Ваше замовлення очікує оплату. Будь ласка, завершіть платіж, щоб ми могли почати обробку.",
+  },
+  PAID: {
+    title: "Оплата успішна 💳",
+    message: "Ми отримали вашу оплату та готуємо товар до відправки.",
+  },
+  CONFIRMED: {
+    title: "Замовлення підтверджене 📦",
+    message:
+      "Ваше замовлення підтверджено менеджером і готується до відправки.",
+  },
+  SENDTORECEIVER: {
+    title: "Замовлення відправлено 🚚",
+    message:
+      "Ваше замовлення передано службі доставки та скоро прибуде до вас.",
+  },
+  DELIVERED: {
+    title: "Замовлення доставлено ✅",
+    message: "Дякуємо за покупку! Якщо виникнуть питання — напишіть нам.",
+  },
+  FAILED: {
+    title: "Помилка оплати ❌",
+    message: "Під час оплати сталася помилка. Будь ласка, спробуйте ще раз.",
+  },
+  CANCELED: {
+    title: "Замовлення скасовано ❌",
+    message:
+      "Ваше замовлення було скасовано. Якщо це помилка — зверніться до підтримки.",
+  },
+};
+
 export async function PATCH(
   req: Request,
   ctx: { params: Promise<{ id: string }> }
@@ -47,7 +87,8 @@ export async function PATCH(
   if (body.status && updated.email) {
     await sendMail({
       to: updated.email,
-      subject: `📦 Статус замовлення оновлено`,
+      subject:
+        STATUS_TEXT[updated.status]?.title || "Статус замовлення оновлено",
       html: getOrderEmailTemplate({
         name: updated.name,
         orderRef: updated.orderRef!,

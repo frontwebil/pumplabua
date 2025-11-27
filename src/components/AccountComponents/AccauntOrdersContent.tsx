@@ -1,9 +1,27 @@
 import "@/components/AccountComponents/AccountComponents.css";
 import { AccountNav } from "./AccountNav";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { toggleAuthModal } from "@/redux/pamplabua/slices/uiSlice";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function AccauntOrdersContent({ orders }: { orders: any }) {
-  console.log(orders);
+  const { status } = useSession();
+  console.log(status);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      toast(
+        "Зареєструйтесь або ввійдіть в акаунт щоб бачити історію замовлень"
+      );
+      dispatch(toggleAuthModal());
+      router.replace("/");
+    }
+  }, [status, orders]);
+
   return (
     <div className="container">
       <div className="account-content">
