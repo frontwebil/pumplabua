@@ -8,8 +8,6 @@ export default function CancelledPage({
 }: {
   searchParams: { ref?: string };
 }) {
-  const orderRef = searchParams.ref;
-
   return (
     <div className="success-page failed">
       <ResetOrders />
