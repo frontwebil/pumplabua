@@ -62,6 +62,11 @@ export async function PATCH(
     return NextResponse.json({ error: "Empty body" }, { status: 400 });
   }
 
+  const before = await prisma.order.findUnique({
+    where: { id },
+    select: { status: true },
+  });
+
   const updated = await prisma.order.update({
     where: { id },
     data: {
@@ -84,7 +89,7 @@ export async function PATCH(
     },
   });
 
-  if (body.status && updated.email) {
+  if (before?.status !== updated.status && updated.email) {
     await sendMail({
       to: updated.email,
       subject:
