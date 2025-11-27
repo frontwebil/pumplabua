@@ -213,7 +213,7 @@ input[type="number"] {
   background: #ffffff;
   border-radius: 18px;
   padding: 40px 32px;
-  max-width: 420px;
+  max-width: 450px;
   width: 100%;
   text-align: center;
 
@@ -249,11 +249,15 @@ input[type="number"] {
 
 .success-buttons {
   display: flex;
+  align-items: stretch;
   gap: 12px;
   margin-top: 20px;
 }
 
 .success-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex: 1;
   text-decoration: none;
   background: #f4f7ff;
@@ -278,6 +282,63 @@ input[type="number"] {
 
 .success-btn.main:hover {
   filter: brightness(1.05);
+}
+
+/* ==== FAILED / CANCELLED MODE ==== */
+
+.success-page.failed {
+  background: linear-gradient(135deg, #fff1f1, #fff6f6);
+}
+
+.success-card.failed {
+  border-color: #ffd5d5;
+  box-shadow: 0 12px 30px rgba(255, 0, 0, 0.12);
+}
+
+.success-icon.failed {
+  color: #ff4d4d;
+}
+
+/* Кнопка "спробувати ще раз" */
+.success-btn.danger {
+  background: linear-gradient(135deg, #ff4d4d, #ff6e6e);
+  color: white;
+  border: none;
+  font-weight: 600;
+}
+
+.success-btn.danger:hover {
+  filter: brightness(1.05);
+}
+
+/* Вторичный текст */
+.success-subtext {
+  color: #8a3a3a;
+  font-size: 13px;
+  margin-top: -10px;
+}
+
+/* АНИМАЦИЯ ИКОНКИ */
+.success-icon.failed {
+  animation: shake 0.45s ease;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 @media only screen and (max-width: 800px) {
@@ -318,7 +379,7 @@ input[type="number"] {
   .bgBetweenBlack {
     height: 40px;
   }
-  .success-buttons{
+  .success-buttons {
     flex-direction: column;
   }
 }
