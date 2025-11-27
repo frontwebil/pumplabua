@@ -106,14 +106,23 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
   };
 
   return (
-    <div className="container">
-      <form className="OrderPage-content" onSubmit={handleOrder}>
-        {/* КОНТАКТИ */}
-        <OrderPageContacts />
-        {/* ДОСТАВКА */}
-        <OrderPageDelivery deliveryPrice={deliveryPrice} />
-        {/* Тип оплати */}
-        <PaymentMethod />
+    <div>
+      <div className="container">
+        <form className="OrderPage-content" onSubmit={handleOrder}>
+          {/* КОНТАКТИ */}
+          <OrderPageContacts />
+          {/* ДОСТАВКА */}
+          <OrderPageDelivery deliveryPrice={deliveryPrice} />
+          {/* Тип оплати */}
+          <PaymentMethod />
+        </form>
+
+        {/* ПРАВИЙ БЛОК */}
+        <div className="OrderPage-content-price-count">
+          <OrderModalPrice />
+        </div>
+      </div>
+      <div className="container">
         <div className="OrderPage-content-buttons">
           <Link href={SITE_LINKS.CATALOG} className="button-back">
             <MdOutlineKeyboardArrowLeft />
@@ -125,11 +134,6 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
               : "Перейти до оплати"}
           </button>
         </div>
-      </form>
-
-      {/* ПРАВИЙ БЛОК */}
-      <div className="OrderPage-content-price-count">
-        <OrderModalPrice />
       </div>
     </div>
   );
