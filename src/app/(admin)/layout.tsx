@@ -25,9 +25,15 @@ export default function AdminLayout({
               <Link href={"/admin-pamplabua-51nsugjabxhy/catalog"}>
                 Catalog
               </Link>
-              <Link href={"/admin-pamplabua-51nsugjabxhy/add-product"}>
-                Додати товар
-              </Link>
+              <div className="flex gap-5">
+                <Link href={"/admin-pamplabua-51nsugjabxhy/add-product"}>
+                  Додати товар
+                </Link>
+
+                <Link href={"/admin-pamplabua-51nsugjabxhy/orders"}>
+                  Замовлення
+                </Link>
+              </div>
             </div>
           </header>
           <main className="container">{children}</main>

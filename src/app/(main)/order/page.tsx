@@ -22,7 +22,6 @@ export default async function OrderPage() {
     });
   }
 
-  console.log(user);
   return (
     <div className="OrderPage">
       <OrderPageContainer user={user}/>

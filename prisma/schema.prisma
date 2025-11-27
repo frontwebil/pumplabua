@@ -54,7 +54,7 @@ model Product {
 model Variant {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   flavor     String? // може бути null якщо таблетки без смаку
-  amount     Float // кількість (напр. 500 або 60)
+  amount     Float? // кількість (напр. 500 або 60)
   unitType   String // одиниця виміру: "g", "pcs", "caps", "ml"
   sizeAmount String?
   price      Float
