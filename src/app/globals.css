@@ -200,6 +200,86 @@ input[type="number"] {
   font-weight: 700;
 }
 
+.success-page {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #edf3ff, #f9fbff);
+}
+
+.success-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 40px 32px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+
+  box-shadow: 0 12px 30px rgba(0, 85, 255, 0.12);
+  border: 1px solid #e1e9ff;
+}
+
+.success-icon {
+  font-size: 78px;
+  color: #2f6aff;
+  margin: 0 auto 20px;
+}
+
+.success-card h1 {
+  color: #0b2c6d;
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.success-text {
+  color: #4a67a5;
+  font-size: 14px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.success-ref {
+  color: #2f6aff;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.success-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.success-btn {
+  flex: 1;
+  text-decoration: none;
+  background: #f4f7ff;
+  color: #2f6aff;
+  padding: 11px 14px;
+  border-radius: 9px;
+  font-weight: 500;
+  transition: 0.25s ease;
+  border: 1px solid #dbe3ff;
+}
+
+.success-btn:hover {
+  background: #e8efff;
+}
+
+.success-btn.main {
+  background: linear-gradient(135deg, #2f6aff, #5a86ff);
+  color: white;
+  border: none;
+  font-weight: 600;
+}
+
+.success-btn.main:hover {
+  filter: brightness(1.05);
+}
+
 @media only screen and (max-width: 800px) {
   .fs-xxl {
     font-size: 32px;
@@ -237,5 +317,8 @@ input[type="number"] {
 @media only screen and (max-width: 440px) {
   .bgBetweenBlack {
     height: 40px;
+  }
+  .success-buttons{
+    flex-direction: column;
   }
 }

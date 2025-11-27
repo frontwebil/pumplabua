@@ -101,11 +101,9 @@ export const OrderProductsSlice = createSlice({
     setEmail: (state, action) => {
       state.email = action.payload;
     },
-
     setDeliveryType: (state, action) => {
       state.delivery = action.payload;
     },
-
     setVillageCity: (state, action) => {
       state.villageCity = action.payload;
     },
@@ -115,9 +113,25 @@ export const OrderProductsSlice = createSlice({
     setDepartment: (state, action) => {
       state.department = action.payload;
     },
-
     setTypeOfPay: (state, action) => {
       state.typeOfPay = action.payload;
+    },
+    resetOrder: (state) => {
+      state.orderProducts = [];
+      state.name = "";
+      state.surname = "";
+      state.middleName = "";
+      state.phoneNumber = "";
+      state.email = "";
+      state.delivery = "Відділення";
+      state.villageCity = "";
+      state.street = "";
+      state.department = "";
+      state.typeOfPay = "when received";
+
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("cart");
+      }
     },
   },
 });
@@ -136,5 +150,6 @@ export const {
   setStreet,
   setDepartment,
   setTypeOfPay,
+  resetOrder,
 } = OrderProductsSlice.actions;
 export default OrderProductsSlice.reducer;

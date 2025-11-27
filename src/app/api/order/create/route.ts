@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createWayForPayForm } from "@/lib/wayforpay";
+import { OrderPayType } from "@prisma/client";
 import prisma from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
@@ -41,7 +42,12 @@ export async function POST(req: NextRequest) {
   );
 
   const deliveryPrice = realTotal >= 3000 ? 0 : 89;
-  const orderRef = `TEST-${Date.now()}`;
+  const orderRef = `PUMPLAB-${Date.now()}`;
+
+  const payType: OrderPayType =
+    typeOfPay === "when received"
+      ? OrderPayType.when_received
+      : OrderPayType.online;
 
   // ✅ TEMP TEST MODE
   const TEST_AMOUNT = 2;
@@ -58,7 +64,7 @@ export async function POST(req: NextRequest) {
       villageCity,
       street,
       department,
-      typeOfPay,
+      typeOfPay: payType,
       totalPrice: TEST_AMOUNT,
       deliveryPrice: 0,
       discount: 0,

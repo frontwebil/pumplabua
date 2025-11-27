@@ -27,7 +27,6 @@ export async function POST(req: NextRequest) {
     .digest("hex");
 
   if (localSignature !== merchantSignature) {
-    console.error("❌ INVALID SIGNATURE");
     return NextResponse.json({ error: "INVALID SIGN" }, { status: 403 });
   }
 
@@ -36,7 +35,6 @@ export async function POST(req: NextRequest) {
   });
 
   if (!order) {
-    console.error("❌ ORDER NOT FOUND:", orderReference);
     return NextResponse.json({ error: "ORDER NOT FOUND" }, { status: 404 });
   }
 
@@ -46,8 +44,6 @@ export async function POST(req: NextRequest) {
       where: { orderRef: orderReference },
       data: { status: "PAID" },
     });
-
-    console.log("✅ ORDER PAID:", orderReference);
   } else {
     await prisma.order.update({
       where: { orderRef: orderReference },

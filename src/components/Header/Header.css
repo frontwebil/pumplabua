@@ -366,6 +366,11 @@ header {
     margin-top: 165px;
   }
 
+  .success-page {
+    min-height: 100vh;
+    padding-top: 120px;
+  }
+
   .hero-template-small {
     margin-top: 122px;
   }
