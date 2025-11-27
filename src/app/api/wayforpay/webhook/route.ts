@@ -1,40 +1,61 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { makeSignature } from "@/lib/wayforpay";
+import crypto from "crypto";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  const secret = process.env.WAYFORPAY_WEBHOOK_SECRET!;
 
-  // Перевірка підпису (опційно, але рекомендовано)
-  const keys = [
-    "merchantAccount",
-    "orderReference",
-    "amount",
-    "currency",
-    "authCode",
-    "cardPan",
-    "transactionStatus",
-    "reasonCode",
-  ];
-  const signString = keys.map((k) => data[k]).join(";");
-  const localSign = makeSignature(signString, secret);
+  console.log("WAYFORPAY WEBHOOK:", data);
 
-  if (localSign !== data.merchantSignature) {
-    return NextResponse.json({ ok: false }, { status: 403 });
+  const { orderReference, merchantSignature, reasonCode } = data;
+  const secret = process.env.WAYFORPAY_MERCHANT_SECRET!;
+
+  const signString = [
+    data.merchantAccount,
+    orderReference,
+    data.amount,
+    data.currency,
+    data.authCode,
+    data.cardPan,
+    data.transactionStatus,
+    reasonCode,
+  ].join(";");
+
+  const localSignature = crypto
+    .createHmac("md5", secret)
+    .update(signString)
+    .digest("hex");
+
+  if (localSignature !== merchantSignature) {
+    console.error("❌ INVALID SIGNATURE");
+    return NextResponse.json({ error: "INVALID SIGN" }, { status: 403 });
   }
 
-  const orderRef = data.orderReference;
-  console.log("ORDER REF:", data.orderReference);
-
-  await prisma.order.update({
-    where: { orderRef },
-    data: {
-      status: data.transactionStatus === "Approved" ? "PAID" : "FAILED",
-    },
+  const order = await prisma.order.findUnique({
+    where: { orderRef: orderReference },
   });
 
-  console.log("UPDATED ORDER:");
+  if (!order) {
+    console.error("❌ ORDER NOT FOUND:", orderReference);
+    return NextResponse.json({ error: "ORDER NOT FOUND" }, { status: 404 });
+  }
+
+  // ✅ TEST MODE SUCCESS
+  if (Number(reasonCode) === 1100) {
+    await prisma.order.update({
+      where: { orderRef: orderReference },
+      data: { status: "PAID" },
+    });
+
+    console.log("✅ ORDER PAID:", orderReference);
+  } else {
+    await prisma.order.update({
+      where: { orderRef: orderReference },
+      data: { status: "FAILED" },
+    });
+
+    console.warn("❌ PAYMENT FAILED:", reasonCode);
+  }
 
   return NextResponse.json({ ok: true });
 }

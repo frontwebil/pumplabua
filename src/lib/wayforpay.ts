@@ -17,6 +17,13 @@ export function createWayForPayForm(order: any, items: any[]) {
   const productCounts = items.map((i) => i.quantity);
   const productPrices = items.map((i) => Math.round(i.finalPrice / i.quantity));
 
+  console.log("WAYFORPAY FORM DATA:", {
+    amount,
+    productNames,
+    productCounts,
+    productPrices,
+  });
+
   const sign = [
     merchantAccount,
     merchantDomain,
@@ -44,9 +51,9 @@ export function createWayForPayForm(order: any, items: any[]) {
   ${productNames
     .map(
       (n, i) => `
-    <input type="hidden" name="productName[]" value="${n}" />
-    <input type="hidden" name="productPrice[]" value="${productPrices[i]}" />
-    <input type="hidden" name="productCount[]" value="${productCounts[i]}" />
+      <input type="hidden" name="productName[]" value="${n}" />
+      <input type="hidden" name="productPrice[]" value="${productPrices[i]}" />
+      <input type="hidden" name="productCount[]" value="${productCounts[i]}" />
   `
     )
     .join("")}
@@ -59,5 +66,6 @@ export function createWayForPayForm(order: any, items: any[]) {
   <input type="hidden" name="returnUrl" value="${returnUrl}" />
 </form>
 `;
+
   return { form };
 }

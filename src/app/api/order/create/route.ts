@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
+
   const {
     orderProducts,
     name,
@@ -18,6 +19,7 @@ export async function POST(req: NextRequest) {
     typeOfPay,
   } = body;
 
+  // ✅ PREPARE ITEMS
   const items = orderProducts.map((p: any) => {
     const finalPrice = p.selectedVariant.discount
       ? Math.ceil(
@@ -25,15 +27,24 @@ export async function POST(req: NextRequest) {
         )
       : p.selectedVariant.price;
 
-    return { ...p, finalPrice };
+    return {
+      ...p,
+      quantity: p.quantityProduct, // ✅ FIX
+      finalPrice,
+    };
   });
 
-  const totalPrice = items.reduce(
-    (sum: number, i: any) => sum + i.finalPrice * i.quantityProduct,
+  // ✅ REAL TOTAL (for prod later)
+  const realTotal = items.reduce(
+    (sum: number, i: any) => sum + i.finalPrice * i.quantity,
     0
   );
-  const deliveryPrice = totalPrice >= 3000 ? 0 : 89;
+
+  const deliveryPrice = realTotal >= 3000 ? 0 : 89;
   const orderRef = `TEST-${Date.now()}`;
+
+  // ✅ TEMP TEST MODE
+  const TEST_AMOUNT = 2;
 
   const order = await prisma.order.create({
     data: {
@@ -48,7 +59,7 @@ export async function POST(req: NextRequest) {
       street,
       department,
       typeOfPay,
-      totalPrice: 2,
+      totalPrice: TEST_AMOUNT,
       deliveryPrice: 0,
       discount: 0,
       status: typeOfPay === "online" ? "PENDING" : "NEW",
@@ -65,19 +76,20 @@ export async function POST(req: NextRequest) {
           price: p.selectedVariant.price,
           discount: p.selectedVariant.discount,
           images: p.selectedVariant.images,
-          quantity: p.quantityProduct,
+          quantity: p.quantity,
           finalPrice: p.finalPrice,
         })),
       },
     },
   });
 
-  // OFFLINE
+  // ✅ OFFLINE PAYMENT
   if (typeOfPay === "when received") {
     return NextResponse.json({ success: true, payment: "offline", orderRef });
   }
 
-  // ONLINE
+  // ✅ ONLINE PAYMENT
   const form = createWayForPayForm(order, items).form;
+
   return NextResponse.json({ success: true, payment: "online", form });
 }
