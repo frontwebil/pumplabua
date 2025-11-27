@@ -39,21 +39,17 @@ export async function POST(req: NextRequest) {
   }
 
   // ✅ TEST MODE SUCCESS
-  if (data.transactionStatus === "Approved") {
-    await prisma.order.update({
-      where: { orderRef: orderReference },
-      data: {
-        status: "PAID",
-      },
-    });
-  } else {
-    await prisma.order.update({
-      where: { orderRef: orderReference },
-      data: {
-        status: "FAILED",
-      },
-    });
-  }
+    if (Number(reasonCode) === 1100) {
+      await prisma.order.update({
+        where: { orderRef: orderReference },
+        data: { status: "PAID" },
+      });
+    } else {
+      await prisma.order.update({
+        where: { orderRef: orderReference },
+        data: { status: "FAILED" },
+      });
+    }
 
   return NextResponse.json({ ok: true });
 }
