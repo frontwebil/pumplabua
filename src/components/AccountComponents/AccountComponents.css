@@ -147,6 +147,7 @@
 }
 
 .orders-history-content-top-block-per-arrow {
+  margin-left: 10px;
   max-width: 24px;
   width: 100%;
 }
@@ -162,7 +163,8 @@
 .order-history-details-row {
   display: grid;
   grid-template-columns: 70px 1.5fr 1.2fr 0.8fr;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 12px;
   padding: 12px 0;
   border-bottom: 1px solid #e5e7eb;
@@ -277,12 +279,19 @@
   cursor: pointer;
 }
 
+@media only screen and (max-width: 1100px) {
+  .order-history-top-block {
+    font-size: 16px;
+  }
+}
 @media only screen and (max-width: 1000px) {
   .account-nav {
     max-width: 300px;
   }
 }
 
+@media only screen and (max-width: 850px) {
+}
 @media only screen and (max-width: 820px) {
   .acount-details-row-input-wrapper input {
     padding: 14px 12px;
@@ -295,7 +304,7 @@
   }
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 840px) {
   .account-content {
     flex-direction: column;
   }
@@ -304,6 +313,23 @@
   }
 }
 
+@media only screen and (max-width: 600px) {
+  .orders-history-content-top {
+    padding-bottom: 10px;
+  }
+  .order-history-block-order {
+    padding: 14px 0;
+  }
+  .order-history-details-bottom {
+    padding-top: 15px;
+  }
+  .order-history-details-bottom-price {
+    font-size: 16px;
+  }
+  .cancel-order-account {
+    font-size: 16px;
+  }
+}
 @media only screen and (max-width: 500px) {
   .acount-details-row {
     flex-direction: column;
@@ -311,5 +337,34 @@
   }
   .acount-details-save-changes {
     padding: 14px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .order-history-top-block {
+    font-size: 12px;
+  }
+  .orders-history-content-top-block-per-arrow {
+    max-width: 15px;
+  }
+  .order-item-title {
+    font-size: 14px;
+  }
+  .order-item-producer {
+    font-size: 13px;
+  }
+  .order-item-params {
+    font-size: 13px;
+  }
+  .order-item-price {
+    font-size: 15px;
+  }
+  .order-item-summary {
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .order-history-details-row {
+    gap: 6px;
+    display: flex;
   }
 }

@@ -30,8 +30,8 @@ export default function Page({
         </p>
 
         <div className="success-buttons">
-          <Link href={SITE_LINKS.HOME_PAGE} className="success-btn main">
-            На головну
+          <Link href={`${SITE_LINKS.ACCOUNT}/orders`} className="success-btn main">
+            Мої замовлення
           </Link>
 
           <Link href={SITE_LINKS.CATALOG} className="success-btn">

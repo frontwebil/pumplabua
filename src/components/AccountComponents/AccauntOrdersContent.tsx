@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import "@/components/AccountComponents/AccountComponents.css";
@@ -11,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { Order, OrderItem } from "@prisma/client";
 import { FaAngleDown } from "react-icons/fa";
 import Image from "next/image";
+import axios from "axios";
 
 const ORDER_STATUS = {
   NEW: {
@@ -52,6 +54,8 @@ type OrderStatusKey = keyof typeof ORDER_STATUS;
 
 export function AccauntOrdersContent({ orders }: { orders: OrderType[] }) {
   const [openOrderId, setOpenOrderId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [confirmCancelId, setConfirmCancelId] = useState<string | null>(null);
   const { status } = useSession();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -70,6 +74,30 @@ export function AccauntOrdersContent({ orders }: { orders: OrderType[] }) {
 
   const formatDate = (date: string | Date) =>
     new Date(date).toLocaleDateString("uk-UA");
+
+  const handleCancelOrder = async (orderId: string) => {
+    // перший клік — підтвердження
+    if (confirmCancelId !== orderId) {
+      setConfirmCancelId(orderId);
+      return;
+    }
+
+    try {
+      setDeletingId(orderId);
+
+      await axios.delete("/api/order/delete", {
+        data: { orderId },
+      });
+
+      toast.success("Замовлення скасовано");
+      router.refresh(); // оновлюємо список замовлень
+    } catch (error: any) {
+      toast.error(error?.response?.data?.error || "Помилка скасування");
+    } finally {
+      setDeletingId(null);
+      setConfirmCancelId(null);
+    }
+  };
 
   return (
     <div className="container">
@@ -167,9 +195,16 @@ export function AccauntOrdersContent({ orders }: { orders: OrderType[] }) {
                         ))}
                         <div className="order-history-details-bottom">
                           {order.status === "NEW" ? (
-                            <div className="cancel-order-account">
-                              Скасувати
-                            </div>
+                            <button
+                              onClick={() => handleCancelOrder(order.id)}
+                              className="cancel-order-account"
+                            >
+                              {deletingId === order.id
+                                ? "Скасування..."
+                                : confirmCancelId === order.id
+                                ? "Підтвердити?"
+                                : "Скасувати"}
+                            </button>
                           ) : (
                             <div></div>
                           )}
