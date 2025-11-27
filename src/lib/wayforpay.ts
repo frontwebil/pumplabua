@@ -14,8 +14,8 @@ export function createWayForPayForm(order: any, items: any[]) {
   const amount = order.totalPrice + order.deliveryPrice;
 
   const productNames = items.map((i) => i.name);
-  const productCounts = items.map((i) => i.quantityProduct);
-  const productPrices = items.map((i) => i.finalPrice);
+  const productCounts = items.map((i) => i.quantity);
+  const productPrices = items.map((i) => Math.round(i.finalPrice / i.quantity));
 
   const sign = [
     merchantAccount,

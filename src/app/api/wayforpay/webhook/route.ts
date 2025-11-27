@@ -4,7 +4,6 @@ import { makeSignature } from "@/lib/wayforpay";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  console.log("WAYFORPAY_SECRET =", process.env.WAYFORPAY_MERCHANT_SECRET);
   const secret = process.env.WAYFORPAY_WEBHOOK_SECRET!;
 
   // Перевірка підпису (опційно, але рекомендовано)
