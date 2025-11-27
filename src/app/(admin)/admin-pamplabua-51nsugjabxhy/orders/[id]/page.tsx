@@ -12,6 +12,9 @@ type OrderItem = {
   quantity: number;
   images: string[];
   finalPrice: number;
+  flavor: string;
+  amount: string | number;
+  unitType: string;
 };
 
 type Order = {
@@ -209,6 +212,12 @@ export default function OrderPage() {
                       <b>{item.name}</b>
                       <div className="text-xs text-slate-500">
                         {item.producer}
+                      </div>
+                      <div className="text-xs text-slate-500">
+                        {item.flavor}
+                      </div>
+                      <div className="text-xs text-slate-500">
+                        {item.amount} {item.unitType}
                       </div>
                     </div>
                   </td>

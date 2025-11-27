@@ -47,7 +47,7 @@ export async function PATCH(
   if (body.status && updated.email) {
     await sendMail({
       to: updated.email,
-      subject: `📦 Статус замовлення оновлено `,
+      subject: `📦 Статус замовлення оновлено`,
       html: getOrderEmailTemplate({
         name: updated.name,
         orderRef: updated.orderRef!,
