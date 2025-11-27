@@ -122,6 +122,8 @@
   top: 50%;
   left: 50%;
   font-size: 20px;
+  width: 100%;
+  text-align: center;
   transform: translate(-50%, -50%);
   color: #4f5052;
 }
@@ -366,5 +368,13 @@
   .order-history-details-row {
     gap: 6px;
     display: flex;
+  }
+  .order-history-details-bottom-price {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+  .cancel-order-account {
+    font-size: 14px;
+    padding: 10px 15px;
   }
 }
