@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -59,6 +60,9 @@ export default function OrderPage() {
   const [loading, setLoading] = useState(true);
   const [statusLoading, setStatusLoading] = useState(false);
 
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
   const [editOpen, setEditOpen] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
 
@@ -111,6 +115,31 @@ export default function OrderPage() {
   };
 
   const itemsCount = order.items.reduce((s, i) => s + i.quantity, 0);
+
+  const handleDelete = async (orderId: string) => {
+    // перший клік — просто запитати підтвердження
+    if (!confirmDelete) {
+      setConfirmDelete(true);
+      return;
+    }
+
+    // другий клік — реально видаляємо
+    try {
+      setDeleteLoading(true);
+
+      await axios.delete("/api/admin/delete-order", {
+        data: { id: orderId },
+      });
+
+      toast.success("Замовлення успішно видалено");
+      router.replace("/admin-pamplabua-51nsugjabxhy/orders");
+    } catch (error: any) {
+      console.error("Помилка при видаленні:", error);
+      toast.error(error?.response?.data?.error || "Помилка при видаленні");
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 px-6 py-8">
@@ -265,6 +294,32 @@ export default function OrderPage() {
             ))}
           </select>
         </div>
+        <button
+          className="
+    mt-5
+    px-5 py-2.5
+    bg-red-600 
+    text-white 
+    font-medium
+    rounded
+    shadow-sm
+    hover:bg-red-700 
+    active:bg-red-800
+    transition-all 
+    duration-200
+    cursor-pointer
+    disabled:opacity-60
+    disabled:cursor-not-allowed
+  "
+          disabled={loading || deleteLoading}
+          onClick={() => handleDelete(order.id)}
+        >
+          {deleteLoading
+            ? "Видалення..."
+            : !confirmDelete
+            ? "Видалити замовлення"
+            : "Точно видалити замовлення?"}
+        </button>
       </div>
 
       {/* EDIT MODAL */}

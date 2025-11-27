@@ -106,7 +106,10 @@ export function OrderModal() {
                                   Смак: {el.selectedVariant.flavor}
                                 </p>
                                 <p className="OrderModal-product-wrapper-text-weight">
-                                  {el.selectedVariant.amount}{" "}
+                                  {el.selectedVariant.amount! > 0
+                                    ? el.selectedVariant.amount
+                                    : ""}{" "}
+                                  {el.selectedVariant.sizeAmount}{" "}
                                   {el.selectedVariant.unitType}
                                 </p>
                               </div>

@@ -3,12 +3,14 @@
 import "@/components/AccountComponents/AccountComponents.css";
 import { AccountNav } from "./AccountNav";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { toggleAuthModal } from "@/redux/pamplabua/slices/uiSlice";
 import { useRouter } from "next/navigation";
 import { Order, OrderItem } from "@prisma/client";
+import { FaAngleDown } from "react-icons/fa";
+import Image from "next/image";
 
 const ORDER_STATUS = {
   NEW: {
@@ -21,7 +23,7 @@ const ORDER_STATUS = {
   },
   PAID: {
     label: "Оплачено",
-    color: "#22C55E",
+    color: "#00A407",
   },
   CONFIRMED: {
     label: "Підтверджено",
@@ -29,7 +31,7 @@ const ORDER_STATUS = {
   },
   SENDTORECEIVER: {
     label: "Відправлено",
-    color: "#06B6D4",
+    color: "#00A407",
   },
   DELIVERED: {
     label: "Доставлено",
@@ -49,6 +51,7 @@ type OrderType = Order & { items: OrderItem[] };
 type OrderStatusKey = keyof typeof ORDER_STATUS;
 
 export function AccauntOrdersContent({ orders }: { orders: OrderType[] }) {
+  const [openOrderId, setOpenOrderId] = useState<string | null>(null);
   const { status } = useSession();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -84,25 +87,98 @@ export function AccauntOrdersContent({ orders }: { orders: OrderType[] }) {
                 <div className="orders-history-content-top-block-per-arrow"></div>
               </div>
               {orders.map((order) => {
-                const id = order.orderRef?.slice(8, 14);
+                const id = order.orderRef?.slice(12, 21);
                 const status =
                   ORDER_STATUS[order.status as OrderStatusKey] ||
                   ORDER_STATUS.NEW;
-                console.log(status);
+
                 return (
-                  <div className="order-history-top" key={order.id}>
-                    <div className="order-history-top-block">№{id}</div>
-                    <div className="order-history-top-block">
-                      {formatDate(order.createdAt)}
-                    </div>
+                  <div className="order-history-block-order" key={order.id}>
                     <div
-                      className="order-history-top-block"
-                      style={{
-                        color: status.color,
-                      }}
+                      className="order-history-top"
+                      onClick={() =>
+                        setOpenOrderId(
+                          openOrderId === order.id ? null : order.id
+                        )
+                      }
                     >
-                      {status.label}
+                      <div className="order-history-top-block">№{id}</div>
+                      <div className="order-history-top-block">
+                        {formatDate(order.createdAt)}
+                      </div>
+                      <div
+                        className="order-history-top-block status"
+                        style={{
+                          color: status.color,
+                        }}
+                      >
+                        {status.label}
+                      </div>
+                      <div
+                        className={`orders-history-content-top-block-per-arrow ${
+                          openOrderId === order.id ? "open" : ""
+                        }`}
+                      >
+                        <FaAngleDown />
+                      </div>
                     </div>
+                    {openOrderId === order.id && (
+                      <div className="order-history-details">
+                        {order.items.map((item, i) => (
+                          <div className="order-history-details-row" key={i}>
+                            <Image
+                              src={item.images[0]}
+                              width={60}
+                              height={60}
+                              alt={item.name}
+                              className="order-item-image"
+                            />
+
+                            <div className="order-item-info">
+                              <h3 className="order-item-title">{item.name}</h3>
+                              <p className="order-item-producer">
+                                {item.producer}
+                              </p>
+                            </div>
+
+                            <div className="order-item-params">
+                              <p>
+                                <span>Смак:</span> {item.flavor || "—"}
+                              </p>
+                              <p>
+                                {item.amount! > 0 ? item.amount : ""}{" "}
+                                {item.sizeAmount} {item.unitType}
+                              </p>
+                            </div>
+
+                            <div className="order-item-summary">
+                              <p>
+                                <span>К-сть:</span> {item.quantity}
+                              </p>
+                              <p className="order-item-price">
+                                {Math.ceil(
+                                  item.price -
+                                    item.price * (item.discount! / 100)
+                                ) * item.quantity}{" "}
+                                грн
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                        <div className="order-history-details-bottom">
+                          {order.status === "NEW" ? (
+                            <div className="cancel-order-account">
+                              Скасувати
+                            </div>
+                          ) : (
+                            <div></div>
+                          )}
+                          <div className="order-history-details-bottom-price">
+                            Сумма: {order.totalPrice + order.deliveryPrice} грн
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })}
