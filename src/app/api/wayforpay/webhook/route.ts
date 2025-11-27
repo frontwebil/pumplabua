@@ -39,18 +39,20 @@ export async function POST(req: NextRequest) {
   }
 
   // ✅ TEST MODE SUCCESS
-  if (Number(reasonCode) === 1100) {
+  if (data.transactionStatus === "Approved") {
     await prisma.order.update({
       where: { orderRef: orderReference },
-      data: { status: "PAID" },
+      data: {
+        status: "PAID",
+      },
     });
   } else {
     await prisma.order.update({
       where: { orderRef: orderReference },
-      data: { status: "FAILED" },
+      data: {
+        status: "FAILED",
+      },
     });
-
-    console.warn("❌ PAYMENT FAILED:", reasonCode);
   }
 
   return NextResponse.json({ ok: true });

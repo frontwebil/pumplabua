@@ -23,7 +23,7 @@ export default async function page() {
       <Breadcrumbs
         links={[{ title: "Головна", href: "/" }, { title: "Користувач" }]}
       />
-      <AccauntOrdersContent />
+      <AccauntOrdersContent orders={orders} />
     </>
   );
 }

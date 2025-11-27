@@ -49,6 +49,9 @@ export async function POST(req: NextRequest) {
       ? OrderPayType.when_received
       : OrderPayType.online;
 
+  // ✅ TEMP TEST MODE
+  const TEST_AMOUNT = 2;
+
   const order = await prisma.order.create({
     data: {
       orderRef,
@@ -62,8 +65,8 @@ export async function POST(req: NextRequest) {
       street,
       department,
       typeOfPay: payType,
-      totalPrice: realTotal,
-      deliveryPrice: deliveryPrice,
+      totalPrice: TEST_AMOUNT,
+      deliveryPrice: 0,
       discount: 0,
       status: typeOfPay === "online" ? "PENDING" : "NEW",
       items: {

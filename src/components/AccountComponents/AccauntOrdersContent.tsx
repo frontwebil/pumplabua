@@ -1,7 +1,8 @@
 import "@/components/AccountComponents/AccountComponents.css";
 import { AccountNav } from "./AccountNav";
 
-export function AccauntOrdersContent() {
+export function AccauntOrdersContent({ orders }) {
+  console.log(orders);
   return (
     <div className="container">
       <div className="account-content">
