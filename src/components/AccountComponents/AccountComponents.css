@@ -110,9 +110,9 @@
 }
 
 .orders-history {
-  max-width: 750px;
+  max-width: 100%;
   width: 100%;
-  height: 60vh;
+  min-height: 60vh;
   position: relative;
 }
 
@@ -123,6 +123,31 @@
   font-size: 20px;
   transform: translate(-50%, -50%);
   color: #4f5052;
+}
+
+.orders-history-content {
+  display: flex;
+  flex-direction: column;
+  margin-top: 32px;
+}
+.orders-history-content-top {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #0d0e101a;
+  padding-bottom: 20px;
+}
+.orders-history-content-top-block {
+  max-width: 100%;
+  width: 100%;
+  font-weight: 400;
+  font-size: 16px;
+  text-transform: capitalize;
+  color: #4f5052;
+}
+
+.orders-history-content-top-block-per-arrow {
+  max-width: 30px;
+  width: 100%;
 }
 
 @media only screen and (max-width: 1000px) {

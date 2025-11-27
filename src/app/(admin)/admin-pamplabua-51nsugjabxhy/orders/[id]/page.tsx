@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 /* TYPES */
 type OrderItem = {
@@ -248,8 +249,9 @@ export default function OrderPage() {
                 const updated = await res.json();
                 setOrder(updated);
                 setEditOpen(false);
+                toast("Статус зміненно");
               } else {
-                alert("Помилка зміни статусу");
+                toast("Помилка зміни статусу");
               }
               setStatusLoading(false);
             }}
@@ -310,6 +312,7 @@ export default function OrderPage() {
                     const updated = await res.json();
                     setOrder(updated);
                     setEditOpen(false);
+                    toast("Контактні данні зміненно");
                   } else {
                     alert("Помилка збереження");
                   }

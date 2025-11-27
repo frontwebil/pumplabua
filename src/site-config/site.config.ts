@@ -34,3 +34,5 @@ export const CATEGORYES = [
   { key: "vitamins", value: "Вітаміни та БАДи" },
   { key: "accessories", value: "Аксесуари" },
 ];
+
+

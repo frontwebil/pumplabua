@@ -12,6 +12,9 @@ export default async function page() {
     where: {
       email: session?.user.email,
     },
+    include: {
+      items: true,
+    },
   });
 
   return (

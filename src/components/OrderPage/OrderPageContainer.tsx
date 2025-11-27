@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { OrderModalPrice } from "../OrderModal/OrderModalPrice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/pamplabua/store";
@@ -29,6 +29,7 @@ type UserType = {
 
 export function OrderPageContainer({ user }: { user: UserType | null }) {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const {
     orderProducts,
@@ -82,6 +83,8 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
 
   const handleOrder = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (loading) return;
+    setLoading(true);
     const res = await fetch("/api/order/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -106,16 +109,16 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
   };
 
   return (
-    <div>
+    <form onSubmit={handleOrder}>
       <div className="container">
-        <form className="OrderPage-content" onSubmit={handleOrder}>
+        <div className="OrderPage-content">
           {/* КОНТАКТИ */}
           <OrderPageContacts />
           {/* ДОСТАВКА */}
           <OrderPageDelivery deliveryPrice={deliveryPrice} />
           {/* Тип оплати */}
           <PaymentMethod />
-        </form>
+        </div>
 
         {/* ПРАВИЙ БЛОК */}
         <div className="OrderPage-content-price-count">
@@ -129,12 +132,15 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
             <span>Назад</span>
           </Link>
           <button className="OrderPage-order-button">
-            {typeOfPay == "when received"
+            {loading
+              ? "Оформлюємо замовлення..."
+              : typeOfPay == "when received"
               ? "Оформити замовлення"
               : "Перейти до оплати"}
+            {}
           </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
