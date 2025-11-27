@@ -1,3 +1,5 @@
+"use client";
+
 import "@/components/AccountComponents/AccountComponents.css";
 import { AccountNav } from "./AccountNav";
 import { useSession } from "next-auth/react";
