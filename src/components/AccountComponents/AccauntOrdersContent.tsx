@@ -3,17 +3,17 @@
 import "@/components/AccountComponents/AccountComponents.css";
 import { AccountNav } from "./AccountNav";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { toggleAuthModal } from "@/redux/pamplabua/slices/uiSlice";
+import { useRouter } from "next/navigation";
 
 export function AccauntOrdersContent({ orders }: { orders: any }) {
   const { status } = useSession();
-  console.log(status);
   const dispatch = useDispatch();
   const router = useRouter();
+
   useEffect(() => {
     if (status === "unauthenticated") {
       toast(
@@ -22,7 +22,7 @@ export function AccauntOrdersContent({ orders }: { orders: any }) {
       dispatch(toggleAuthModal());
       router.replace("/");
     }
-  }, [status, orders]);
+  }, [status]);
 
   return (
     <div className="container">
