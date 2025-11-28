@@ -43,6 +43,29 @@ export function ProductPageFuncButtons() {
     }
   };
 
+  const handleShare = async () => {
+    if (!currentProduct) return;
+
+    const url = `${window.location.origin}/product/${
+      currentProduct.slug || currentProduct.id
+    }`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: currentProduct.name,
+          text: currentProduct.description?.slice(0, 100) + "...",
+          url,
+        });
+      } else {
+        await navigator.clipboard.writeText(url);
+        toast.success("Посилання скопійовано");
+      }
+    } catch (error) {
+      toast.error("Не вдалося поділитись");
+    }
+  };
+
   const productId = currentProduct?.id ?? "";
   const isFavorite = favoritesProducts && favoritesProducts.includes(productId);
 
@@ -54,7 +77,7 @@ export function ProductPageFuncButtons() {
       >
         {isFavorite ? <FaHeart /> : <FaRegHeart />}
       </div>
-      <div className="ProductPagePrice-row-share">
+      <div className="ProductPagePrice-row-share" onClick={handleShare}>
         <LuShare />
       </div>
     </div>

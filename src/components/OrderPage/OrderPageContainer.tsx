@@ -19,6 +19,7 @@ import Link from "next/link";
 import { SITE_LINKS } from "@/site-config/site.config";
 import { useRouter } from "next/navigation";
 import { closeOrderModal } from "@/redux/pamplabua/slices/uiSlice";
+import { toast } from "react-toastify";
 
 type UserType = {
   name?: string | null;
@@ -91,8 +92,48 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
 
   const handleOrder = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (loading) return;
+
+    // ✅ ВАЛІДАЦІЯ КОНТАКТІВ
+    if (!name || !surname || !phoneNumber || !email) {
+      toast.error("Заповніть контактні дані");
+      return;
+    }
+
+    // ✅ СПОСІБ ДОСТАВКИ
+    if (!delivery) {
+      toast.error("Оберіть спосіб доставки");
+      return;
+    }
+
+    // ✅ ВІДДІЛЕННЯ
+    if (delivery === "Відділення" && !department) {
+      toast.error("Вкажіть номер відділення");
+      return;
+    }
+
+    // ✅ АДРЕСА КУРʼЄРОМ
+    if (delivery === "Поштомат" && (!villageCity || !street)) {
+      toast.error("Вкажіть номер поштомату");
+      return;
+    }
+
+    // ✅ СПОСІБ ОПЛАТИ
+    if (!typeOfPay) {
+      toast.error("Оберіть спосіб оплати");
+      return;
+    }
+
+    // ✅ КОШИК
+    if (orderProducts.length === 0) {
+      toast.error("Кошик порожній");
+      return;
+    }
+
+    // ✅ УСПІХ — ВІДПРАВКА
     setLoading(true);
+
     const res = await fetch("/api/order/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -113,6 +154,7 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
     const form = document.querySelector(
       'form[name="wayforpay"]'
     ) as HTMLFormElement;
+
     form.submit();
   };
 
