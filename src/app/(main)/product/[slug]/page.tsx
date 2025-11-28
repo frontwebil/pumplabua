@@ -13,7 +13,7 @@ type ProductPageProps = {
 };
 
 export async function generateMetadata(props: ProductPageProps) {
-  const { slug } = props.params;
+  const { slug } = await props.params;
 
   const product = await prisma.product.findUnique({
     where: { slug },
