@@ -13,7 +13,7 @@ type ProductPageProps = {
 };
 
 export async function generateMetadata(props: ProductPageProps) {
-  const { slug } = await props.params;
+  const { slug } = props.params;
 
   const product = await prisma.product.findUnique({
     where: { slug },
@@ -22,13 +22,29 @@ export async function generateMetadata(props: ProductPageProps) {
 
   if (!product) return { title: "Товар не знайдено" };
 
+  // ✅ ИЩЕМ ГЛАВНЫЙ ВАРИАНТ
+  const mainVariant =
+    product.variants.find((v) => v.isMain) || product.variants[0];
+
+  // ✅ ПЕРВОЕ ФОТО ГЛАВНОГО ВАРИАНТА
+  const mainImage = mainVariant?.images[0];
+
   return {
     title: `${product.name} — ціна, купити в Україні`,
     description: product.mainDescription,
     openGraph: {
       title: product.name,
       description: product.mainDescription,
-      images: product.variants.flatMap((v) => v.images),
+      images: mainImage
+        ? [
+            {
+              url: mainImage,
+              width: 1200,
+              height: 630,
+              alt: product.name,
+            },
+          ]
+        : [],
     },
   };
 }
