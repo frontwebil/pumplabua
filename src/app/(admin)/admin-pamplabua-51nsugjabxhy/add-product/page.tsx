@@ -58,6 +58,7 @@ export default function AddProductPage() {
       toast("Товар додано!");
       router.replace("/admin-pamplabua-51nsugjabxhy/catalog");
       dispatch(setDefaultValues());
+      router.refresh()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Помилка при створенні товару:", error);

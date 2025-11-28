@@ -54,6 +54,10 @@
   align-items: center;
   gap: 5px;
 }
+.ProductPagePrice-row-price.price-old-not-active,
+.ProductPagePrice-row-price.has-discount.price-old-not-active {
+  color: gray;
+}
 .ProductPagePrice-row-price.has-discount {
   color: #ff5a00;
   background: #ff5a000d;
@@ -135,35 +139,55 @@
 .ProductPageDescriptionInfo {
   margin-bottom: 20px;
 }
-.ProductPageDescriptionInfo-content-titles {
-  display: flex;
-  width: 100%;
-}
-.ProductPageDescriptionInfo-content-title {
-  width: 100%;
-  background: #4f50521a;
-  border: 1px solid #f8faf9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
-  font-weight: 600;
-  padding: 25px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.ProductPageDescriptionInfo-content-title.active {
-  background: #0339f4;
-  color: #f8faf9;
-  font-weight: 700;
-}
 
 .ProductPageDescriptionInfo-content-text {
   background: #4f50521a;
   color: #0d0e10;
   font-size: 20px;
   padding: 32px;
+  position: relative;
+}
+
+/* текст */
+.ProductPageDescriptionInfo-text {
+  display: block;
+  line-height: 1.5;
+}
+
+/* ОГРАНИЧЕНИЕ В 2 СТРОКИ */
+.ProductPageDescriptionInfo-content-text.collapsed
+  .ProductPageDescriptionInfo-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* РАЗВЕРНУТО */
+.ProductPageDescriptionInfo-content-text.expanded
+  .ProductPageDescriptionInfo-text {
+  display: block;
+}
+
+/* КНОПКА ВНУТРИ БЛОКА */
+.ProductPageDescriptionInfo-toggle {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+
+  color: #ff8800;
+  font-size: 14px;
+  font-weight: 600;
+
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.ProductPageDescriptionInfo-toggle:hover {
+  text-decoration: underline;
 }
 
 @media only screen and (max-width: 1200px) {

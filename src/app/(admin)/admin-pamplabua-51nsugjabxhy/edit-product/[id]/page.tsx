@@ -71,6 +71,7 @@ export default function EditProduct() {
 
       toast.success("Товар успішно видалено");
       router.replace("/admin-pamplabua-51nsugjabxhy/catalog");
+      router.refresh();
     } catch (error: any) {
       console.error("Помилка при видаленні:", error);
       toast.error(error?.response?.data?.error || "Помилка при видаленні");

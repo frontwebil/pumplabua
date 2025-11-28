@@ -20,6 +20,7 @@ export function ProductPagePrice() {
   const actualPrice = hasDiscount
     ? Math.ceil(price - price * (selectedVariant.discount! / 100))
     : price;
+  const isNotAvailable = !selectedVariant.inStock || !currentProduct?.isActive;
   return (
     <div className={`ProductPagePrice`}>
       <h2 className="ProductPagePrice-delivery">
@@ -30,26 +31,27 @@ export function ProductPagePrice() {
         <div
           className={`ProductPagePrice-row-price ${
             hasDiscount && "has-discount"
-          }`}
+          } ${isNotAvailable && "price-old-not-active"}`}
         >
+          {actualPrice} ГРН
           {hasDiscount ? (
             <span className="ProductPagePrice-row-oldprice">{price} грн</span>
           ) : (
             ""
           )}{" "}
-          {actualPrice} ГРН
         </div>
         <button
           className={`ProductPagePrice-row-addCart ${
-            !selectedVariant.inStock && "not-active"
+            isNotAvailable && "not-active"
           }`}
-          disabled={!selectedVariant.inStock}
+          disabled={isNotAvailable}
           onClick={() => {
-            if (!currentProduct) return;
+            if (!currentProduct || isNotAvailable) return;
 
             const productWithoutVariants = (({ variants, ...rest }) => rest)(
               currentProduct
             );
+
             dispatch(
               addProductToOrders({
                 ...productWithoutVariants,
@@ -57,12 +59,14 @@ export function ProductPagePrice() {
                 quantityProduct,
               })
             );
+
             toast.success("Товар додано до кошику!");
             dispatch(toggleIsOpenOrderModal());
           }}
         >
-          {!selectedVariant.inStock ? "Немає в наявності" : "Додати у кошик"}
+          {isNotAvailable ? "Немає в наявності" : "Додати у кошик"}
         </button>
+
         <ProductPageFuncButtons />
       </div>
     </div>

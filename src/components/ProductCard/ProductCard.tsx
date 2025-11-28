@@ -36,13 +36,17 @@ export function ProductCard({ product }: { product: ProductType }) {
         <h2 className="product-card-title">{product.name}</h2>
       </div>
       <div className="product-card-price-wrapper">
-        {hasDiscount ? (
-          <>
-            <h3 className="product-card-price">{newPrice} грн</h3>
-            <h3 className="product-card-price old">{oldPrice} грн</h3>
-          </>
+        {product.isActive ? (
+          hasDiscount ? (
+            <>
+              <h3 className="product-card-price">{newPrice} грн</h3>
+              <h3 className="product-card-price old">{oldPrice} грн</h3>
+            </>
+          ) : (
+            <h3 className="product-card-price">{oldPrice} грн</h3>
+          )
         ) : (
-          <h3 className="product-card-price">{oldPrice} грн</h3>
+          <h3 className="not-active-product">Немає в наявності</h3>
         )}
       </div>
     </Link>

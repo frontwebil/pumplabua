@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 export function ProductPageImages() {
-  const { selectedVariant } = useSelector(
+  const { selectedVariant, currentProduct } = useSelector(
     (store: RootState) => store.productPageSlice
   );
 
@@ -77,7 +77,9 @@ export function ProductPageImages() {
           )}
 
           <div className="ProductPageImages-sticker-in-stock">
-            {selectedVariant.inStock ? "У наявності" : "Немає в наявності"}
+            {selectedVariant.inStock && currentProduct?.isActive
+              ? "У наявності"
+              : "Немає в наявності"}
           </div>
         </div>
         <div

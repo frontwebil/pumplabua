@@ -18,7 +18,7 @@ export function EditVariants() {
   const { product } = useSelector((store: RootState) => store.editProductSlice);
   const variants = product.variants;
   const dispatch = useDispatch();
-
+  
   const addNewVariant = () => {
     dispatch(addVariant());
   };

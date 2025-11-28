@@ -83,7 +83,7 @@ export default function CatalogPage() {
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-9 bg-gray-100 p-3 text-xs font-semibold text-gray-600 border-b">
+        <div className="grid grid-cols-10 bg-gray-100 p-3 text-xs font-semibold text-gray-600 border-b">
           <div>Назва</div>
           <div>Виробник</div>
           <div>Категорія</div>
@@ -93,6 +93,7 @@ export default function CatalogPage() {
           <div>Змінений</div>
           <div>Створений</div>
           <div>Редагувати</div>
+          <div>Видалити</div>
         </div>
 
         {searchedProducts.length === 0 ? (
