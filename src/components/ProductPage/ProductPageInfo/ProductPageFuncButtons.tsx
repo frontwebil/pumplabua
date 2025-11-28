@@ -54,7 +54,6 @@ export function ProductPageFuncButtons() {
       if (navigator.share) {
         await navigator.share({
           title: currentProduct.name,
-          text: currentProduct.description?.slice(0, 100) + "...",
           url,
         });
       } else {
