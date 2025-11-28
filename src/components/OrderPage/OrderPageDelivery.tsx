@@ -7,7 +7,6 @@ import Image from "next/image";
 import {
   setDeliveryType,
   setDepartment,
-  setStreet,
   setVillageCity,
 } from "@/redux/pamplabua/slices/orderSlice";
 import { useEffect, useState } from "react";
@@ -18,7 +17,7 @@ export function OrderPageDelivery({
   deliveryPrice: number;
 }) {
   const dispatch = useDispatch();
-  const { delivery, villageCity, street, department } = useSelector(
+  const { delivery, villageCity, department } = useSelector(
     (store: RootState) => store.OrderProductsSlice
   );
   const [isCitySelected, setIsCitySelected] = useState(false);
@@ -182,7 +181,7 @@ export function OrderPageDelivery({
 
       <div className="OrderPage-content-row">
         <div className="OrderPage-content-group">
-          <label>Відділення</label>
+          <label>{delivery}</label>
           <input
             placeholder={
               !isCitySelected
