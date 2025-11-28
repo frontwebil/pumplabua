@@ -18,6 +18,7 @@ import {
 } from "@/redux/pamplabua/slices/productsSlice";
 import { toast } from "react-toastify";
 import { useWindowWidth } from "@/custom-hooks/useWidth";
+import Image from "next/image";
 
 export default function BurgerMenu() {
   const screenWidth = useWindowWidth();
@@ -81,7 +82,13 @@ export default function BurgerMenu() {
             className="burger-menu-func-row"
             onClick={() => dispatch(closeBurger())}
           >
-            <PiFlask className="burger-menu-func-icon" />
+            <Image
+              src={"/favicon.png"}
+              alt=""
+              width={1000}
+              height={1000}
+              className="burger-menu-func-icon"
+            />
             <p className="fs-md uppercase font-bold">Кошик</p>
           </div>
         </div>

@@ -18,6 +18,7 @@ import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import Link from "next/link";
 import { SITE_LINKS } from "@/site-config/site.config";
 import { useRouter } from "next/navigation";
+import { closeOrderModal } from "@/redux/pamplabua/slices/uiSlice";
 
 type UserType = {
   name?: string | null;
@@ -58,6 +59,13 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
     department,
     typeOfPay,
   };
+
+  useEffect(() => {
+    if (orderProducts.length < 1) {
+      dispatch(closeOrderModal());
+      router.replace(SITE_LINKS.CATALOG);
+    }
+  }, [orderProducts]);
 
   useEffect(() => {
     if (!user) return;

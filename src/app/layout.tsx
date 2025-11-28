@@ -13,7 +13,9 @@ export const metadata: Metadata = {
   description:
     "Підтримай своє тіло і досягай результатів з продуктами топових брендів спортивного харчування для будь-якого рівня підготовки",
   icons: {
-    icon: "/favicon.png",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
 };
 
