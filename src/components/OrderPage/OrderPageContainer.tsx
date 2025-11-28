@@ -55,7 +55,7 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
     email,
     delivery,
     villageCity,
-    street,
+    street: "not-required",
     department,
     typeOfPay,
   };

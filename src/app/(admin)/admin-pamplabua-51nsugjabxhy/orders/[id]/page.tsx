@@ -74,7 +74,6 @@ export default function OrderPage() {
     email: "",
     delivery: "",
     villageCity: "",
-    street: "",
     department: "",
   });
 
@@ -100,7 +99,6 @@ export default function OrderPage() {
       email: order.email || "",
       delivery: order.delivery,
       villageCity: order.villageCity || "",
-      street: order.street || "",
       department: order.department || "",
     });
   }, [order]);
@@ -191,7 +189,7 @@ export default function OrderPage() {
           <Card title="Доставка">
             <Row label="Тип" value={order.delivery} />
             <Row label="Місто" value={order.villageCity ?? "—"} />
-            <Row label="Вулиця" value={order.street ?? "—"} />
+            {/* <Row label="Вулиця" value={order.street ?? "—"} /> */}
             <Row label="Відділення" value={order.department ?? "—"} />
           </Card>
 
