@@ -41,8 +41,7 @@ export function OrderModalPrice() {
 
   const differencePrice = totalPriceWithoutDiscount - totalPriceWithDiscount;
 
-  const deliveryPrice = totalPriceWithDiscount > 3000 ? 0 : 89;
-
+  const deliveryPrice = totalPriceWithDiscount > 3000 ? "Безкоштовно" : "Від 60 грн";
   const handleOrder = () => {
     if (orderProducts.length < 1) {
       toast("Ваша корзина порожня");
@@ -70,7 +69,7 @@ export function OrderModalPrice() {
         </div>
         <div className="order-total-price-content-row">
           <p className="order-total-price-content-row-text">Доставка</p>
-          <p className="order-total-price-content-count">{deliveryPrice} грн</p>
+          <p className="order-total-price-content-count">{deliveryPrice}</p>
         </div>
         {pathname !== "/order" && (
           <p className="order-total-free-delivery">
@@ -81,7 +80,7 @@ export function OrderModalPrice() {
       </div>
       <div className="order-total-price-total">
         <h4>Разом</h4>
-        <p>{totalPriceWithDiscount + deliveryPrice} грн</p>
+        <p>{totalPriceWithDiscount} грн</p>
       </div>
       {pathname !== "/order" && (
         <button

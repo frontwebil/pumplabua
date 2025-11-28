@@ -44,7 +44,7 @@ export function OrderPageDelivery({
           />
           <p className="delivery-container-block-text">Відділення</p>
           <div className="delivery-container-block-price">
-            {deliveryPrice} грн
+            {deliveryPrice > 60 ? "від 60 грн" : "Безкоштовно"}
           </div>
         </div>
 
@@ -69,7 +69,7 @@ export function OrderPageDelivery({
           />
           <p className="delivery-container-block-text">Поштомат</p>
           <div className="delivery-container-block-price">
-            {deliveryPrice} грн
+            {deliveryPrice > 60 ? "від 60 грн" : "Безкоштовно"}
           </div>
         </div>
       </div>

@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     0
   );
 
-  const deliveryPrice = realTotal >= 3000 ? 0 : 89;
+  const deliveryPrice = 0;
   const orderRef = `PUMPLAB-${Date.now()}`;
 
   const payType: OrderPayType =
