@@ -168,21 +168,26 @@
   }
 
   .Filter-mobile-button {
-    display: block;
+    display: flex;
+    align-items: center;
     cursor: pointer;
+    gap: 5px;
   }
 
   .Catalog-top-right-wrap-container {
     width: 100%;
-  }
-  .Filter-mobile-button {
-    display: block;
-  }
-  .Catalog-top-right-wrap-container {
-    width: 100%;
+    flex-direction: row-reverse;
   }
 }
 
+@media only screen and (max-width: 520px) {
+  .Catalog-top-right-wrap-sort-text p{ 
+    display: none;
+  }
+  .Catalog-top-right-wrap{
+    gap: 15px;
+  }
+}
 @media only screen and (max-width: 420px) {
   .filter-group {
     padding: 15px 15px 80px;

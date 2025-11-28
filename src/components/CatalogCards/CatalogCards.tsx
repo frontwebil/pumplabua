@@ -12,6 +12,7 @@ import { useWindowWidth } from "@/custom-hooks/useWidth";
 import { useDispatch } from "react-redux";
 import { toogleIsOpenMobileFilter } from "@/redux/pamplabua/slices/uiSlice";
 import { SelectedFilters } from "../FilterComponent/SelectedFilters";
+import { FaSort } from "react-icons/fa";
 
 type ProductType = Product & { variants: Variant[] };
 
@@ -165,7 +166,7 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
         <div className="Catalog-top-right-wrap-container">
           <div className="Catalog-top-right-wrap">
             <div className="Catalog-top-right-wrap-sort-text">
-              <PiFaders />
+              <FaSort color="#0339f4" />
               <p>Сортувати:</p>
             </div>
 
@@ -245,6 +246,7 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
             onClick={() => dispatch(toogleIsOpenMobileFilter())}
           >
             <PiFaders />
+            <p>Фільтр</p>
           </div>
         </div>
       </div>
