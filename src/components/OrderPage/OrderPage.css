@@ -35,12 +35,33 @@
   width: 100%;
   flex-direction: column;
   gap: 8px;
+  position: relative;
 }
 
 .OrderPage-content-group label {
   font-size: 16px;
   font-weight: 700;
   color: #000;
+}
+
+.dropdown {
+  top: 100%;
+  position: absolute;
+  background: white;
+  width: 100%;
+  border: 1px solid #ddd;
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.dropdown div {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown div:hover {
+  background: #f5f5f5;
 }
 
 .OrderPage-content-group input {
@@ -50,6 +71,20 @@
   border: none;
   outline: none;
   font-size: 16px;
+}
+
+.OrderPage-content-group select {
+  padding: 18px 14px;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.OrderPage-content-group input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .OrderPage-content-group input::placeholder {
@@ -313,7 +348,7 @@
   .OrderPage-content-buttons {
     flex-direction: column-reverse;
   }
-  .OrderPage-order-button{
+  .OrderPage-order-button {
     font-size: 16px;
   }
 }
