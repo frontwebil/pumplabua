@@ -1,10 +1,22 @@
 "use client";
 
-import { setFilters } from "@/redux/pamplabua/slices/productsSlice";
+import {
+  setFilters,
+  UNIT_LABELS,
+} from "@/redux/pamplabua/slices/productsSlice";
 import { RootState } from "@/redux/pamplabua/store";
 import { useSelector, useDispatch } from "react-redux";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useState } from "react";
+
+function formatWeight(value: string) {
+  const match = value.match(/^(\d+(?:\.\d+)?)([a-zA-Z]+)$/);
+  if (!match) return value;
+
+  const [, amount, unit] = match;
+
+  return `${amount} ${UNIT_LABELS[unit] || unit}`;
+}
 
 export function WeightFilterComponent() {
   const {
@@ -18,12 +30,9 @@ export function WeightFilterComponent() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(true);
 
-  // 🔥 Показувати фільтр "вага" тільки коли:
-  // є вибрана категорія або виробник
   const shouldShowWeightFilter =
     categorySelectFilters.length > 0 || producerSelectFilter.length > 0;
 
-  // Якщо немає активних категорій/виробників → не рендеримо нічого
   if (!shouldShowWeightFilter) return null;
 
   const useFiltered =
@@ -46,10 +55,11 @@ export function WeightFilterComponent() {
               ? filteredWeightCount[weightKey] ?? 0
               : globalCount;
 
-            // 🔥 Якщо ваги немає у фільтрованому наборі — ховаємо цей пункт
             if (actualCount === 0) return null;
 
             const isChecked = weightSelectFilter.includes(weightKey);
+
+            console.log(weightKey);
 
             return (
               <li key={weightKey} className="filter-item">
@@ -66,7 +76,7 @@ export function WeightFilterComponent() {
                       )
                     }
                   />
-                  <span className="fs-lg">{weightKey}</span>
+                  <span className="fs-lg">{formatWeight(weightKey)}</span>
                 </label>
                 <span className="filter-count fs-md">({actualCount})</span>
               </li>

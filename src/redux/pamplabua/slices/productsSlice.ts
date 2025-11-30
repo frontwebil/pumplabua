@@ -49,6 +49,18 @@ const initialState: initialStateType = {
   searchProducts: [],
 };
 
+export const UNIT_LABELS: Record<string, string> = {
+  g: "г",
+  kg: "кг",
+  ml: "мл",
+  l: "літри",
+  pcs: "шт",
+  caps: "капсул",
+  size: "розмір",
+  tabs: "табл",
+  gum: "жувальні",
+};
+
 function countBy<T>(
   arr: T[],
   keyFn: (item: T) => string

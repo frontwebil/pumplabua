@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { RootState } from "@/redux/pamplabua/store";
@@ -20,6 +21,11 @@ export function OrderPageDelivery({
   const { delivery, villageCity, department } = useSelector(
     (store: RootState) => store.OrderProductsSlice
   );
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const [isCitySelected, setIsCitySelected] = useState(false);
 
   const [cities, setCities] = useState<any[]>([]);
@@ -77,6 +83,7 @@ export function OrderPageDelivery({
         setLoadingWarehouses(false);
       });
   }, [cityRef, delivery]);
+
   return (
     <>
       <h2 className="font-bold uppercase fs-md">Доставка</h2>
@@ -103,7 +110,11 @@ export function OrderPageDelivery({
           />
           <p className="delivery-container-block-text">Відділення</p>
           <div className="delivery-container-block-price">
-            {deliveryPrice > 60 ? "від 60 грн" : "Безкоштовно"}
+            {!mounted
+              ? null
+              : deliveryPrice > 60
+              ? "від 60 грн"
+              : "Безкоштовно"}
           </div>
         </div>
 
@@ -128,95 +139,106 @@ export function OrderPageDelivery({
           />
           <p className="delivery-container-block-text">Поштомат</p>
           <div className="delivery-container-block-price">
-            {deliveryPrice > 60 ? "від 60 грн" : "Безкоштовно"}
+            {!mounted
+              ? null
+              : deliveryPrice > 60
+              ? "від 60 грн"
+              : "Безкоштовно"}
           </div>
         </div>
       </div>
 
-      <div className="OrderPage-content-row">
-        <div className="OrderPage-content-group">
-          <label>Місто/Населений пункт</label>
-          <input
-            placeholder="Введіть назву населеного пункту"
-            value={villageCity}
-            onChange={(e) => handleCitySearch(e.target.value)}
-          />
-
-          {cities.length > 0 && (
-            <div className="dropdown">
-              {cities.map((city) => (
-                <div
-                  key={city.Ref}
-                  onClick={() => {
-                    dispatch(setVillageCity(city.Present));
-                    dispatch(setDepartment(""));
-                    setCities([]);
-                    setIsCitySelected(true);
-                    setCityRef(city.DeliveryCity);
-                  }}
-                >
-                  {city.Present}
-                </div>
-              ))}
-            </div>
-          )}
+      <div
+        className={`delivery-container-block mb-10 ${
+          delivery === "Самовивіз" ? "active" : ""
+        }`}
+        onClick={() => dispatch(setDeliveryType("Самовивіз"))}
+      >
+        <div
+          className={`delivery-container-block-cheked ${
+            delivery === "Самовивіз" ? "active" : ""
+          }`}
+        >
+          <FaCheck />
+        </div>
+        <Image src="/logo.svg" alt="Нова пошта" width={150} height={150} />
+        <p className="delivery-container-block-text">Самовивіз із магазину</p>
+        <div className="delivery-container-block-price">
+          Вул. Літературна 27 ТРЦ City Mall
         </div>
       </div>
-      {/* <div className="OrderPage-content-row">
-        <div className="OrderPage-content-group">
-          <label>Вулиця</label>
-          <input
-            type="text"
-            disabled={!isCitySelected}
-            placeholder={
-              !isCitySelected
-                ? "Спочатку виберіть місто"
-                : "Наприклад вул. Шевченка 39"
-            }
-            value={street}
-            onChange={(e) => dispatch(setStreet(e.target.value))}
-          />
-        </div>
-      </div> */}
 
-      <div className="OrderPage-content-row">
-        <div className="OrderPage-content-group">
-          <label>{delivery}</label>
-          <input
-            placeholder={
-              !isCitySelected
-                ? "Спочатку оберіть місто"
-                : loadingWarehouses
-                ? "Завантаження відділень..."
-                : "Почніть вводити номер або адресу"
-            }
-            disabled={!isCitySelected || loadingWarehouses}
-            value={warehouseSearch || department}
-            onChange={(e) => {
-              setWarehouseSearch(e.target.value);
-              dispatch(setDepartment(e.target.value));
-            }}
-          />
+      {delivery !== "Самовивіз" && (
+        <div className="OrderPage-content-row">
+          <div className="OrderPage-content-group">
+            <label>Місто/Населений пункт</label>
+            <input
+              placeholder="Введіть назву населеного пункту"
+              value={villageCity}
+              onChange={(e) => handleCitySearch(e.target.value)}
+            />
 
-          {isCitySelected &&
-            warehouseSearch &&
-            filteredWarehouses.length > 0 && (
+            {cities.length > 0 && (
               <div className="dropdown">
-                {filteredWarehouses.map((w) => (
+                {cities.map((city) => (
                   <div
-                    key={w.Ref}
+                    key={city.Ref}
                     onClick={() => {
-                      dispatch(setDepartment(w.Description));
-                      setWarehouseSearch("");
+                      dispatch(setVillageCity(city.Present));
+                      dispatch(setDepartment(""));
+                      setCities([]);
+                      setIsCitySelected(true);
+                      setCityRef(city.DeliveryCity);
                     }}
                   >
-                    {w.Description}
+                    {city.Present}
                   </div>
                 ))}
               </div>
             )}
+          </div>
         </div>
-      </div>
+      )}
+      {delivery !== "Самовивіз" && (
+        <div className="OrderPage-content-row">
+          <div className="OrderPage-content-group">
+            <label>{delivery}</label>
+            <input
+              placeholder={
+                !isCitySelected
+                  ? "Спочатку оберіть місто"
+                  : loadingWarehouses
+                  ? "Завантаження відділень..."
+                  : "Почніть вводити номер або адресу"
+              }
+              disabled={!isCitySelected || loadingWarehouses}
+              value={warehouseSearch || department}
+              onChange={(e) => {
+                setWarehouseSearch(e.target.value);
+                dispatch(setDepartment(e.target.value));
+              }}
+            />
+
+            {isCitySelected &&
+              warehouseSearch &&
+              filteredWarehouses.length > 0 && (
+                <div className="dropdown">
+                  {filteredWarehouses.map((w) => (
+                    <div
+                      key={w.Ref}
+                      onClick={() => {
+                        dispatch(setDepartment(w.Description));
+                        setWarehouseSearch("");
+                      }}
+                    >
+                      {w.Description}
+                    </div>
+                  ))}
+                </div>
+              )}
+          </div>
+        </div>
+      )}
     </>
   );
 }

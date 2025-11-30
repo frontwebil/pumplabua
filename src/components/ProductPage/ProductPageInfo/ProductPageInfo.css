@@ -291,6 +291,9 @@
 }
 
 @media only screen and (max-width: 500px) {
+  .ProductPageDescriptionInfo-content-text {
+    padding: 18px;
+  }
   .ProductPageDescriptionInfo-content-titles {
     flex-direction: column;
   }

@@ -7,51 +7,56 @@ import { setTypeOfPay } from "@/redux/pamplabua/slices/orderSlice";
 
 export function PaymentMethod() {
   const dispatch = useDispatch();
-  const { typeOfPay } = useSelector(
+  const { typeOfPay, delivery } = useSelector(
     (store: RootState) => store.OrderProductsSlice
   );
 
   return (
-    <div className="payment-container">
-      {/* Онлайн */}
-      <div
-        className={`payment-card ${typeOfPay === "online" ? "active" : ""}`}
-        onClick={() => dispatch(setTypeOfPay("online"))}
-      >
-        <div className="payment-title-row">
-          <span>Онлайн-оплата</span>
-          <div
-            className={`delivery-container-block-cheked ${
-              typeOfPay === "online" ? "active" : ""
-            }`}
-          >
-            <FaCheck />
+    <>
+      <h2 className="font-bold uppercase fs-md">Оплата</h2>
+      <div className="payment-container">
+        {/* Онлайн */}
+        <div
+          className={`payment-card ${typeOfPay === "online" ? "active" : ""}`}
+          onClick={() => dispatch(setTypeOfPay("online"))}
+        >
+          <div className="payment-title-row">
+            <span>Онлайн-оплата</span>
+            <div
+              className={`delivery-container-block-cheked ${
+                typeOfPay === "online" ? "active" : ""
+              }`}
+            >
+              <FaCheck />
+            </div>
           </div>
+
+          <div className="payment-subtext">Швидко і Безпечно</div>
         </div>
 
-        <div className="payment-subtext">Швидко і Безпечно</div>
-      </div>
+        {/* При отриманні */}
+        <div
+          className={`payment-card ${
+            typeOfPay === "when received" ? "active" : ""
+          }`}
+          onClick={() => dispatch(setTypeOfPay("when received"))}
+        >
+          <div className="payment-title-row">
+            <span>Оплата при отриманні</span>
+            <div
+              className={`delivery-container-block-cheked ${
+                typeOfPay === "when received" ? "active" : ""
+              }`}
+            >
+              <FaCheck />
+            </div>
+          </div>
 
-      {/* При отриманні */}
-      <div
-        className={`payment-card ${
-          typeOfPay === "when received" ? "active" : ""
-        }`}
-        onClick={() => dispatch(setTypeOfPay("when received"))}
-      >
-        <div className="payment-title-row">
-          <span>Оплата при отриманні</span>
-          <div
-            className={`delivery-container-block-cheked ${
-              typeOfPay === "when received" ? "active" : ""
-            }`}
-          >
-            <FaCheck />
+          <div className="payment-subtext">
+            {delivery == "Самовивіз" ? "При отриманні" : "Через Нову Пошту"}
           </div>
         </div>
-
-        <div className="payment-subtext">Через Нову Пошту</div>
       </div>
-    </div>
+    </>
   );
 }

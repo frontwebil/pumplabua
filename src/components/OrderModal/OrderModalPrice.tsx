@@ -11,7 +11,7 @@ export function OrderModalPrice() {
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useDispatch();
-  const { orderProducts } = useSelector(
+  const { orderProducts, delivery } = useSelector(
     (store: RootState) => store.OrderProductsSlice
   );
 
@@ -41,7 +41,8 @@ export function OrderModalPrice() {
 
   const differencePrice = totalPriceWithoutDiscount - totalPriceWithDiscount;
 
-  const deliveryPrice = totalPriceWithDiscount > 3000 ? "Безкоштовно" : "Від 60 грн";
+  const deliveryPrice =
+    totalPriceWithDiscount > 3000 ? "Безкоштовно" : "Від 60 грн";
   const handleOrder = () => {
     if (orderProducts.length < 1) {
       toast("Ваша корзина порожня");
@@ -67,10 +68,12 @@ export function OrderModalPrice() {
             {differencePrice} грн
           </p>
         </div>
-        <div className="order-total-price-content-row">
-          <p className="order-total-price-content-row-text">Доставка</p>
-          <p className="order-total-price-content-count">{deliveryPrice}</p>
-        </div>
+        {delivery !== "Самовивіз" && (
+          <div className="order-total-price-content-row">
+            <p className="order-total-price-content-row-text">Доставка</p>
+            <p className="order-total-price-content-count">{deliveryPrice}</p>
+          </div>
+        )}
         {pathname !== "/order" && (
           <p className="order-total-free-delivery">
             <span className="font-bold">Безкоштовна доставка</span> замовлень
