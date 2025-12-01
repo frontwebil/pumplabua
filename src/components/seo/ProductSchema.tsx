@@ -11,6 +11,12 @@ export default function ProductSchema({
   const mainVariant =
     product.variants.find((v) => v.isMain) ?? product.variants[0];
 
+  const discount = mainVariant.discount ?? 0;
+  const finalPrice =
+    discount > 0
+      ? Math.ceil(mainVariant.price - mainVariant.price * (discount / 100))
+      : mainVariant.price;
+
   const jsonLd = {
     "@context": "https://schema.org/",
     "@type": "Product",
@@ -22,9 +28,24 @@ export default function ProductSchema({
     offers: {
       "@type": "Offer",
       priceCurrency: "UAH",
-      price: mainVariant.price,
-      availability: "https://schema.org/InStock",
+      price: finalPrice,
+      availability: mainVariant.inStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
       url: `https://www.pumplabua.shop/product/${product.slug}`,
+
+      ...(discount > 0 && {
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: finalPrice,
+          priceCurrency: "UAH",
+          referenceQuantity: {
+            "@type": "QuantitativeValue",
+            value: 1,
+            unitText: "item",
+          },
+        },
+      }),
     },
   };
 
