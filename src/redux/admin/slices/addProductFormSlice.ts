@@ -7,7 +7,7 @@ export type initialStateType = {
   mainDescription: string;
   description: string;
   category: string;
-
+  type: string;
   // Additional
   features: string;
   purpose: string;
@@ -39,6 +39,7 @@ const initialState: initialStateType = {
   mainDescription: "",
   description: "",
   category: "",
+  type: "",
 
   // Additional
   features: "",

@@ -142,6 +142,29 @@ export function MainInfo() {
           ))}
         </select>
       </div>
+      <div style={{ marginBottom: "1rem" }}>
+        <label
+          style={{
+            display: "block",
+            marginBottom: "0.5rem",
+            fontWeight: 600,
+          }}
+        >
+          Підкатегорія / Тип продукту *
+        </label>
+        <input
+          type="text"
+          required
+          style={{
+            width: "100%",
+            padding: "0.75rem",
+            border: "1px solid #ddd",
+            borderRadius: "4px",
+          }}
+          value={product.type || ""}
+          onChange={(e) => handleChangeInfo("type", e.target.value)}
+        />
+      </div>
     </div>
   );
 }

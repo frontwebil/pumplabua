@@ -26,6 +26,7 @@ const initialState: initialStateType = {
     mainDescription: "",
     description: null,
     category: "",
+    type: "",
     features: null,
     purpose: null,
     components: null,

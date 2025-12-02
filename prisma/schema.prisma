@@ -37,6 +37,7 @@ model Product {
   mainDescription String
   description     String?
   category        String
+  type            String?
   features        String?
   purpose         String?
   components      String?

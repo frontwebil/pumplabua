@@ -9,8 +9,14 @@ import { CATEGORYES } from "@/site-config/site.config";
 import { useDispatch, useSelector } from "react-redux";
 
 export function MainInfo() {
-  const { nameProduct, producer, mainDescription, description, category } =
-    useSelector((store: RootState) => store.addProductFormSlice);
+  const {
+    nameProduct,
+    producer,
+    mainDescription,
+    description,
+    category,
+    type,
+  } = useSelector((store: RootState) => store.addProductFormSlice);
   const dispatch = useDispatch();
 
   const handleChangeInfo = (field: keyof initialStateType, value: string) => {
@@ -141,6 +147,29 @@ export function MainInfo() {
             </option>
           ))}
         </select>
+      </div>
+      <div style={{ marginBottom: "1rem" }}>
+        <label
+          style={{
+            display: "block",
+            marginBottom: "0.5rem",
+            fontWeight: 600,
+          }}
+        >
+          Підкатегорія / Тип продукту *
+        </label>
+        <input
+          type="text"
+          required
+          style={{
+            width: "100%",
+            padding: "0.75rem",
+            border: "1px solid #ddd",
+            borderRadius: "4px",
+          }}
+          value={type || ""}
+          onChange={(e) => handleChangeInfo("type", e.target.value)}
+        />
       </div>
     </div>
   );
