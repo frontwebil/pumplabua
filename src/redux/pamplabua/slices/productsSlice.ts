@@ -12,6 +12,7 @@ type FilterKeys =
 type initialStateType = {
   products: ProductType[];
   filteredProducts: ProductType[];
+  discountOnly: boolean;
 
   categorySelectFilters: string[];
   producerSelectFilter: string[];
@@ -32,6 +33,7 @@ type initialStateType = {
 const initialState: initialStateType = {
   products: [],
   filteredProducts: [],
+  discountOnly: false,
 
   categorySelectFilters: [],
   producerSelectFilter: [],
@@ -74,6 +76,11 @@ function countBy<T>(
 
 function getMainVariant(product: ProductType) {
   return product.variants.find((v) => v.isMain) || product.variants[0];
+}
+
+function hasDiscount(product: ProductType) {
+  const main = getMainVariant(product);
+  return main?.discount && main.discount > 0;
 }
 
 export const productsSlice = createSlice({
@@ -222,7 +229,27 @@ export const productsSlice = createSlice({
         });
       }
 
+      if (state.discountOnly) {
+        final = final.filter((p) => {
+          const m = getMainVariant(p);
+          return m.discount && m.discount > 0;
+        });
+      }
+
+      // ✅ ПЕРЕРАХУНОК
       state.filteredProducts = final;
+      state.filteredCategoryCount = countBy(final, (p) => p.category);
+      state.filteredProducerCount = countBy(final, (p) => p.producer);
+
+      const weights = final
+        .map((p) => {
+          const m = getMainVariant(p);
+          if (m.unitType === "size") return null;
+          return `${m.amount}${m.unitType}`;
+        })
+        .filter(Boolean) as string[];
+
+      state.filteredWeightCount = countBy(weights, (w) => w);
     },
 
     // ============================
@@ -259,7 +286,7 @@ export const productsSlice = createSlice({
       state.categorySelectFilters = [];
       state.producerSelectFilter = [];
       state.weightSelectFilter = [];
-
+      state.discountOnly = false;
       // Вертаємо усі продукти
       state.filteredProducts = state.products;
 
@@ -267,6 +294,68 @@ export const productsSlice = createSlice({
       state.filteredCategoryCount = state.globalCategoryCount;
       state.filteredProducerCount = state.globalProducerCount;
       state.filteredWeightCount = state.globalWeightCount;
+    },
+
+    toggleDiscountOnly: (state) => {
+      state.discountOnly = !state.discountOnly;
+
+      let final = state.products;
+
+      // -------------------------
+      // CATEGORY
+      // -------------------------
+      if (state.categorySelectFilters.length > 0) {
+        final = final.filter((p) =>
+          state.categorySelectFilters.includes(p.category)
+        );
+      }
+
+      // -------------------------
+      // PRODUCER
+      // -------------------------
+      if (state.producerSelectFilter.length > 0) {
+        final = final.filter((p) =>
+          state.producerSelectFilter.includes(p.producer)
+        );
+      }
+
+      // -------------------------
+      // WEIGHT
+      // -------------------------
+      if (state.weightSelectFilter.length > 0) {
+        final = final.filter((p) => {
+          const m = getMainVariant(p);
+          if (m.unitType === "size") return false;
+          return state.weightSelectFilter.includes(`${m.amount}${m.unitType}`);
+        });
+      }
+
+      // -------------------------
+      // DISCOUNT (NEW)
+      // -------------------------
+      if (state.discountOnly) {
+        final = final.filter((p) => {
+          const m = getMainVariant(p);
+          return m.discount && m.discount > 0;
+        });
+      }
+
+      // ✅ ПЕРЕЗАПИС filteredProducts
+      state.filteredProducts = final;
+
+      // ✅ ПЕРЕРАХУНОК ЛІЧИЛЬНИКІВ
+      state.filteredCategoryCount = countBy(final, (p) => p.category);
+      state.filteredProducerCount = countBy(final, (p) => p.producer);
+
+      const weights = final
+        .map((p) => {
+          const m = getMainVariant(p);
+          if (m.unitType === "size") return null;
+          return `${m.amount}${m.unitType}`;
+        })
+        .filter(Boolean) as string[];
+
+      state.filteredWeightCount = countBy(weights, (w) => w);
     },
   },
 });
@@ -277,6 +366,7 @@ export const {
   setFilters,
   setFiltersFromLink,
   resetFilters,
+  toggleDiscountOnly,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

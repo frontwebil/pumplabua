@@ -6,6 +6,20 @@ import { useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 
+const CATEGORY_ORDER = [
+  "Вітаміни та БАДи",
+  "Протеїн",
+  "Креатин",
+  "Гейнер",
+  "Хондропротектори",
+  "Колаген",
+  "Амінокислоти",
+  "Жироспалювачі",
+  "Здорове харчування",
+  "Протеїнові батончики",
+  "Аксесуари",
+];
+
 export function ProductionFilterComponent() {
   const {
     globalCategoryCount, // стабільна кількість
@@ -31,37 +45,45 @@ export function ProductionFilterComponent() {
 
       {open && (
         <ul className="filter-list">
-          {Object.entries(globalCategoryCount).map(([key, globalCount]) => {
-            // 🔥 якщо вибрані виробники → беремо filtered count
-            //    якщо ні — глобальний
-            const actualCount = filterByProducer
-              ? filteredCategoryCount[key] ?? 0
-              : globalCount;
+          {Object.entries(globalCategoryCount)
+            .sort(([a], [b]) => {
+              const indexA = CATEGORY_ORDER.indexOf(a);
+              const indexB = CATEGORY_ORDER.indexOf(b);
 
-            return (
-              <li className="filter-item" key={key}>
-                <label className="filter-label">
-                  <input
-                    type="checkbox"
-                    checked={categorySelectFilters.includes(key)}
-                    onChange={() => {
-                      if (actualCount === 0) return;
-                      dispatch(
-                        setFilters({
-                          value: key,
-                          filters: "categorySelectFilters",
-                        })
-                      );
-                    }}
-                  />
-                  <span className="fs-lg">{key}</span>
-                </label>
+              // якщо якоїсь категорії нема у списку — кидаємо вниз
+              if (indexA === -1) return 1;
+              if (indexB === -1) return -1;
 
-                {/* 🔥 показуємо актуальну кількість */}
-                <span className="filter-count fs-md">({actualCount})</span>
-              </li>
-            );
-          })}
+              return indexA - indexB;
+            })
+            .map(([key, globalCount]) => {
+              const actualCount = filterByProducer
+                ? filteredCategoryCount[key] ?? 0
+                : globalCount;
+
+              return (
+                <li className="filter-item" key={key}>
+                  <label className="filter-label">
+                    <input
+                      type="checkbox"
+                      checked={categorySelectFilters.includes(key)}
+                      onChange={() => {
+                        if (actualCount === 0) return;
+                        dispatch(
+                          setFilters({
+                            value: key,
+                            filters: "categorySelectFilters",
+                          })
+                        );
+                      }}
+                    />
+                    <span className="fs-lg">{key}</span>
+                  </label>
+
+                  <span className="filter-count fs-md">({actualCount})</span>
+                </li>
+              );
+            })}
         </ul>
       )}
     </>

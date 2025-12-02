@@ -67,7 +67,7 @@ export default async function ProductPage(props: ProductPageProps) {
         <Breadcrumbs
           links={[
             { title: "Каталог", href: "/catalog" },
-            { title: product.category, href: "/catalog" },
+            { title: product.category, href: "/catalog" , category:product.category },
             { title: product.name },
           ]}
         />

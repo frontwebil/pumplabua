@@ -10,6 +10,7 @@ import { CgClose } from "react-icons/cg";
 import { toogleIsOpenMobileFilter } from "@/redux/pamplabua/slices/uiSlice";
 import { useEffect } from "react";
 import { resetFilters } from "@/redux/pamplabua/slices/productsSlice";
+import { DiscountProductHandler } from "./DiscountProductsHandler";
 
 export function FilterComponent() {
   const { isOpenMobileFilter } = useSelector(
@@ -53,6 +54,7 @@ export function FilterComponent() {
           />
         </div>
         <SelectedFilters />
+        <DiscountProductHandler />
         <ProductionFilterComponent />
         <ProducerFilterComponent />
         <WeightFilterComponent />
@@ -63,7 +65,7 @@ export function FilterComponent() {
           Шукати
         </div>
         <p
-          className="fs-md underline text-center cursor-pointer"
+          className="fs-md underline text-center cursor-pointer mt-3"
           onClick={() => {
             dispatch(resetFilters());
           }}
