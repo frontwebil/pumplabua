@@ -20,7 +20,7 @@ export function Breadcrumbs({ links }: Props) {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const hanleRouteReplace = (category, href) => {
+  const hanleRouteReplace = (category: string, href: string) => {
     if (category) {
       dispatch(setFiltersFromLink([category]));
     }
