@@ -11,6 +11,7 @@ import { toogleIsOpenMobileFilter } from "@/redux/pamplabua/slices/uiSlice";
 import { useEffect } from "react";
 import { resetFilters } from "@/redux/pamplabua/slices/productsSlice";
 import { DiscountProductHandler } from "./DiscountProductsHandler";
+import { TypeProductFilterComponent } from "./TypeProductFilterComponent";
 
 export function FilterComponent() {
   const { isOpenMobileFilter } = useSelector(
@@ -56,6 +57,7 @@ export function FilterComponent() {
         <SelectedFilters />
         <DiscountProductHandler />
         <ProductionFilterComponent />
+        <TypeProductFilterComponent />
         <ProducerFilterComponent />
         <WeightFilterComponent />
         <div
