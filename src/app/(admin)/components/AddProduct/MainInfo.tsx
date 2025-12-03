@@ -156,7 +156,7 @@ export function MainInfo() {
             fontWeight: 600,
           }}
         >
-          Підкатегорія / Тип продукту *
+          Підкатегорія / Тип продукту 
         </label>
         <input
           type="text"
