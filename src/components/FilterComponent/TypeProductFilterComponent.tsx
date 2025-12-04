@@ -7,17 +7,18 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { useState } from "react";
 
 export function TypeProductFilterComponent() {
-  const {
-    globalTypeCount,
-    filteredTypeCount,
-    typeSelectFilter,
-    categorySelectFilters,
-  } = useSelector((s: RootState) => s.productsSlice);
+  const { filteredTypeCount, typeSelectFilter, categorySelectFilters } =
+    useSelector((s: RootState) => s.productsSlice);
 
   const dispatch = useDispatch();
   const [open, setOpen] = useState(true);
 
+  // ✅ НЕ ПОКАЗУЄМО без категорії
   if (!categorySelectFilters.length) return null;
+
+  const types = Object.entries(filteredTypeCount);
+
+  if (!types.length) return null;
 
   return (
     <>
@@ -31,11 +32,7 @@ export function TypeProductFilterComponent() {
 
       {open && (
         <ul className="filter-list">
-          {Object.entries(globalTypeCount).map(([type, count]) => {
-            const actual = filteredTypeCount[type] ?? count;
-
-            if (!actual) return null;
-
+          {types.map(([type, count]) => {
             const isChecked = typeSelectFilter.includes(type);
 
             return (
@@ -55,7 +52,7 @@ export function TypeProductFilterComponent() {
                   />
                   <span className="fs-lg">{type}</span>
                 </label>
-                <span className="filter-count fs-md">({actual})</span>
+                <span className="filter-count fs-md">({count})</span>
               </li>
             );
           })}

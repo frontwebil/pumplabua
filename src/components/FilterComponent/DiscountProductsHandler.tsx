@@ -20,6 +20,8 @@ export function DiscountProductHandler() {
     return mainVariant && mainVariant.discount && mainVariant.discount > 0;
   });
 
+  if (productsWithDiscount.length === 0) return null;
+
   return (
     <>
       <div className="filter-group-header" onClick={() => setOpen(!open)}>
