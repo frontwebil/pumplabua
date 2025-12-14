@@ -14,7 +14,6 @@ export function DiscountProductHandler() {
 
   const [open, setOpen] = useState(true);
 
-  // ✅ ВСІ товари зі знижкою (правильно)
   const productsWithDiscount = filteredProducts.filter((el) => {
     const mainVariant = el.variants.find((e) => e.isMain);
     return mainVariant && mainVariant.discount && mainVariant.discount > 0;
@@ -44,9 +43,9 @@ export function DiscountProductHandler() {
               <span className="fs-lg text-red-500 font-bold">Акція</span>
             </label>
 
-            {/* <span className="filter-count fs-md">
+            <span className="filter-count fs-md">
               ({productsWithDiscount.length})
-            </span> */}
+            </span>
           </li>
         </ul>
       )}

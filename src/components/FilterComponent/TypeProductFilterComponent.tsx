@@ -7,17 +7,37 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { useState } from "react";
 
 export function TypeProductFilterComponent() {
-  const { filteredTypeCount, typeSelectFilter, categorySelectFilters } =
-    useSelector((s: RootState) => s.productsSlice);
+  const {
+    products,
+    filteredProducts,
+    typeSelectFilter,
+    categorySelectFilters,
+  } = useSelector((s: RootState) => s.productsSlice);
 
   const dispatch = useDispatch();
   const [open, setOpen] = useState(true);
 
-  // ✅ НЕ ПОКАЗУЄМО без категорії
+  // ❗ без категорії — не показуємо
   if (!categorySelectFilters.length) return null;
 
-  const types = Object.entries(filteredTypeCount);
+  // ===============================
+  // 1️⃣ продукти вибраної категорії
+  // ===============================
+  const categoryProducts = products.filter((p) =>
+    categorySelectFilters.includes(p.category)
+  );
 
+  // ===============================
+  // 2️⃣ типи в категорії (ЗАВЖДИ)
+  // ===============================
+  const categoryTypeCount: Record<string, number> = {};
+
+  for (const p of categoryProducts) {
+    if (!p.type || !p.type.trim()) continue;
+    categoryTypeCount[p.type] = (categoryTypeCount[p.type] || 0) + 1;
+  }
+
+  const types = Object.keys(categoryTypeCount);
   if (!types.length) return null;
 
   return (
@@ -32,8 +52,12 @@ export function TypeProductFilterComponent() {
 
       {open && (
         <ul className="filter-list">
-          {types.map(([type, count]) => {
+          {types.map((type) => {
             const isChecked = typeSelectFilter.includes(type);
+
+            const count = isChecked
+              ? filteredProducts.length
+              : categoryTypeCount[type];
 
             return (
               <li key={type} className="filter-item">
@@ -52,6 +76,7 @@ export function TypeProductFilterComponent() {
                   />
                   <span className="fs-lg">{type}</span>
                 </label>
+
                 <span className="filter-count fs-md">({count})</span>
               </li>
             );

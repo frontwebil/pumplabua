@@ -4,8 +4,12 @@ import { CgClose } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 
 export function SelectedFilters() {
-  const { categorySelectFilters, producerSelectFilter, weightSelectFilter } =
-    useSelector((store: RootState) => store.productsSlice);
+  const {
+    categorySelectFilters,
+    producerSelectFilter,
+    weightSelectFilter,
+    typeSelectFilter,
+  } = useSelector((store: RootState) => store.productsSlice);
   const dispatch = useDispatch();
   return (
     <div className="SelectedFilters">
@@ -52,6 +56,23 @@ export function SelectedFilters() {
               setFilters({
                 value: el,
                 filters: "weightSelectFilter",
+              })
+            );
+          }}
+        >
+          <p>{el}</p>
+          <CgClose />
+        </div>
+      ))}
+      {typeSelectFilter.map((el, i) => (
+        <div
+          className="SelectedFilters-card"
+          key={i}
+          onClick={() => {
+            dispatch(
+              setFilters({
+                value: el,
+                filters: "typeSelectFilter",
               })
             );
           }}

@@ -70,6 +70,7 @@ export const UNIT_LABELS: Record<string, string> = {
   gum: "жувальні",
 };
 
+// ================= HELPERS =================
 function countBy<T>(
   arr: T[],
   keyFn: (item: T) => string
@@ -85,11 +86,12 @@ function getMainVariant(product: ProductType) {
   return product.variants.find((v) => v.isMain) || product.variants[0];
 }
 
-function hasDiscount(product: ProductType) {
-  const main = getMainVariant(product);
-  return main?.discount && main.discount > 0;
+// ✅ ЄДИНА НОВА ЛОГІКА
+function isValidType(type: string | null | undefined) {
+  return typeof type === "string" && type.trim() !== "";
 }
 
+// ================= SLICE =================
 export const productsSlice = createSlice({
   name: "Products Slice",
   initialState,
@@ -101,13 +103,9 @@ export const productsSlice = createSlice({
       const data = action.payload || [];
       state.products = data;
 
-      // ----- GLOBAL CATEGORY -----
       state.globalCategoryCount = countBy(data, (p: any) => p.category);
-
-      // ----- GLOBAL PRODUCER -----
       state.globalProducerCount = countBy(data, (p: any) => p.producer);
 
-      // ----- GLOBAL WEIGHT (SKIP "size") -----
       const weights = data
         .map((p: any) => {
           const m = getMainVariant(p);
@@ -118,13 +116,12 @@ export const productsSlice = createSlice({
 
       state.globalWeightCount = countBy(weights, (w) => w);
 
-      // ----- GLOBAL TYPE -----
+      // ✅ FIX
       state.globalTypeCount = countBy(
-        data.filter((p: any) => p.type !== null),
-        (p: any) => p.type as string
+        data.filter((p: any) => isValidType(p.type)),
+        (p: any) => p.type.trim()
       );
 
-      // Якщо ВСІ фільтри пусті → показуємо все і копіюємо глобальні лічильники
       if (
         state.categorySelectFilters.length === 0 &&
         state.producerSelectFilter.length === 0 &&
@@ -139,7 +136,6 @@ export const productsSlice = createSlice({
         state.filteredTypeCount = state.globalTypeCount;
       }
 
-      // TOP SELLERS
       state.topSellersProducts = data.filter((p: any) => p.isBestseller);
     },
 
@@ -153,19 +149,9 @@ export const productsSlice = createSlice({
         return;
       }
 
-      const filtered = state.products
-        .filter((p) => p.name.toLowerCase().includes(term))
-        .sort((a, b) => {
-          if (a.isActive !== b.isActive)
-            return Number(b.isActive) - Number(a.isActive);
-
-          const A = getMainVariant(a);
-          const B = getMainVariant(b);
-
-          return (Number(B.discount) || 0) - (Number(A.discount) || 0);
-        });
-
-      state.searchProducts = filtered;
+      state.searchProducts = state.products.filter((p) =>
+        p.name.toLowerCase().includes(term)
+      );
     },
 
     // ============================
@@ -176,87 +162,32 @@ export const productsSlice = createSlice({
         action.payload;
 
       const arr = state[filters];
+      state[filters] = arr.includes(value)
+        ? arr.filter((el) => el !== value)
+        : [...arr, value];
 
-      // toggle
-      if (arr.includes(value)) {
-        state[filters] = arr.filter((el) => el !== value);
-      } else {
-        state[filters].push(value);
-      }
-
-      // -------------------------
-      // STEP 1: CATEGORY FILTER
-      // -------------------------
-      let afterCategory = state.products;
+      let final = state.products;
 
       if (state.categorySelectFilters.length > 0) {
-        afterCategory = afterCategory.filter((p) =>
+        final = final.filter((p) =>
           state.categorySelectFilters.includes(p.category)
         );
       }
 
-      state.filteredProducerCount = countBy(afterCategory, (p) => p.producer);
-
-      state.filteredWeightCount = countBy(
-        afterCategory
-          .map((p) => {
-            const m = getMainVariant(p);
-            if (m.unitType === "size") return null;
-            return `${m.amount}${m.unitType}`;
-          })
-          .filter(Boolean) as string[],
-        (w) => w
-      );
-
-      state.filteredTypeCount = countBy(
-        afterCategory.filter((p) => p.type !== null),
-        (p) => p.type as string
-      );
-
-      // -------------------------
-      // STEP 2: PRODUCER FILTER
-      // -------------------------
-      let afterProducer = afterCategory;
-
       if (state.producerSelectFilter.length > 0) {
-        afterProducer = afterProducer.filter((p) =>
+        final = final.filter((p) =>
           state.producerSelectFilter.includes(p.producer)
         );
       }
 
-      state.filteredCategoryCount = countBy(afterProducer, (p) => p.category);
-
-      state.filteredWeightCount = countBy(
-        afterProducer
-          .map((p) => {
-            const m = getMainVariant(p);
-            if (m.unitType === "size") return null;
-            return `${m.amount}${m.unitType}`;
-          })
-          .filter(Boolean) as string[],
-        (w) => w
-      );
-
-      state.filteredTypeCount = countBy(
-        afterProducer.filter((p) => p.type !== null),
-        (p) => p.type as string
-      );
-
-      // -------------------------
-      // STEP 3: TYPE FILTER
-      // -------------------------
-      let afterType = afterProducer;
-
+      // ✅ FIX
       if (state.typeSelectFilter.length > 0) {
-        afterType = afterType.filter(
-          (p) => p.type && state.typeSelectFilter.includes(p.type)
+        final = final.filter(
+          (p) =>
+            isValidType(p.type) &&
+            state.typeSelectFilter.includes(p.type.trim())
         );
       }
-
-      // -------------------------
-      // STEP 4: WEIGHT FILTER
-      // -------------------------
-      let final = afterType;
 
       if (state.weightSelectFilter.length > 0) {
         final = final.filter((p) => {
@@ -266,9 +197,6 @@ export const productsSlice = createSlice({
         });
       }
 
-      // -------------------------
-      // DISCOUNT
-      // -------------------------
       if (state.discountOnly) {
         final = final.filter((p) => {
           const m = getMainVariant(p);
@@ -276,7 +204,6 @@ export const productsSlice = createSlice({
         });
       }
 
-      // ✅ ПЕРЕРАХУНОК
       state.filteredProducts = final;
       state.filteredCategoryCount = countBy(final, (p) => p.category);
       state.filteredProducerCount = countBy(final, (p) => p.producer);
@@ -292,8 +219,8 @@ export const productsSlice = createSlice({
       state.filteredWeightCount = countBy(finalWeights, (w) => w);
 
       state.filteredTypeCount = countBy(
-        final.filter((p) => p.type !== null),
-        (p) => p.type as string
+        final.filter((p) => isValidType(p.type)),
+        (p) => p.type.trim()
       );
     },
 
@@ -315,20 +242,19 @@ export const productsSlice = createSlice({
       state.filteredCategoryCount = countBy(filtered, (p) => p.category);
       state.filteredProducerCount = countBy(filtered, (p) => p.producer);
 
-      state.filteredWeightCount = countBy(
-        filtered
-          .map((p) => {
-            const m = getMainVariant(p);
-            if (m.unitType === "size") return null;
-            return `${m.amount}${m.unitType}`;
-          })
-          .filter(Boolean) as string[],
-        (w) => w
-      );
+      const weights = filtered
+        .map((p) => {
+          const m = getMainVariant(p);
+          if (m.unitType === "size") return null;
+          return `${m.amount}${m.unitType}`;
+        })
+        .filter(Boolean) as string[];
+
+      state.filteredWeightCount = countBy(weights, (w) => w);
 
       state.filteredTypeCount = countBy(
-        filtered.filter((p) => p.type !== null),
-        (p) => p.type as string
+        filtered.filter((p) => isValidType(p.type)),
+        (p) => p.type.trim()
       );
     },
 
@@ -340,7 +266,6 @@ export const productsSlice = createSlice({
       state.discountOnly = false;
 
       state.filteredProducts = state.products;
-
       state.filteredCategoryCount = state.globalCategoryCount;
       state.filteredProducerCount = state.globalProducerCount;
       state.filteredWeightCount = state.globalWeightCount;
@@ -366,10 +291,12 @@ export const productsSlice = createSlice({
         );
       }
 
-      // TYPE
+      // TYPE ✅
       if (state.typeSelectFilter.length > 0) {
         final = final.filter(
-          (p) => p.type && state.typeSelectFilter.includes(p.type)
+          (p) =>
+            isValidType(p.type) &&
+            state.typeSelectFilter.includes(p.type.trim())
         );
       }
 
@@ -382,7 +309,7 @@ export const productsSlice = createSlice({
         });
       }
 
-      // DISCOUNT
+      // DISCOUNT ✅
       if (state.discountOnly) {
         final = final.filter((p) => {
           const m = getMainVariant(p);
@@ -390,10 +317,10 @@ export const productsSlice = createSlice({
         });
       }
 
-      // ✅ ПЕРЕЗАПИС filteredProducts
+      // 🔁 ПЕРЕЗАПИС
       state.filteredProducts = final;
 
-      // ✅ ПЕРЕРАХУНОК ЛІЧИЛЬНИКІВ
+      // 🔁 ЛІЧИЛЬНИКИ
       state.filteredCategoryCount = countBy(final, (p) => p.category);
       state.filteredProducerCount = countBy(final, (p) => p.producer);
 
@@ -408,8 +335,8 @@ export const productsSlice = createSlice({
       state.filteredWeightCount = countBy(weights, (w) => w);
 
       state.filteredTypeCount = countBy(
-        final.filter((p) => p.type !== null),
-        (p) => p.type as string
+        final.filter((p) => isValidType(p.type)),
+        (p) => p.type.trim()
       );
     },
   },
