@@ -87,7 +87,7 @@ function getMainVariant(product: ProductType) {
 }
 
 // ✅ ЄДИНА НОВА ЛОГІКА
-function isValidType(type: string | null | undefined) {
+function isValidType(type: string | null | undefined): type is string {
   return typeof type === "string" && type.trim() !== "";
 }
 
