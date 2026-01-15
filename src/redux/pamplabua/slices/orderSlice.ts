@@ -103,6 +103,7 @@ export const OrderProductsSlice = createSlice({
     },
     setDeliveryType: (state, action) => {
       state.delivery = action.payload;
+      state.department = "";
     },
     setVillageCity: (state, action) => {
       state.villageCity = action.payload;

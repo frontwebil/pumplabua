@@ -114,7 +114,7 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
     }
 
     // ✅ АДРЕСА КУРʼЄРОМ
-    if (delivery === "Поштомат" && (!villageCity || !street)) {
+    if (delivery === "Поштомат" && !department) {
       toast.error("Вкажіть номер поштомату");
       return;
     }
