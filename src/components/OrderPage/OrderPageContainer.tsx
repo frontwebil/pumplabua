@@ -20,6 +20,7 @@ import { SITE_LINKS } from "@/site-config/site.config";
 import { useRouter } from "next/navigation";
 import { closeOrderModal } from "@/redux/pamplabua/slices/uiSlice";
 import { toast } from "react-toastify";
+import { SendMessageToTelegram } from "@/custom-hooks/sendMessageToTelegram";
 
 type UserType = {
   name?: string | null;
@@ -42,7 +43,6 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
     email,
     delivery,
     villageCity,
-    street,
     department,
     typeOfPay,
   } = useSelector((store: RootState) => store.OrderProductsSlice);
@@ -59,6 +59,20 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
     street: "not-required",
     department,
     typeOfPay,
+  };
+
+  const handleSubmit = async () => {
+    if (loading) return;
+
+    const htmlSend = `
+  <b>Нове повідомлення з сайту:</b>
+  
+      `;
+    try {
+      await SendMessageToTelegram({ htmlSend });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
@@ -81,7 +95,7 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
   const totalPrice = orderProducts.reduce((sum, el) => {
     const price = el.selectedVariant.discount
       ? Math.ceil(
-          el.selectedVariant.price * (1 - el.selectedVariant.discount / 100)
+          el.selectedVariant.price * (1 - el.selectedVariant.discount / 100),
         )
       : el.selectedVariant.price;
 
@@ -142,6 +156,8 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
 
     const data = await res.json();
 
+    handleSubmit();
+    
     if (data.payment === "offline") {
       router.push(`/order/success?ref=${data.orderRef}`);
       return;
@@ -152,7 +168,7 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
     document.body.appendChild(div);
 
     const form = document.querySelector(
-      'form[name="wayforpay"]'
+      'form[name="wayforpay"]',
     ) as HTMLFormElement;
 
     form.submit();
@@ -185,8 +201,8 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
             {loading
               ? "Оформлюємо замовлення..."
               : typeOfPay == "when received"
-              ? "Оформити замовлення"
-              : "Перейти до оплати"}
+                ? "Оформити замовлення"
+                : "Перейти до оплати"}
             {}
           </button>
         </div>
