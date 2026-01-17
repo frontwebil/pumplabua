@@ -66,7 +66,7 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
 
     const htmlSend = `
   <b>Нове повідомлення з сайту:</b>
-  
+  <b>У вас нове замовлення!</b>\n
       `;
     try {
       await SendMessageToTelegram({ htmlSend });
