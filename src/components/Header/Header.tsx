@@ -25,6 +25,7 @@ import { RootState } from "@/redux/pamplabua/store";
 import axios from "axios";
 import { useProducts } from "@/custom-hooks/fetchProducts";
 import {
+  resetFilters,
   setFiltersFromLink,
   setProducts,
 } from "@/redux/pamplabua/slices/productsSlice";
@@ -32,7 +33,7 @@ import { FavoriteLink } from "./components/FavoriteLink";
 
 export function Header() {
   const { isOpenBurger, isOpenBurgerCatalog } = useSelector(
-    (store: RootState) => store.uiSlice
+    (store: RootState) => store.uiSlice,
   );
   const screenWidth = useWindowWidth();
   const pathname = usePathname();
@@ -169,6 +170,7 @@ export function Header() {
                           <Link
                             href={SITE_LINKS.CATALOG}
                             onClick={() => {
+                              dispatch(resetFilters());
                               dispatch(setFiltersFromLink([category.value]));
                               dispatch(toggleBurgerCatalog());
                             }}

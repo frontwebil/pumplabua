@@ -13,6 +13,7 @@ import {
 } from "@/redux/pamplabua/slices/uiSlice";
 import { useEffect, useState } from "react";
 import {
+  resetFilters,
   searchProduct,
   setFiltersFromLink,
 } from "@/redux/pamplabua/slices/productsSlice";
@@ -25,10 +26,10 @@ export default function BurgerMenu() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const { isOpenBurger, isOpenBurgerCatalog, isLogged } = useSelector(
-    (store: RootState) => store.uiSlice
+    (store: RootState) => store.uiSlice,
   );
   const { searchProducts } = useSelector(
-    (store: RootState) => store.productsSlice
+    (store: RootState) => store.productsSlice,
   );
 
   const dispatch = useDispatch();
@@ -123,6 +124,7 @@ export default function BurgerMenu() {
                   key={el.key}
                   href={SITE_LINKS.CATALOG}
                   onClick={() => {
+                    dispatch(resetFilters());
                     dispatch(setFiltersFromLink([el.value])); // <—— ОЦЕ ПРАВИЛЬНО
                     dispatch(toggleBurgerCatalog());
                     dispatch(closeBurger());
