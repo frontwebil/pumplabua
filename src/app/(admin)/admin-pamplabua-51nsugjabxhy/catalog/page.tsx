@@ -7,12 +7,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { AdminCatalogRow } from "../../components/Catalog/Catalog";
 import { RootState } from "@/redux/admin/store";
 import { CATEGORYES } from "@/site-config/site.config";
+import { useRouter } from "next/navigation";
 
 export default function CatalogPage() {
   const dispatch = useDispatch();
   const { products } = useSelector((store: RootState) => store.catalogSlice);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    router.refresh();
+  }, [router]);
+
   const getAllProducts = async () => {
     const res = await axios.get("/api/product/get-all");
     dispatch(setProducts(res.data));
@@ -29,7 +36,7 @@ export default function CatalogPage() {
       : products.filter((el) => el.category == selectedCategory);
 
   const searchedProducts = filteredProducts.filter((el) =>
-    el.name.toLowerCase().includes(searchTerm.toLowerCase())
+    el.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
