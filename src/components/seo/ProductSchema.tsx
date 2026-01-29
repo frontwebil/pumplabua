@@ -28,7 +28,7 @@ export default function ProductSchema({
 
     image: product.variants.flatMap((v:any) => v.images),
 
-    sku: mainVariant.sku || product.id,
+    sku: product.id,
 
     brand: {
       "@type": "Brand",
