@@ -32,7 +32,7 @@ export default function ProductSchema({
 
     brand: {
       "@type": "Brand",
-      name: product.brand || "PumpLab",
+      name: product.producer || "PumpLab",
     },
 
     offers: {
