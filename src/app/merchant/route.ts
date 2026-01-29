@@ -33,14 +33,15 @@ ${products
 
     return `
 <item>
-  <g:id>${product.id}</g:id>
+  <g:id>${variant.id}</g:id>
+<g:item_group_id>${product.id}</g:item_group_id>
   <g:title><![CDATA[${product.name}]]></g:title>
   <g:description><![CDATA[${product.mainDescription}]]></g:description>
   <g:link>https://pumplabua.shop/product/${product.slug}</g:link>
   <g:image_link>${variant.images?.[0]}</g:image_link>
 
   <g:availability>${variant.inStock ? "in_stock" : "out_of_stock"}</g:availability>
-  <g:price>${price} грн</g:price>
+  <g:price>${price} UAH</g:price>
 
   <g:brand>${product.brand || "PumpLab"}</g:brand>
   <g:condition>new</g:condition>
