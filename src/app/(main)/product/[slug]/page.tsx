@@ -6,32 +6,58 @@ import { ProductPageInit } from "@/components/ProductPage/ProductPageInit";
 import { ProductPageWrapper } from "@/components/ProductPage/ProductPageWrapper";
 import { ScrollTop } from "@/custom-hooks/scrollTop";
 
-type ProductPageProps = {
-  params: {
-    slug: string;
-  };
-};
+export const revalidate = 3600;
 
-export async function generateMetadata(props: ProductPageProps) {
-  const { slug } = await props.params;
-
-  const product = await prisma.product.findUnique({
+// 🔹 один fetch
+async function getProduct(slug: string) {
+  return prisma.product.findUnique({
     where: { slug },
     include: { variants: true },
   });
+}
 
-  if (!product) return { title: "Товар не знайдено" };
+// 🔹 потрібен для SSG + sitemap
+export async function generateStaticParams() {
+  const products = await prisma.product.findMany({
+    select: { slug: true },
+  });
 
-  // ✅ ИЩЕМ ГЛАВНЫЙ ВАРИАНТ
+  return products.map((p: any) => ({
+    slug: p.slug,
+  }));
+}
+
+// 🔹 SEO
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const product = await getProduct(params.slug);
+
+  if (!product) {
+    return {
+      title: "Товар не знайдено",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
   const mainVariant =
-    product.variants.find((v) => v.isMain) || product.variants[0];
+    product.variants.find((v: any) => v.isMain) || product.variants[0];
 
-  // ✅ ПЕРВОЕ ФОТО ГЛАВНОГО ВАРИАНТА
-  const mainImage = mainVariant?.images[0];
+  const mainImage = mainVariant?.images?.[0];
 
   return {
-    title: `${product.name} — ціна, купити в Україні`,
+    title: `${product.name} — купити в Україні`,
     description: product.mainDescription,
+
+    alternates: {
+      canonical: `https://pumplabua.shop/product/${params.slug}`,
+    },
+
     openGraph: {
       title: product.name,
       description: product.mainDescription,
@@ -49,28 +75,35 @@ export async function generateMetadata(props: ProductPageProps) {
   };
 }
 
-export default async function ProductPage(props: ProductPageProps) {
-  const { slug } = await props.params;
+// 🔹 page
+export default async function ProductPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const product = await getProduct(params.slug);
 
-  const product = await prisma.product.findUnique({
-    where: { slug },
-    include: { variants: true },
-  });
-
-  if (!product) return notFound();
+  if (!product) notFound();
 
   return (
     <>
       <ProductSchema product={product} />
+
       <div className="container product-container">
         <ScrollTop />
+
         <Breadcrumbs
           links={[
             { title: "Каталог", href: "/catalog" },
-            { title: product.category, href: "/catalog" , category:product.category },
+            {
+              title: product.category,
+              href: "/catalog",
+              category: product.category,
+            },
             { title: product.name },
           ]}
         />
+
         <ProductPageInit product={product} />
         <ProductPageWrapper />
       </div>
