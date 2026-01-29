@@ -10,10 +10,22 @@ export const revalidate = 3600;
 
 // 🔹 один fetch
 async function getProduct(slug: string) {
-  return prisma.product.findUnique({
-    where: { slug },
-    include: { variants: true },
-  });
+  if (!slug) return null;
+
+  try {
+    const product = await prisma.product.findUnique({
+      where: { slug },
+      include: { variants: true },
+    });
+
+    // Если продукт не найден или нет вариантов — вернуть null
+    if (!product || !product.variants?.length) return null;
+
+    return product;
+  } catch (err) {
+    console.error("Prisma error for slug:", slug, err);
+    return null;
+  }
 }
 
 // 🔹 потрібен для SSG + sitemap
@@ -83,7 +95,7 @@ export default async function ProductPage({
 }) {
   const product = await getProduct(params.slug);
 
-  if (!product || !product.variants.length) return notFound();
+  if (!product) return notFound();
 
   return (
     <>
