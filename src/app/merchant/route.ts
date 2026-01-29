@@ -17,7 +17,7 @@ export async function GET() {
 <channel>
 <title>PumpLab UA</title>
 <link>https://pumplabua.shop</link>
-<description>Official PumpLab product feed</description>
+<description>Pamplabua Sitemap</description>
 
 ${products
   .map((product: any) => {
@@ -40,7 +40,7 @@ ${products
   <g:image_link>${variant.images?.[0]}</g:image_link>
 
   <g:availability>${variant.inStock ? "in_stock" : "out_of_stock"}</g:availability>
-  <g:price>${price} UAH</g:price>
+  <g:price>${price} грн</g:price>
 
   <g:brand>${product.brand || "PumpLab"}</g:brand>
   <g:condition>new</g:condition>
