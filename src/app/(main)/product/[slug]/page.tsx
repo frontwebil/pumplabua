@@ -45,7 +45,9 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }) {
-  const product = await getProduct(params.slug);
+  const { slug } = await params;
+
+  const product = await getProduct(slug);
 
   if (!product) {
     return {
@@ -67,7 +69,7 @@ export async function generateMetadata({
     description: product.mainDescription,
 
     alternates: {
-      canonical: `https://pumplabua.shop/product/${params.slug}`,
+      canonical: `https://pumplabua.shop/product/${slug}`,
     },
 
     openGraph: {
@@ -93,7 +95,8 @@ export default async function ProductPage({
 }: {
   params: { slug: string };
 }) {
-  const product = await getProduct(params.slug);
+  const { slug } = await params;
+  const product = await getProduct(slug);
 
   if (!product) return notFound();
 
