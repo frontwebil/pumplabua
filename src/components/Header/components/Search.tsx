@@ -9,7 +9,7 @@ import { SearchCard } from "./SearchCard/SearchCard";
 
 export function Search() {
   const { products, searchProducts } = useSelector(
-    (store: RootState) => store.productsSlice
+    (store: RootState) => store.productsSlice,
   );
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();

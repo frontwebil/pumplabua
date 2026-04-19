@@ -1,8 +1,7 @@
 import { CATEGORYES, SITE_LINKS } from "@/site-config/site.config";
 import Link from "next/link";
-import { CiHeart, CiSearch } from "react-icons/ci";
+import { CiHeart } from "react-icons/ci";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { PiFlask } from "react-icons/pi";
 import { CabinetLinkMobile } from "./CabinetLinkMobile";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/pamplabua/store";
@@ -11,58 +10,37 @@ import {
   toggleAuthModal,
   toggleBurgerCatalog,
 } from "@/redux/pamplabua/slices/uiSlice";
-import { useEffect, useState } from "react";
 import {
   resetFilters,
-  searchProduct,
   setFiltersFromLink,
 } from "@/redux/pamplabua/slices/productsSlice";
 import { toast } from "react-toastify";
-import { useWindowWidth } from "@/custom-hooks/useWidth";
 import Image from "next/image";
-import { SearchCard } from "./SearchCard/SearchCard";
+import { useEffect } from "react";
 
 export default function BurgerMenu() {
-  const screenWidth = useWindowWidth();
-
-  const [searchTerm, setSearchTerm] = useState("");
   const { isOpenBurger, isOpenBurgerCatalog, isLogged } = useSelector(
     (store: RootState) => store.uiSlice,
   );
-  const { searchProducts } = useSelector(
-    (store: RootState) => store.productsSlice,
-  );
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(searchProduct(searchTerm));
-  }, [dispatch, searchTerm]);
+    if (isOpenBurger) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpenBurger]);
+
+  const dispatch = useDispatch();
 
   return (
     <div className={`burger-menu ${isOpenBurger && "active"}`}>
       <div className="container">
         <div className="burger-menu-func">
-          {screenWidth && screenWidth < 600 && (
-            <div className="burger-menu-func-row">
-              <CiSearch className="burger-menu-func-icon" />
-              <input
-                type="text"
-                className="fs-md font-bold outline-none"
-                placeholder="Пошук"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              {searchProducts && searchProducts.length > 0 && (
-                <div className="search-list">
-                  {searchProducts.map((el, i) => (
-                    <SearchCard product={el} key={i} />
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
           <CabinetLinkMobile />
           {!isLogged ? (
             <div

@@ -3,9 +3,8 @@
 import "@/components/Header/Header.css";
 import Image from "next/image";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
-import { PiFlask } from "react-icons/pi";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CATEGORYES, SITE_LINKS } from "@/site-config/site.config";
 import { useWindowWidth } from "@/custom-hooks/useWidth";
 import { usePathname } from "next/navigation";
@@ -26,12 +25,20 @@ import axios from "axios";
 import { useProducts } from "@/custom-hooks/fetchProducts";
 import {
   resetFilters,
+  searchProduct,
   setFiltersFromLink,
   setProducts,
 } from "@/redux/pamplabua/slices/productsSlice";
 import { FavoriteLink } from "./components/FavoriteLink";
+import { CiSearch } from "react-icons/ci";
+import { SearchCard } from "./components/SearchCard/SearchCard";
 
 export function Header() {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const { searchProducts } = useSelector(
+    (store: RootState) => store.productsSlice,
+  );
   const { isOpenBurger, isOpenBurgerCatalog } = useSelector(
     (store: RootState) => store.uiSlice,
   );
@@ -79,6 +86,10 @@ export function Header() {
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, [isOpenBurgerCatalog, dispatch]);
+
+  useEffect(() => {
+    dispatch(searchProduct(searchTerm));
+  }, [dispatch, searchTerm]);
 
   return (
     <>
@@ -203,6 +214,25 @@ export function Header() {
               <CabinetLink />
             </div>
           </div>
+          {screenWidth! < 600 && (
+            <div className="burger-menu-func-row">
+              <CiSearch className="burger-menu-func-icon" />
+              <input
+                type="text"
+                className="fs-md font-bold outline-none"
+                placeholder="Пошук"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              {searchProducts && searchProducts.length > 0 && (
+                <div className="search-list">
+                  {searchProducts.map((el, i) => (
+                    <SearchCard product={el} key={i} />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
         <BurgerMenu />
       </header>

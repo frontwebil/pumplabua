@@ -80,7 +80,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 20px;
+  padding-bottom: 15px;
   gap: 20px;
 }
 .logo,
@@ -254,10 +254,11 @@ header {
   transform: translateX(0); /* виїжджає вниз */
   opacity: 1;
   pointer-events: auto;
+  padding-bottom: 80px;
 }
 
 .burger-menu-func {
-  padding-top: 12px;
+  /* padding-top: 12px; */
   padding-bottom: 28px;
   border-bottom: 1px solid #c7c7c7;
   display: flex;
@@ -406,7 +407,7 @@ header {
     margin: 200px 0 100px;
   }
   .reset-page {
-    margin-top: 82px;
+    margin-top: 130px;
   }
   .OrderPage {
     margin-top: 100px;
@@ -415,18 +416,18 @@ header {
     margin-top: 102px;
   }
   .hero {
-    margin-top: 82px;
+    margin-top: 130px;
   }
   .hero-template {
-    margin-top: 82px;
+    margin-top: 130px;
   }
   .hero-template-small {
-    margin-top: 82px;
+    margin-top: 130px;
   }
   .header-top {
     display: none;
   }
   header {
-    padding: 10px 0 5px;
+    padding: 10px 0 10px;
   }
 }
