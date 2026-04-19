@@ -20,16 +20,17 @@ export function Search() {
   }, [dispatch, searchTerm]);
 
   useEffect(() => {
-    const mobileLayout = window.matchMedia("(max-width: 600px)");
-
     function handleClickOutside(e: MouseEvent) {
-      if (mobileLayout.matches) return;
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(e.target as Node)
-      ) {
-        dispatch(searchProduct(""));
-      }
+      const target = e.target as Node;
+
+      if (containerRef.current?.contains(target)) return;
+
+      const mobileSearchRoot = document.querySelector(
+        "[data-header-mobile-search]",
+      );
+      if (mobileSearchRoot?.contains(target)) return;
+
+      dispatch(searchProduct(""));
     }
 
     document.addEventListener("mousedown", handleClickOutside);

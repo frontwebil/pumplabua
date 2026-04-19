@@ -215,7 +215,10 @@ export function Header() {
             </div>
           </div>
           {screenWidth! < 600 && (
-            <div className="burger-menu-func-row">
+            <div
+              className="burger-menu-func-row"
+              data-header-mobile-search
+            >
               <CiSearch className="burger-menu-func-icon" />
               <input
                 type="text"
