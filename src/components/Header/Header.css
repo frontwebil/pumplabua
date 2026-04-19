@@ -271,6 +271,7 @@ header {
   gap: 10px;
   padding: 12px;
   background: #4f50521a;
+  position: relative;
 }
 .burger-menu-func-icon {
   width: 20px;
@@ -365,8 +366,6 @@ header {
   .product-container {
     margin-top: 165px;
   }
-
-
 
   .success-page {
     min-height: 100vh;

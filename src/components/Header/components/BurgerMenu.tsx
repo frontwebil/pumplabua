@@ -20,6 +20,7 @@ import {
 import { toast } from "react-toastify";
 import { useWindowWidth } from "@/custom-hooks/useWidth";
 import Image from "next/image";
+import { SearchCard } from "./SearchCard/SearchCard";
 
 export default function BurgerMenu() {
   const screenWidth = useWindowWidth();
@@ -52,6 +53,13 @@ export default function BurgerMenu() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
+              {searchProducts && searchProducts.length > 0 && (
+                <div className="search-list">
+                  {searchProducts.map((el, i) => (
+                    <SearchCard product={el} key={i} />
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
