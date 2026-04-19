@@ -214,28 +214,27 @@ export function Header() {
               <CabinetLink />
             </div>
           </div>
-          {screenWidth! < 600 && (
-            <div
-              className="burger-menu-func-row"
-              data-header-mobile-search
-            >
-              <CiSearch className="burger-menu-func-icon" />
-              <input
-                type="text"
-                className="fs-md font-bold outline-none"
-                placeholder="Пошук"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              {searchProducts && searchProducts.length > 0 && (
-                <div className="search-list">
-                  {searchProducts.map((el, i) => (
-                    <SearchCard product={el} key={i} />
-                  ))}
+          {screenWidth === 0
+            ? ""
+            : screenWidth! < 600 && (
+                <div className="burger-menu-func-row" data-header-mobile-search>
+                  <CiSearch className="burger-menu-func-icon" />
+                  <input
+                    type="text"
+                    className="fs-md font-bold outline-none"
+                    placeholder="Пошук"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                  {searchProducts && searchProducts.length > 0 && (
+                    <div className="search-list">
+                      {searchProducts.map((el, i) => (
+                        <SearchCard product={el} key={i} />
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
-            </div>
-          )}
         </div>
         <BurgerMenu />
       </header>
