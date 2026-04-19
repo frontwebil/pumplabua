@@ -20,7 +20,10 @@ export function Search() {
   }, [dispatch, searchTerm]);
 
   useEffect(() => {
+    const mobileLayout = window.matchMedia("(max-width: 600px)");
+
     function handleClickOutside(e: MouseEvent) {
+      if (mobileLayout.matches) return;
       if (
         containerRef.current &&
         !containerRef.current.contains(e.target as Node)
