@@ -52,6 +52,10 @@ export const OrderProductsSlice = createSlice({
   name: "OrderProductsSlice",
   initialState,
   reducers: {
+    setOrderProducts: (state, action) => {
+      state.orderProducts = action.payload;
+      saveToLocalStorage(state);
+    },
     addProductToOrders: (state, action) => {
       const product: OrderProductsSafe = action.payload;
       const isInOrderIndex = state.orderProducts.findIndex(
@@ -138,6 +142,7 @@ export const OrderProductsSlice = createSlice({
 });
 
 export const {
+  setOrderProducts,
   addProductToOrders,
   addQuantityProduct,
   removeQuantityProduct,

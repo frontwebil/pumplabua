@@ -4,6 +4,7 @@ import "@/components/OrderModal/OrderModal.css";
 import {
   addQuantityProduct,
   removeQuantityProduct,
+  setOrderProducts,
 } from "@/redux/pamplabua/slices/orderSlice";
 import { closeOrderModal } from "@/redux/pamplabua/slices/uiSlice";
 import { RootState } from "@/redux/pamplabua/store";
@@ -33,6 +34,45 @@ export function OrderModal() {
       document.body.classList.remove("body-no-scroll");
     };
   }, [isOpenOrderModal]);
+
+  useEffect(() => {
+    if (!isOpenOrderModal) return;
+
+    let cancelled = false;
+    (async () => {
+      try {
+        const raw = localStorage.getItem("cart");
+        const cart = raw ? JSON.parse(raw) : [];
+
+        if (!Array.isArray(cart) || cart.length === 0) return;
+
+        const items = cart.map((p) => ({
+          variantId: p?.selectedVariant?.id,
+          quantityProduct: p?.quantityProduct,
+        }));
+
+        const res = await fetch("/api/cart/refresh", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ items }),
+        });
+
+        if (!res.ok) return;
+        const data = await res.json();
+        if (cancelled) return;
+
+        if (Array.isArray(data?.orderProducts)) {
+          dispatch(setOrderProducts(data.orderProducts));
+        }
+      } catch {
+        // ignore refresh failures
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpenOrderModal, dispatch]);
 
   const productsInOrder = orderProducts.reduce(
     (sum, i) => (sum += i.quantityProduct),

@@ -10,6 +10,7 @@ import {
   setMiddleName,
   setPhoneNumber,
   setEmail,
+  setOrderProducts,
 } from "@/redux/pamplabua/slices/orderSlice";
 import { OrderPageContacts } from "./OrderPageContacts";
 import { OrderPageDelivery } from "./OrderPageDelivery";
@@ -60,6 +61,42 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
     department,
     typeOfPay,
   };
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const raw = localStorage.getItem("cart");
+        const cart = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(cart) || cart.length === 0) return;
+
+        const items = cart.map((p) => ({
+          variantId: p?.selectedVariant?.id,
+          quantityProduct: p?.quantityProduct,
+        }));
+
+        const res = await fetch("/api/cart/refresh", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ items }),
+        });
+
+        if (!res.ok) return;
+        const data = await res.json();
+        if (cancelled) return;
+
+        if (Array.isArray(data?.orderProducts)) {
+          dispatch(setOrderProducts(data.orderProducts));
+        }
+      } catch {
+        // ignore refresh failures
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     if (orderProducts.length < 1) {
