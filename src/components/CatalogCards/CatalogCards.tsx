@@ -22,7 +22,19 @@ function getPrice(product: ProductType): number {
   return mainVariant.price;
 }
 
-export function CatalogCards({ products }: { products: ProductType[] }) {
+export function CatalogCards({
+  products,
+  title = "уся продукція",
+  showFiltersUi = true,
+  emptyText = "Товари не знайдені",
+  enablePagination = true,
+}: {
+  products: ProductType[];
+  title?: string;
+  showFiltersUi?: boolean;
+  emptyText?: string;
+  enablePagination?: boolean;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const width = useWindowWidth();
@@ -33,9 +45,12 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
     "hits" | "newest" | "oldest" | "priceLow" | "priceHigh"
   >("hits");
 
-  const itemsPerPage = width && width < 661 ? 20 : 15;
+  const itemsPerPage =
+    enablePagination ? (width && width < 661 ? 20 : 15) : products.length || 1;
 
-  const pageFromUrl = Number(searchParams.get("page")) || 1;
+  const pageFromUrl = enablePagination
+    ? Number(searchParams.get("page")) || 1
+    : 1;
   const [currentPage, setCurrentPage] = useState(pageFromUrl);
 
   const sortRef = useRef<HTMLDivElement | null>(null);
@@ -75,19 +90,22 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
 
   // --- СИНХРОНІЗАЦІЯ З URL (якщо зміниться ?page=...) ---
   useEffect(() => {
+    if (!enablePagination) return;
+
     const urlPage = Number(searchParams.get("page")) || 1;
     const safePage = !Number.isNaN(urlPage) && urlPage > 0 ? urlPage : 1;
 
     if (safePage !== currentPage) {
       setCurrentPage(safePage);
     }
-  }, [searchParams, currentPage]);
+  }, [searchParams, currentPage, enablePagination]);
 
   // --- ЯКЩО ПІСЛЯ ФІЛЬТРІВ/ЗМІН КІЛЬКОСТІ ТОВАРІВ СТОРІНКА > totalPages → СКИДАЄМО НА 1 ---
   useEffect(() => {
+    if (!enablePagination) return;
     setCurrentPage(1);
     router.replace(`?page=1`);
-  }, [totalPages]);
+  }, [totalPages, enablePagination]);
 
   // Спінер показуємо тільки коли products ще немає
   if (isLoading)
@@ -155,14 +173,16 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
     <div className="catalog-cards-container">
       <div className="catalog-cards-container-top">
         <div className="catalog-cards-container-top-left">
-          <h2 className="fs-xl font-bold uppercase">уся продукція</h2>
+          <h2 className="fs-xl font-bold uppercase">{title}</h2>
           <span className="fs-sm" style={{ color: "#4F5052" }}>
             Показано {end} / {products.length}
           </span>
         </div>
-        <div className="selected-filter-mobile">
-          <SelectedFilters />
-        </div>
+        {showFiltersUi && (
+          <div className="selected-filter-mobile">
+            <SelectedFilters />
+          </div>
+        )}
         <div className="Catalog-top-right-wrap-container">
           <div className="Catalog-top-right-wrap">
             <div className="Catalog-top-right-wrap-sort-text">
@@ -241,13 +261,15 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
             </div>
           </div>
 
-          <div
-            className="Filter-mobile-button"
-            onClick={() => dispatch(toogleIsOpenMobileFilter())}
-          >
-            <PiFaders />
-            <p>Фільтр</p>
-          </div>
+          {showFiltersUi && (
+            <div
+              className="Filter-mobile-button"
+              onClick={() => dispatch(toogleIsOpenMobileFilter())}
+            >
+              <PiFaders />
+              <p>Фільтр</p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -259,13 +281,13 @@ export function CatalogCards({ products }: { products: ProductType[] }) {
 
         {currentProducts.length === 0 && (
           <p style={{ gridColumn: "1 / -1", textAlign: "center" }}>
-            Товари за даними фільтрами не знайдені
+            {emptyText}
           </p>
         )}
       </div>
 
       {/* PAGINATION */}
-      {totalPages > 1 && (
+      {enablePagination && totalPages > 1 && (
         <div className="pagination">
           <button
             className="pagination-button"

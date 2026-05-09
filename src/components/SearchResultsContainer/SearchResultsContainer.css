@@ -1,0 +1,8 @@
+.search-results-page .catalog-cards {
+  grid-template-columns: repeat(3 , 1fr);
+}
+
+.search-results-page .product-card {
+  max-width: none;
+}
+

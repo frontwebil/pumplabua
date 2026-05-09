@@ -73,6 +73,11 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
         const items = cart.map((p) => ({
           variantId: p?.selectedVariant?.id,
           quantityProduct: p?.quantityProduct,
+          productId: p?.id,
+          flavor: p?.selectedVariant?.flavor ?? null,
+          amount: p?.selectedVariant?.amount ?? null,
+          unitType: p?.selectedVariant?.unitType ?? null,
+          sizeAmount: p?.selectedVariant?.sizeAmount ?? null,
         }));
 
         const res = await fetch("/api/cart/refresh", {

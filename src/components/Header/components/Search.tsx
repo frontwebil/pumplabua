@@ -4,6 +4,7 @@ import { searchProduct } from "@/redux/pamplabua/slices/productsSlice";
 import { RootState } from "@/redux/pamplabua/store";
 import { useEffect, useRef, useState } from "react";
 import { CiSearch } from "react-icons/ci";
+import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { SearchCard } from "./SearchCard/SearchCard";
 
@@ -13,6 +14,7 @@ export function Search() {
   );
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
+  const router = useRouter();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -43,6 +45,13 @@ export function Search() {
         className="header-search-input-wrapper"
         role="search"
         aria-label="Пошук по сайту"
+        onSubmit={(e) => {
+          e.preventDefault();
+          const q = searchTerm.trim();
+          if (!q) return;
+          dispatch(searchProduct(""));
+          router.push(`/search?q=${encodeURIComponent(q)}`);
+        }}
       >
         <input
           id="header-search"
