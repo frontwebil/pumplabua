@@ -186,6 +186,10 @@
   transition: all 0.3s ease;
 }
 
+.payment-card-bottom{
+  margin-top: 16px;
+}
+
 .payment-card.active {
   background: #f3f7ff;
   border-color: #0339f4;

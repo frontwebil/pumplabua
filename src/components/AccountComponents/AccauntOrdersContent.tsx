@@ -19,6 +19,8 @@ const ORDER_STATUS = {
     label: "Нове замовлення",
     color: "#3B82F6",
   },
+  VET_SPORT: { label: "Очікує на підтвердження", color: "#8b5cf6" },
+
   PENDING: {
     label: "Очікує оплату",
     color: "#F59E0B",
@@ -63,14 +65,12 @@ export function AccauntOrdersContent({ orders }: { orders: OrderType[] }) {
   useEffect(() => {
     if (status === "unauthenticated") {
       toast(
-        "Зареєструйтесь або ввійдіть в акаунт щоб бачити історію замовлень"
+        "Зареєструйтесь або ввійдіть в акаунт щоб бачити історію замовлень",
       );
       dispatch(toggleAuthModal());
       router.replace("/");
     }
   }, [dispatch, router, status]);
-
-  console.log(orders);
 
   const formatDate = (date: string | Date) =>
     new Date(date).toLocaleDateString("uk-UA");
@@ -126,7 +126,7 @@ export function AccauntOrdersContent({ orders }: { orders: OrderType[] }) {
                       className="order-history-top"
                       onClick={() =>
                         setOpenOrderId(
-                          openOrderId === order.id ? null : order.id
+                          openOrderId === order.id ? null : order.id,
                         )
                       }
                     >
@@ -186,7 +186,7 @@ export function AccauntOrdersContent({ orders }: { orders: OrderType[] }) {
                               <p className="order-item-price">
                                 {Math.ceil(
                                   item.price -
-                                    item.price * (item.discount! / 100)
+                                    item.price * (item.discount! / 100),
                                 ) * item.quantity}{" "}
                                 грн
                               </p>
@@ -202,8 +202,8 @@ export function AccauntOrdersContent({ orders }: { orders: OrderType[] }) {
                               {deletingId === order.id
                                 ? "Скасування..."
                                 : confirmCancelId === order.id
-                                ? "Підтвердити?"
-                                : "Скасувати"}
+                                  ? "Підтвердити?"
+                                  : "Скасувати"}
                             </button>
                           ) : (
                             <div></div>

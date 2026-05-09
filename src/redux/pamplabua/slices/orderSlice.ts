@@ -18,7 +18,7 @@ type PersonInfo = {
   villageCity: string;
   street: string;
   department: string;
-  typeOfPay: "online" | "when received";
+  typeOfPay: "online" | "when received" | "vet_sport";
 };
 
 type InitialStateType = {

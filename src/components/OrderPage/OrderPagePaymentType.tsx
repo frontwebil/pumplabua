@@ -8,7 +8,7 @@ import { setTypeOfPay } from "@/redux/pamplabua/slices/orderSlice";
 export function PaymentMethod() {
   const dispatch = useDispatch();
   const { typeOfPay, delivery } = useSelector(
-    (store: RootState) => store.OrderProductsSlice
+    (store: RootState) => store.OrderProductsSlice,
   );
 
   return (
@@ -55,6 +55,29 @@ export function PaymentMethod() {
           <div className="payment-subtext">
             {delivery == "Самовивіз" ? "При отриманні" : "Через Нову Пошту"}
           </div>
+        </div>
+      </div>
+
+      {/* Ветеранський Спорт */}
+      <div
+        className={`payment-card payment-card-bottom ${
+          typeOfPay === "vet_sport" ? "active" : ""
+        }`}
+        onClick={() => dispatch(setTypeOfPay("vet_sport"))}
+      >
+        <div className="payment-title-row">
+          <span>Оплата карткою «Ветеранський спорт»</span>
+          <div
+            className={`delivery-container-block-cheked ${
+              typeOfPay === "vet_sport" ? "active" : ""
+            }`}
+          >
+            <FaCheck />
+          </div>
+        </div>
+
+        <div className="payment-subtext">
+          Найближчим часом з вами зв’яжеться менеджер для оплати
         </div>
       </div>
     </>

@@ -143,4 +143,5 @@ enum OrderStatus {
   CANCELED
   SENDTORECEIVER
   DELIVERED
+  VET_SPORT
 }

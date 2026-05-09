@@ -149,6 +149,7 @@ export function OrderPageDelivery({
       </div>
 
       <div
+        style={{display:'none'}}
         className={`delivery-container-block mb-10 ${
           delivery === "Самовивіз" ? "active" : ""
         }`}

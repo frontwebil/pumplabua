@@ -44,6 +44,7 @@ type Order = {
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
   NEW: { label: "Новий", color: "bg-blue-500" },
   PENDING: { label: "Очікує оплату", color: "bg-amber-400" },
+  VET_SPORT: { label: "Ветеранський Спорт", color: "bg-purple-600" },
   PAID: { label: "Оплачено", color: "bg-green-500" },
   CONFIRMED: { label: "Підтверджено", color: "bg-indigo-600" },
   SENDTORECEIVER: { label: "Відправлено", color: "bg-sky-500" },
@@ -65,6 +66,9 @@ export default function OrderPage() {
 
   const [editOpen, setEditOpen] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
+
+
+  console.log(order)
 
   const [editForm, setEditForm] = useState({
     name: "",
@@ -131,6 +135,7 @@ export default function OrderPage() {
 
       toast.success("Замовлення успішно видалено");
       router.replace("/admin-pamplabua-51nsugjabxhy/orders");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Помилка при видаленні:", error);
       toast.error(error?.response?.data?.error || "Помилка при видаленні");

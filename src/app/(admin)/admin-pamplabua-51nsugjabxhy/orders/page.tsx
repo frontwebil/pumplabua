@@ -10,6 +10,7 @@ type TypeOrder = Order & {
 
 const STATUS_CONFIG = {
   NEW: { label: "Новий", color: "#2f6aff" },
+  VET_SPORT: { label: "Ветеранський Спорт", color: "#8b5cf6" },
   PENDING: { label: "Очікує оплату", color: "#f0ad4e" },
   PAID: { label: "Оплачено", color: "#22c55e" },
   CONFIRMED: { label: "Підтверджено", color: "#4f46e5" },
@@ -25,6 +26,7 @@ export default function AdminOrdersPage() {
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([
     "NEW",
     "PENDING",
+    "VET_SPORT",
     "PAID",
     "CONFIRMED",
     "SENDTORECEIVER",
@@ -32,7 +34,6 @@ export default function AdminOrdersPage() {
     "FAILED",
   ]);
   const [loading, setLoading] = useState(true);
-  console.log(selectedStatuses);
   useEffect(() => {
     fetch("/api/admin/get-orders")
       .then((res) => res.json())
@@ -72,7 +73,7 @@ export default function AdminOrdersPage() {
                 setSelectedStatuses((prev) =>
                   prev.includes(key)
                     ? prev.filter((s) => s !== key)
-                    : [...prev, key]
+                    : [...prev, key],
                 );
               }}
             >
@@ -129,7 +130,7 @@ export default function AdminOrdersPage() {
                   >
                     {title}
                   </th>
-                )
+                ),
               )}
             </tr>
           </thead>
@@ -139,13 +140,13 @@ export default function AdminOrdersPage() {
               .filter(
                 (order) =>
                   selectedStatuses.length === 0 ||
-                  selectedStatuses.includes(order.status)
+                  selectedStatuses.includes(order.status),
               )
               .map((order, index) => {
                 const status = STATUS_CONFIG[order.status];
                 const itemsCount = order.items.reduce(
                   (sum, el) => (sum += el.quantity),
-                  0
+                  0,
                 );
 
                 return (
@@ -158,7 +159,7 @@ export default function AdminOrdersPage() {
                     }}
                     onClick={() =>
                       router.push(
-                        `/admin-pamplabua-51nsugjabxhy/orders/${order.id}`
+                        `/admin-pamplabua-51nsugjabxhy/orders/${order.id}`,
                       )
                     }
                   >

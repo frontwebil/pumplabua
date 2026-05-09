@@ -38,6 +38,11 @@ const STATUS_TEXT: Record<string, { title: string; message: string }> = {
     title: "Помилка оплати ❌",
     message: "Під час оплати сталася помилка. Будь ласка, спробуйте ще раз.",
   },
+  VET_SPORT: {
+    title: "Очікує підтвердження ⏳",
+    message:
+      "Найближчим часом з вами зв’яжеться менеджер для підтвердження замовлення та надсилання посилання на оплату через програму «Ветеранський спорт».",
+  },
   CANCELED: {
     title: "Замовлення скасовано ❌",
     message:
@@ -47,7 +52,7 @@ const STATUS_TEXT: Record<string, { title: string; message: string }> = {
 
 export async function PATCH(
   req: Request,
-  ctx: { params: Promise<{ id: string }> }
+  ctx: { params: Promise<{ id: string }> },
 ) {
   const session = await getServerSession(authOptions);
 

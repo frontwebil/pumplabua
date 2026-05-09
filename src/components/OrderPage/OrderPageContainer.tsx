@@ -61,20 +61,6 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
     typeOfPay,
   };
 
-  const handleSubmit = async () => {
-    if (loading) return;
-
-    const htmlSend = `
-  <b>Нове повідомлення з сайту:</b>
-  <b>У вас нове замовлення!</b>\n
-      `;
-    try {
-      await SendMessageToTelegram({ htmlSend });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
     if (orderProducts.length < 1) {
       dispatch(closeOrderModal());
@@ -156,8 +142,13 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
 
     const data = await res.json();
 
-    handleSubmit();
-    
+    const htmlSend = `
+    ${typeOfPay === "vet_sport" && "Оплата по Вет Спорту"}
+  <b>Нове повідомлення з сайту:</b>
+  <b>У вас нове замовлення!</b>\n
+      `;
+    await SendMessageToTelegram({ htmlSend });
+
     if (data.payment === "offline") {
       router.push(`/order/success?ref=${data.orderRef}`);
       return;
@@ -202,7 +193,7 @@ export function OrderPageContainer({ user }: { user: UserType | null }) {
               ? "Оформлюємо замовлення..."
               : typeOfPay == "when received"
                 ? "Оформити замовлення"
-                : "Перейти до оплати"}
+                : typeOfPay == "vet_sport" ? "Оформити замовлення" : "Перейти до оплати"}
             {}
           </button>
         </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { createWayForPayForm } from "@/lib/wayforpay";
 import { OrderPayType } from "@prisma/client";
@@ -67,7 +68,7 @@ export async function POST(req: NextRequest) {
       totalPrice: realTotal,
       deliveryPrice: deliveryPrice,
       discount: 0,
-      status: typeOfPay === "online" ? "PENDING" : "NEW",
+      status: typeOfPay === "online" ? "PENDING" : typeOfPay === 'vet_sport' ? "VET_SPORT" : "NEW",
       items: {
         create: items.map((p: any) => ({
           name: p.name,
@@ -105,7 +106,7 @@ export async function POST(req: NextRequest) {
   }
 
   // ✅ OFFLINE PAYMENT
-  if (typeOfPay === "when received") {
+  if (typeOfPay === "when received" || typeOfPay === 'vet_sport') {
     return NextResponse.json({ success: true, payment: "offline", orderRef });
   }
 
