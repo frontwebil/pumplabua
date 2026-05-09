@@ -11,19 +11,18 @@ export default function SearchPage() {
   const q = searchParams.get("q") ?? "";
 
   return (
-    <div>
-      <HeroTemplateSmall title="Пошук" bgImage="/Account/bg.png" />
-      <Breadcrumbs
-        links={[
-          { title: "Головна", href: "/" },
-          { title: q ? `Пошук: ${q}` : "Пошук" },
-        ]}
-      />
+    <Suspense fallback={<div>завантаження...</div>}>
+      <div>
+        <HeroTemplateSmall title="Пошук" bgImage="/Account/bg.png" />
+        <Breadcrumbs
+          links={[
+            { title: "Головна", href: "/" },
+            { title: q ? `Пошук: ${q}` : "Пошук" },
+          ]}
+        />
 
-      <Suspense fallback={<div>завантаження...</div>}>
         <SearchResultsContainer query={q} />
-      </Suspense>
-    </div>
+      </div>
+    </Suspense>
   );
 }
-
