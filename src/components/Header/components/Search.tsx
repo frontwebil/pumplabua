@@ -64,9 +64,14 @@ export function Search() {
             setSearchTerm(e.target.value);
           }}
         />
-        <label className="search-icon" htmlFor="header-search">
+        <button
+          type="submit"
+          className="search-icon"
+          aria-label="Шукати"
+          disabled={products && products.length < 1}
+        >
           <CiSearch color="#4F5052" />
-        </label>
+        </button>
       </form>
       {searchProducts && searchProducts.length > 0 && (
         <div className="search-list">

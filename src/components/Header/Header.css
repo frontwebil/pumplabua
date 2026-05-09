@@ -280,6 +280,13 @@ header {
   stroke-width: 1px;
   color: #0339f4;
 }
+.burger-menu-func-icon svg{
+  width: 20px;
+  height: 20px;
+  stroke-width: 1px;
+  color: #0339f4;
+}
+
 
 .burger-menu-nav {
   display: flex;

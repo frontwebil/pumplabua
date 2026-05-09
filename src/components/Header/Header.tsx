@@ -32,6 +32,7 @@ import {
 import { FavoriteLink } from "./components/FavoriteLink";
 import { CiSearch } from "react-icons/ci";
 import { SearchCard } from "./components/SearchCard/SearchCard";
+import { useRouter } from "next/navigation";
 
 export function Header() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -44,6 +45,7 @@ export function Header() {
   );
   const screenWidth = useWindowWidth();
   const pathname = usePathname();
+  const router = useRouter();
   const catalogMenuRef = useRef<HTMLDivElement | null>(null);
   const { data, status } = useSession();
   const dispatch = useDispatch();
@@ -217,10 +219,28 @@ export function Header() {
           {screenWidth === 0
             ? ""
             : screenWidth! < 600 && (
-                <div className="burger-menu-func-row" data-header-mobile-search>
-                  <CiSearch className="burger-menu-func-icon" />
+                <form
+                  className="burger-menu-func-row"
+                  data-header-mobile-search
+                  role="search"
+                  aria-label="Пошук по сайту"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const q = searchTerm.trim();
+                    if (!q) return;
+                    dispatch(searchProduct(""));
+                    router.push(`/search?q=${encodeURIComponent(q)}`);
+                  }}
+                >
+                  <button
+                    type="submit"
+                    className="burger-menu-func-icon"
+                    aria-label="Шукати"
+                  >
+                    <CiSearch />
+                  </button>
                   <input
-                    type="text"
+                    type="search"
                     className="fs-md font-bold outline-none"
                     placeholder="Пошук"
                     value={searchTerm}
@@ -233,7 +253,7 @@ export function Header() {
                       ))}
                     </div>
                   )}
-                </div>
+                </form>
               )}
         </div>
         <BurgerMenu />
