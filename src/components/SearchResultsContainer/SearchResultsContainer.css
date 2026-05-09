@@ -1,8 +1,26 @@
 .search-results-page .catalog-cards {
-  grid-template-columns: repeat(3 , 1fr);
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .search-results-page .product-card {
   max-width: none;
 }
 
+
+@media only screen and (max-width: 660px) {
+  .search-results-page .catalog-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .search-results-page .catalog-cards-container-top-left{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .search-results-page .Catalog-top-right-wrap-container{
+    justify-content: center;
+    margin-top: 20px;
+  }
+}
