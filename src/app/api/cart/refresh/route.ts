@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
         typeof i?.unitType === "string" &&
         i.unitType.length > 0
       ) {
-        v = await prisma.variant.findFirst({
+        const found = await prisma.variant.findFirst({
           where: {
             productId: i.productId,
             unitType: i.unitType,
@@ -66,6 +66,7 @@ export async function POST(req: NextRequest) {
           },
           include: { product: true },
         });
+        if (found) v = found;
       }
     }
 
