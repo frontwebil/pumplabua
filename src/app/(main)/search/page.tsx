@@ -6,23 +6,30 @@ import { HeroTemplateSmall } from "@/components/HeroTemplate/HeroTemplateSmall";
 import { SearchResultsContainer } from "@/components/SearchResultsContainer/SearchResultsContainer";
 import { useSearchParams } from "next/navigation";
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
   const q = searchParams.get("q") ?? "";
 
   return (
-    <Suspense fallback={<div>завантаження...</div>}>
-      <div>
-        <HeroTemplateSmall title="Пошук" bgImage="/Account/bg.png" />
-        <Breadcrumbs
-          links={[
-            { title: "Головна", href: "/" },
-            { title: q ? `Пошук: ${q}` : "Пошук" },
-          ]}
-        />
+    <div>
+      <HeroTemplateSmall title="Пошук" bgImage="/Account/bg.png" />
 
-        <SearchResultsContainer query={q} />
-      </div>
+      <Breadcrumbs
+        links={[
+          { title: "Головна", href: "/" },
+          { title: q ? `Пошук: ${q}` : "Пошук" },
+        ]}
+      />
+
+      <SearchResultsContainer query={q} />
+    </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div>завантаження...</div>}>
+      <SearchContent />
     </Suspense>
   );
 }
