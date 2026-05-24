@@ -100,11 +100,17 @@ export function CatalogCards({
     }
   }, [searchParams, currentPage, enablePagination]);
 
+  const updatePageInUrl = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", String(page));
+    router.replace(`?${params.toString()}`);
+  };
+
   // --- ЯКЩО ПІСЛЯ ФІЛЬТРІВ/ЗМІН КІЛЬКОСТІ ТОВАРІВ СТОРІНКА > totalPages → СКИДАЄМО НА 1 ---
   useEffect(() => {
     if (!enablePagination) return;
     setCurrentPage(1);
-    router.replace(`?page=1`);
+    updatePageInUrl(1);
   }, [totalPages, enablePagination]);
 
   // Спінер показуємо тільки коли products ще немає
@@ -157,15 +163,19 @@ export function CatalogCards({
   const handlePageChange = (num: number) => {
     if (num < 1 || num > totalPages) return;
     setCurrentPage(num);
-    router.replace(`?page=${num}`);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (enablePagination) {
+      updatePageInUrl(num);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const handleSortChange = (
     type: "hits" | "newest" | "oldest" | "priceLow" | "priceHigh"
   ) => {
     setSortType(type);
-    handlePageChange(1);
+    if (enablePagination) {
+      handlePageChange(1);
+    }
     setIsOpenSortMenu(false);
   };
 
