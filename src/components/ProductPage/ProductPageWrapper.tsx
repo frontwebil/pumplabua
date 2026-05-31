@@ -1,20 +1,33 @@
 "use client";
 
 import "@/components/ProductPage/ProductPage.css";
+import dynamic from "next/dynamic";
 import { useSelector } from "react-redux";
 import { Spinner } from "../Spinner/Spinner";
 import { ProductPageImages } from "./ProductPageImages/ProductPageImages";
 import { RootState } from "@/redux/pamplabua/store";
 import { ProductPageInfo } from "./ProductPageInfo/ProductPageInfo";
 import { ProductPageDescriptionInfo } from "./ProductPageInfo/ProductPageDescriptionInfo";
-import { TopSellers } from "../TopSellers/TopSellers";
 
-export function ProductPageWrapper() {
+const TopSellers = dynamic(
+  () =>
+    import("../TopSellers/TopSellers").then((mod) => ({
+      default: mod.TopSellers,
+    })),
+  { ssr: false }
+);
+
+export function ProductPageWrapper({ productId }: { productId: string }) {
   const { selectedVariant, currentProduct } = useSelector(
     (store: RootState) => store.productPageSlice
   );
 
-  if (!selectedVariant || !currentProduct)
+  const isStaleProduct =
+    !selectedVariant ||
+    !currentProduct ||
+    currentProduct.id !== productId;
+
+  if (isStaleProduct)
     return (
       <div className="Spinner-container">
         <Spinner />

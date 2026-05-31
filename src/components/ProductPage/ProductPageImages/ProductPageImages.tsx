@@ -11,16 +11,16 @@ export function ProductPageImages() {
     (store: RootState) => store.productPageSlice
   );
 
-  const [currentPhoto, setCurrentPhoto] = useState<string>(
-    selectedVariant?.images[0] ?? ""
-  );
+  const [photoIndex, setPhotoIndex] = useState(0);
+  const [isMainImageLoaded, setIsMainImageLoaded] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   useEffect(() => {
-    if (!selectedVariant) return;
-
-    setCurrentPhoto(selectedVariant.images[0]);
+    setPhotoIndex(0);
+    setIsMainImageLoaded(false);
   }, [selectedVariant?.id]);
+
+  const currentPhoto = selectedVariant?.images[photoIndex] ?? "";
 
   if (!selectedVariant || !currentPhoto)
     return (
@@ -51,10 +51,13 @@ export function ProductPageImages() {
   return (
     <div className="ProductPageImages-container">
       <div className="ProductPageImages-nav">
-        {selectedVariant.images.map((src) => (
+        {selectedVariant.images.map((src, index) => (
           <div
             key={src}
-            onClick={() => setCurrentPhoto(src)}
+            onClick={() => {
+              setPhotoIndex(index);
+              setIsMainImageLoaded(false);
+            }}
             className={src === currentPhoto ? "" : "smooth"}
           >
             <Image
@@ -62,7 +65,8 @@ export function ProductPageImages() {
               alt={selectedVariant.flavor ?? "Фото товару"}
               width={200}
               height={200}
-              loading="eager"
+              loading={index === 0 ? "eager" : "lazy"}
+              sizes="90px"
             />
           </div>
         ))}
@@ -86,11 +90,19 @@ export function ProductPageImages() {
           className="ProductPageImages-mainImage"
           onClick={() => setIsOpenModal(true)}
         >
+          {!isMainImageLoaded && (
+            <div className="ProductPageImages-mainImage-placeholder" />
+          )}
           <Image
+            key={`${selectedVariant.id}-${currentPhoto}`}
             src={currentPhoto}
             alt={selectedVariant.flavor ?? "Фото товару"}
             width={1000}
             height={1000}
+            priority
+            sizes="(max-width: 700px) 100vw, 530px"
+            className={isMainImageLoaded ? "is-loaded" : "is-loading"}
+            onLoad={() => setIsMainImageLoaded(true)}
           />
         </div>
       </div>

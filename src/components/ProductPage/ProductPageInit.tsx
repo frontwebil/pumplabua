@@ -1,11 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  resetVariant,
-  setCurrentProduct,
-} from "@/redux/pamplabua/slices/productPageSlice";
+import { setCurrentProduct } from "@/redux/pamplabua/slices/productPageSlice";
 import { Product, Variant } from "@prisma/client";
 import { ProductSafe } from "@/types/ProductSafe";
 
@@ -16,7 +13,7 @@ export function ProductPageInit({
 }) {
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const safeProduct: ProductSafe = {
       ...product,
       createdAt: product.createdAt.toISOString(),
@@ -24,7 +21,7 @@ export function ProductPageInit({
     };
 
     dispatch(setCurrentProduct(safeProduct));
-  }, [product, dispatch]);
+  }, [product.id, product, dispatch]);
 
   return null;
 }

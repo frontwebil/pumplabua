@@ -60,6 +60,33 @@
   object-fit: contain;
 }
 
+.ProductPageImages-mainImage-placeholder {
+  position: absolute;
+  inset: 0;
+  background: #f0f0f0;
+  border-radius: 4px;
+  animation: imagePulse 1.2s ease-in-out infinite;
+}
+
+.ProductPageImages-mainImage img.is-loading {
+  opacity: 0;
+}
+
+.ProductPageImages-mainImage img.is-loaded {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+@keyframes imagePulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
 .image-modal {
   position: fixed;
   inset: 0;

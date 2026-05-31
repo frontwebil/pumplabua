@@ -121,7 +121,7 @@ export default async function ProductPage({
         />
 
         <ProductPageInit product={product} />
-        <ProductPageWrapper />
+        <ProductPageWrapper productId={product.id} />
       </div>
     </>
   );
