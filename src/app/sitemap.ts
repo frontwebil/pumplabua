@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import prisma from "@/lib/prisma";
 
+export const revalidate = 43200; // 12 годин
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const products = await prisma.product.findMany({
     where: {
@@ -12,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   });
 
-  return products.map((product:any) => ({
+  return products.map((product) => ({
     url: `https://www.pumplabua.shop/product/${product.slug}`,
     lastModified: product.updatedAt,
     changeFrequency: "weekly",
